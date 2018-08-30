@@ -1,0 +1,347 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.inspur.incloudmanager</groupId>
+	<artifactId>incloudmanager-parent</artifactId>
+	<version>6.0-1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>incloudmanager services parent</name>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.13.RELEASE</version>
+	</parent>
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://100.2.104.66:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://100.2.104.66:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<log4j.leve>debug</log4j.leve>
+		<log4j.ale>debug</log4j.ale>
+		<!-- common projects  -->
+		<incloudmanager-common.version>6.0-1-SNAPSHOT</incloudmanager-common.version>
+		<incloudmanager-log.version>6.0-1-SNAPSHOT</incloudmanager-log.version>
+		<incloudmanager-task.version>6.0-1-SNAPSHOT</incloudmanager-task.version>
+
+		
+		<springfox.version>2.6.1</springfox.version>
+		<commons-codec.version>1.10</commons-codec.version>
+		<jjwt.version>0.7.0</jjwt.version>
+		<codehaus-jackson.version>1.9.13</codehaus-jackson.version>
+		<mybatis-starter-version>1.2.0</mybatis-starter-version>
+		<mybatis.plus.version>2.0.7</mybatis.plus.version>
+		<druid.version>1.0.29</druid.version>
+		<mapper.version>3.4.0</mapper.version>
+		<springframework.version>4.3.8.RELEASE</springframework.version>
+		<paascloud.security.version>1.0</paascloud.security.version>
+		<paascloud.version>1.0</paascloud.version>
+		<elastic-job.version>2.1.5</elastic-job.version>
+		<curator.version>2.10.0</curator.version>
+		<mysql.version>5.1.39</mysql.version>
+		
+		<guava.version>17.0</guava.version>
+		<boot.admin.version>1.5.7</boot.admin.version>
+		<httpclientutil.version>1.0</httpclientutil.version>
+		<feign.form.spring.version>3.0.3</feign.form.spring.version>
+		<spring.version>4.3.11.RELEASE</spring.version>
+		<fastjson.version>1.2.29</fastjson.version>
+		<modelmapper.version>1.1.2</modelmapper.version>
+		<rocketmq.version>4.1.0-incubating</rocketmq.version>
+
+		
+		<junit_version>4.12</junit_version>
+		<!-- for maven compiler plugin -->
+
+		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+		<maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+		<maven_assembly_plugin_version>2.2.1</maven_assembly_plugin_version>
+		<maven_source_plugin_version>2.1.1</maven_source_plugin_version>
+		<maven_resources_plugin_version>2.7</maven_resources_plugin_version>
+		<maven_jar_plugin_version>2.3.2</maven_jar_plugin_version>
+		<maven_war_plugin_version>2.1.1</maven_war_plugin_version>
+		<maven_install_plugin_version>2.3.1</maven_install_plugin_version>
+		<maven_deploy_plugin_version>2.7</maven_deploy_plugin_version>
+
+		<maven-surefire-plugin_version>2.17</maven-surefire-plugin_version>
+	</properties>
+
+	<dependencies>
+		<!-- Test Dependency Begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit_version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Test Dependency End -->
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>incloudmanager-common</artifactId>
+				<version>${incloudmanager-common.version}</version>
+			</dependency>
+		
+			<dependency>
+				<groupId>io.spring.platform</groupId>
+				<artifactId>platform-bom</artifactId>
+				<version>Brussels-SR10</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Edgware.SR4</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+		
+	</dependencyManagement>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<targetPath>${project.build.outputDirectory}</targetPath>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${project.build.outputDirectory}</targetPath>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+				<targetPath>${project.build.testOutputDirectory}</targetPath>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<targetPath>${project.build.testOutputDirectory}</targetPath>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<index>true</index>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>${skip_maven_deploy}</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<aggregate>true</aggregate>
+					<formats>
+						<format>xml</format>
+						<format>html</format>
+					</formats>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine> -XX:-UseSplitVerifier</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven_assembly_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven_source_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven_resources_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven_jar_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven_war_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven_install_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven_deploy_plugin_version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>						             
+						<source>${java.version}</source> <!-- 源代码使用的JDK版本 -->
+						<target>${java.version}</target> <!-- 需要生成的目标class文件的编译版本 -->
+						<encoding>${project.build.sourceEncoding}</encoding><!-- 字符集编码 -->
+						<skipTests>true</skipTests><!-- 跳过测试 -->                                                                             
+						<verbose>true</verbose>
+						<showWarnings>true</showWarnings>
+						<fork>true</fork><!-- 要使compilerVersion标签生效，还需要将fork设为true，用于明确表示编译版本配置的可用 -->
+						<meminitial>128m</meminitial><!-- 编译器使用的初始内存 -->
+						<maxmem>512m</maxmem><!-- 编译器使用的最大内存 -->
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.1,)
+										</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+	<modules>
+		<module>../incloudmanager-eureka</module>
+		<module>../incloudmanager-utils</module>
+<!-- 
+		<module>../iauth</module>
+		<module>../ibase</module>
+
+		<module>../ibigdata</module>
+		<module>../icharge</module>
+		<module>../iclouddb</module>
+		<module>../iclouddisk</module>
+		<module>../icloudmonitor</module>
+		<module>../icollector</module>
+		<module>../icompute</module>
+		<module>../idocker</module>
+		<module>../ifirewall</module>
+		<module>../ihybrid</module>
+		<module>../ilog</module>
+		<module>../imirror</module>
+		<module>../imonitor</module>
+		<module>../inetwork</module>
+		<module>../iops</module>
+		<module>../iphymachine</module>
+		<module>../isecurity</module>
+		<module>../istack</module>
+		<module>../istorage</module>
+		<module>../itrouble</module>
+		<module>../iview</module>
+		<module>../iworkflow</module>
+		<module>../icmdb</module>
+		<module>../icloudservice</module>
+		<module>../icos</module>
+		<module>../imiddleware</module>
+		<module>../ilifecycle</module> -->
+	</modules>
+
+</project>
