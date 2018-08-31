@@ -3,15 +3,15 @@ cd `dirname $0`
 BIN_DIR=`pwd`
 cd ..
 DEPLOY_DIR=`pwd`
-CONF_DIR=$DEPLOY_DIR/conf
+CONF_DIR=$DEPLOY_DIR/config
 
-PIDS=`ps -ef | grep java | grep "$CONF_DIR" |awk '{print $2}'`
+PIDS=`ps -ef | grep java | grep "$DEPLOY_DIR" |awk '{print $2}'`
 if [ -z "$PIDS" ]; then
     echo "ERROR: The server $DEPLOY_DIR is not started!"
     exit 0
 fi
 
-if [ "$1" != "skip" ]; then
+if [ "$1" = "dump" ]; then
     $BIN_DIR/dump.sh
 fi
 
