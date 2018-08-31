@@ -28,3 +28,17 @@
 ├─ibase--------------------------------------------微服务功能模块-1
 │
 ├─icompute-----------------------------------------微服务功能模块-2
+### 项目进度
+```
+已完成：
+    1、完成incloudmanager-parent公共pom
+    2、完成服务maven一键打包，服务脚本集成：start|stop|restart|status|dump
+    3、完成incloudmanager-eureka注册中心服务启动
+
+未完成：
+    1、incloudmanager-common 工具类添加
+    2、incloudmanager-task 分布式任务
+    3、incloudmanager-log 公共日志
+    4、incloudmanager-zuul微服务网关
+    5、iauth、ibase、icompute
+```
