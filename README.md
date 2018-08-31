@@ -15,9 +15,9 @@
 │      │
 ├──────├─────incloudmanager-common-----------------公共工具类、服务启动脚本等
 │      │
-├──────├─────incloudmanager-task-------------------
+├──────├─────incloudmanager-task-------------------分布式任务
 │      │
-├──────└─────incloudmanager-log--------------------
+├──────└─────incloudmanager-log--------------------公共日志类
 │
 ├─incloudmanager-eureka----------------------------微服务注册中心
 │
