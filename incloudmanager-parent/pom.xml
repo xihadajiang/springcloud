@@ -287,6 +287,7 @@
 	<modules>
 		<module>../incloudmanager-eureka</module>
 		<module>../incloudmanager-utils</module>
+		<module>../ibase</module>
 <!-- 
 		<module>../iauth</module>
 		<module>../ibase</module>
