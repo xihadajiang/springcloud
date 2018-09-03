@@ -14,12 +14,15 @@ import com.inspur.incloud.ibase.service.IUserService;
 import com.inspur.incloud.model.PageBean;
 import com.inspur.incloud.model.PageListBean;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class UserController {
 
 	@Autowired
 	private IUserService iUserService;
 	
+	@ApiOperation(value="添加用户信息", notes="添加用户信息")
     @GetMapping(value = "/add")
 	public String addUser(@RequestParam String name){
 		UserModel user = new UserModel();
