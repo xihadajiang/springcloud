@@ -1,5 +1,7 @@
 package com.inspur.incloud.ibase.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +19,13 @@ public class UserController {
     @GetMapping(value = "/add")
 	public String addUser(@RequestParam String name){
 		UserModel user = new UserModel();
-		user.setId("1");
+		String id = UUID.randomUUID().toString();
+		user.setId(id);
 		user.setAccount("lxg");
 		user.setEmail("a@b.com");
 		user.setAccount("lxg");
 		user.setIs_default(0);
+		user.setName("lxg");
 		iUserService.addUser(user);
 		return "success";
 	}

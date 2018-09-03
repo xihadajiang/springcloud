@@ -9,7 +9,7 @@ import javax.persistence.Column;
 
 
 @Entity
-@Table(name = "t_ba_user")
+@Table(name = "t_ba_user22222")
 public class UserModel implements Serializable{
 	
 	public String getId() {

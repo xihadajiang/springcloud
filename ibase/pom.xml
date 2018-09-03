@@ -75,50 +75,89 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-eureka-server</artifactId>
     </dependency>
+    <dependency>
+	  <groupId>com.inspur.incloudmanager</groupId>
+	  <artifactId>incloudmanager-common</artifactId>
+	</dependency>
   </dependencies>
 
   <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                  <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-                </configuration>
+              
+            </plugin>
+            <!-- -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
-                            <goal>build-info</goal>
+                            <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <property name="dist">target/zip</property>
+                                <property name="dist-tmp">target/zip/tmp</property>
+                                <property name="app-name">${project.artifactId}-${project.version}</property>
+                                <mkdir dir="${dist-tmp}" />
+                                <copy file="target/${app-name}.jar" tofile="${dist}/${app-name}.jar" />
+
+                                <unzip src="target/lib/incloudmanager-common-${incloudmanager-common.version}.jar" dest="${dist-tmp}" />
+								<move todir="${dist}/bin">
+                                    <fileset dir="${dist-tmp}/META-INF/assembly/bin" includes="**/*" />
+                                </move>
+								<delete dir="${dist-tmp}" />
+								<copy todir="${dist}/config">
+                                    <fileset dir="target/classes">
+                                        <include name="**/*.properties" />
+                                        <include name="**/*.xml" />
+                                        <include name="**/*.yml" />
+                                    </fileset>
+                                </copy>
+								<zip destfile="target/${app-name}.zip">
+                                    <zipfileset dir="${dist}/" />
+                                    
+                                </zip>
+								<delete dir="${dist}" />
+                                
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.5.RELEASE</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-            <!-- 添加docker-maven插件 -->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.13</version>
-                <configuration>
-                    <imageName>${project.artifactId}:${project.version}</imageName>
-                    <baseImage>java</baseImage>
-                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
+            
         </plugins>
     </build>
 </project>

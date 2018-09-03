@@ -21,7 +21,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
    private SessionFactory sessionFactory;
 
    public Session getCurrentSession() {
-      return sessionFactory.openSession();
+      return sessionFactory.getCurrentSession();
    }
 
    public Serializable save(T o) {

@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * The class Paas cloud eureka application.
+ * The ibase application.
  *
- * @author paascloud.net@gmail.com
+ * @author lvxianguo
  */
 @EnableTransactionManagement
 @SpringBootApplication
