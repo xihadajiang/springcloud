@@ -1,5 +1,7 @@
 package com.inspur.incloud.ibase.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inspur.incloud.ibase.model.UserModel;
 import com.inspur.incloud.ibase.service.IUserService;
+import com.inspur.incloud.model.PageBean;
+import com.inspur.incloud.model.PageListBean;
 
 @RestController
 public class UserController {
@@ -29,4 +33,18 @@ public class UserController {
 		iUserService.addUser(user);
 		return "success";
 	}
+    
+    @GetMapping(value = "/list")
+    PageListBean<UserModel> listUsers(@RequestParam String name) {
+    	PageBean page = new PageBean();
+    	page.setCurrentPage(1);
+    	page.setPageSize(10);
+    	Map<String, Object> condition = new HashMap<String, Object>();
+    	condition.put("name", name);
+    	
+    	PageListBean<UserModel> pageLsit = iUserService.listUsers(condition, page);
+    	
+		return pageLsit;
+    	
+    }
 }
