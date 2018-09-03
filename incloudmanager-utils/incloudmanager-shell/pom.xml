@@ -6,8 +6,8 @@
 		<artifactId>incloudmanager-utils</artifactId>
 		<version>6.0-1-SNAPSHOT</version>
 	</parent>
-	<artifactId>incloudmanager-common</artifactId>
-	<version>${incloudmanager-common.version}</version>
+	<artifactId>incloudmanager-shell</artifactId>
+	<version>${incloudmanager-shell.version}</version>
 	<name>${project.artifactId}</name>
 	<packaging>jar</packaging>
 
@@ -21,28 +21,8 @@
 					<include>**/*.*</include>
 				</includes>
 			</resource>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.hbm.xml</include>
-				</includes>
-			</resource>
 		</resources>
 
 	</build>
-
-	<dependencies>
-	  <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-orm</artifactId>
-      </dependency>
-<!--       <dependency> -->
-<!--        <groupId>org.springframework.boot</groupId> -->
-<!--        <artifactId>spring-boot-starter-data-jpa</artifactId> -->
-<!--     </dependency> -->
-	</dependencies>
+	
 </project>
