@@ -1,0 +1,7 @@
+server:
+  port: 8040
+
+spring:
+  application:
+    name: iauth
+   

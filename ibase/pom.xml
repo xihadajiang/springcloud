@@ -80,6 +80,10 @@
 	  <artifactId>incloudmanager-common</artifactId>
 	</dependency>
 	<dependency>
+	  <groupId>com.inspur.incloudmanager</groupId>
+	  <artifactId>incloudmanager-shell</artifactId>
+	</dependency>
+	<dependency>
 	  <groupId>io.springfox</groupId>
 	  <artifactId>springfox-swagger2</artifactId>
 	  <version>2.6.1</version>
@@ -144,7 +148,7 @@
                                 <mkdir dir="${dist-tmp}" />
                                 <copy file="target/${app-name}.jar" tofile="${dist}/${app-name}.jar" />
 
-                                <unzip src="target/lib/incloudmanager-common-${incloudmanager-common.version}.jar" dest="${dist-tmp}" />
+                                <unzip src="target/lib/incloudmanager-shell-${incloudmanager-shell.version}.jar" dest="${dist-tmp}" />
 								<move todir="${dist}/bin">
                                     <fileset dir="${dist-tmp}/META-INF/assembly/bin" includes="**/*" />
                                 </move>
