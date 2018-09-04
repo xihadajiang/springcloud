@@ -32,7 +32,7 @@ public class UserController {
 		user.setEmail("a@b.com");
 		user.setAccount("lxg");
 		user.setIs_default(0);
-		user.setName("lxg");
+		user.setName(name);
 		iUserService.addUser(user);
 		return "success";
 	}
@@ -48,6 +48,18 @@ public class UserController {
     	PageListBean<UserModel> pageLsit = iUserService.listUsers(condition, page);
     	
 		return pageLsit;
+    	
+    }
+    
+    @GetMapping(value = "/user/info")
+    String queryUserById(@RequestParam String id) {
+    	UserModel user = new UserModel();
+    	
+    	user = iUserService.queryUserById(id);
+    	if (null != user) {
+    		return user.getName();
+    	}
+		return null;
     	
     }
 }

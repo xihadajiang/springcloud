@@ -33,4 +33,8 @@ public class UserServiceImpl implements IUserService {
 		return userDao.listUsers(condition, page);
 	}
 
+	public UserModel queryUserById(String id) {
+		return userDao.queryUserById(id);
+	}
+
 }

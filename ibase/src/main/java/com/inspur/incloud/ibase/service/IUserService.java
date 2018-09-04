@@ -13,4 +13,6 @@ public interface IUserService {
 	PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			PageBean page);
 
+	UserModel queryUserById(String id);
+
 }

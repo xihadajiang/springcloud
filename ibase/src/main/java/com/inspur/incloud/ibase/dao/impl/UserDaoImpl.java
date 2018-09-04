@@ -53,4 +53,14 @@ public class UserDaoImpl extends BaseDaoImpl<UserModel> implements UserDao {
         return pageList;
 	}
 
+	public UserModel queryUserById(String id) {
+		UserModel user = null;
+		List<UserModel> list = null;
+		list = (List<UserModel>) getHibernateTemplate().find("from UserModel where id = ? ", id);
+		if (null != list && list.size() > 0) {
+			user = list.get(0);
+		}
+		return user;
+	}
+
 }

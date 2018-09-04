@@ -14,4 +14,6 @@ public interface UserDao {
 	PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			final PageBean page);
 
+	UserModel queryUserById(String id);
+
 }
