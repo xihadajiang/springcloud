@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.inspur.incloud.ibase.api.model.UserApiModel;
+import com.inspur.incloud.ibase.api.service.IBaseApi;
 import com.inspur.incloud.icompute.dao.VmDao;
 import com.inspur.incloud.icompute.model.VMModel;
-import com.inspur.incloud.icompute.service.IBaseService;
 import com.inspur.incloud.icompute.service.IVmService;
 import com.inspur.incloud.model.PageBean;
 import com.inspur.incloud.model.PageListBean;
@@ -20,13 +21,13 @@ public class VmServiceImpl implements IVmService {
 	private VmDao vmDao;
 	
 	@Autowired
-    IBaseService iBaseService;
+    IBaseApi iBaseApi;
 
 	@Transactional
 	public void addVm(VMModel vm, String userId) {
-		String userName = null;
-		userName = iBaseService.queryUserById(userId);
-		vm.setUserId(userName);
+		UserApiModel apiModel = null;
+		apiModel = iBaseApi.queryUserById(userId);
+		vm.setUserId(apiModel.getName());
 		vmDao.addVm(vm);
 		
 	}
