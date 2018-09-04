@@ -1,9 +1,13 @@
 package com.inspur.incloud.swagger.common;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class JsonResult {
 	
+	@ApiModelProperty(value = "状态", example = "OK")
 	private String status = null;
 
+	@ApiModelProperty(value = "结果", example = "success")
 	private Object result = null;
 
 	public String getStatus() {
