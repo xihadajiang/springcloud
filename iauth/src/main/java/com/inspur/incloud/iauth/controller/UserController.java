@@ -1,5 +1,4 @@
-﻿package com.inspur.incloud.iauth.controller;
-
+package com.inspur.incloud.iauth.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inspur.incloud.iauth.service.IUserService;
-
 
 @RestController
 public class UserController {
