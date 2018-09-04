@@ -29,7 +29,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value="用户接口类")
+@ApiResponses({@ApiResponse(code = 201, message = "操作成功"),
+	@ApiResponse(code = 204, message = "操作成功，无返回"),
+    @ApiResponse(code = 401, message = "未授权"),
+    @ApiResponse(code = 403, message = "权限不足"),
+    @ApiResponse(code = 404, message = "资源未找到")})
 @RequestMapping("/v1/user")
 @RestController
 public class UserController {
@@ -70,10 +74,6 @@ public class UserController {
     }
 	
 	@ApiOperation(value="添加用户", notes="根据参数创建用户信息")
-	@ApiResponses({@ApiResponse(code = 201, message = "操作成功"),
-        @ApiResponse(code = 401, message = "服务器内部异常"),
-        @ApiResponse(code = 403, message = "权限不足"),
-        @ApiResponse(code = 404, message = "资源未找到")})
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", dataType = "User4Create", name = "user4Create",value = "用户信息", required = true) })
 	@RequestMapping(value = "/action/add", method = RequestMethod.POST)
 	@ResponseBody
@@ -93,10 +93,7 @@ public class UserController {
 	}
 	
 	@ApiOperation(value="删除用户", notes="删除用户")
-	@ApiResponses({@ApiResponse(code = 201, message = "操作成功"),
-        @ApiResponse(code = 401, message = "服务器内部异常"),
-        @ApiResponse(code = 403, message = "权限不足"),
-        @ApiResponse(code = 404, message = "资源未找到")})
+	@ApiResponses({@ApiResponse(code = 401, message = "覆盖类定义的响应码")})
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", dataType = "String", name = "userId",value = "用户ID", required = true) })
 	@RequestMapping(value = "{userId}/action/delete", method = RequestMethod.DELETE)
 	@ResponseBody
