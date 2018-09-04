@@ -3,6 +3,7 @@ package com.inspur.incloud.iauth.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -16,6 +17,8 @@ public class UserController {
 
 	@Autowired
 	private IUserService iUserService;
+	@Value("${server.port}")
+	private String port;
 	
     @GetMapping(value = "/token/check")
 	public String checkUserToken(@RequestHeader(name = "auth-token") String tokenId){
@@ -27,7 +30,7 @@ public class UserController {
 	@GetMapping(value = "/users/token")
 	public Map getUserToken(@RequestParam(name = "tokenId", required = true ) String tokenId){
 		Map u = new HashMap();
-		u.put("user", "userName");
+		u.put("user", "userName"+port);
 		u.put("tokenId",tokenId);
 		return u;
 	}
