@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
+    default-autowire="byName" default-lazy-init="true">
+    <!-- 建立数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <!-- 数据库驱动，我这里使用的是Mysql数据库 -->
+        <property name="driverClassName">
+            <value>${jdbc.driverClassName}</value>
+        </property>
+        <!-- 数据库地址，这里也要注意一下编码，不然乱码可是很郁闷的哦！ -->
+        <property name="url">
+            <value>${jdbc.url}</value>
+        </property>
+        <!-- 数据库的用户名 -->
+        <property name="username">
+            <value>${jdbc.username}</value>
+        </property>
+        <!-- 数据库的密码 -->
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+        <property name="timeBetweenEvictionRunsMillis">
+            <value>15000</value>
+        </property>
+        <property name="testWhileIdle">
+            <value>true</value>
+        </property>
+        <property name="testOnBorrow">
+            <value>false</value>
+        </property>
+        <property name="validationQuery">
+            <value>select 1</value>
+        </property>
+        <!-- 设定最大连接数  -->
+        <property name="maxActive"><value>400</value></property>
+        <!-- 设定最大空闲连接数  -->
+        <property name="maxIdle"><value>400</value></property>
+        <!-- 设定最大等待时间（毫秒） -->
+        <property name="maxWait"><value>1000</value></property>
+        <!-- 超时自动收回 -->
+        <property name="removeAbandoned"><value>true</value></property>
+        <!--超时时间(以秒数为单位)设置超时时间有一个要注意的地方，
+             超时时间=现在的时间-程序中创建Connection的时间，如果
+             maxActive比较大，比如超过100，那么removeAbandonedTimeout
+             可以设置长一点比如180， 也就是三分钟无响应的连接进行回收，
+             当然应用的不同设置长度也不同。
+        -->
+        <property name="removeAbandonedTimeout"><value>180</value></property>
+        <!-- 在自动回收超时连接的时候打印连接的超时错误 -->
+        <property name="logAbandoned"><value>true</value></property>
+    </bean>
+    
+     <!-- 建立oracle数据源 -->
+    <bean id="dataSourceOracle" class="org.apache.commons.dbcp.BasicDataSource">
+        <!-- 数据库驱动，我这里使用的是Mysql数据库 -->
+        <property name="driverClassName">
+            <value>${oracle.jdbc.driverClassName}</value>
+        </property>
+        <!-- 数据库地址，这里也要注意一下编码，不然乱码可是很郁闷的哦！ -->
+        <property name="url">
+            <value>${oracle.jdbc.url}</value>
+        </property>
+        <!-- 数据库的用户名 -->
+        <property name="username">
+            <value>${oracle.jdbc.username}</value>
+        </property>
+        <!-- 数据库的密码 -->
+        <property name="password">
+            <value>${oracle.jdbc.password}</value>
+        </property>
+       
+        <property name="testOnBorrow">
+            <value>true</value>
+        </property>
+        <property name="validationQuery">
+            <value>select 1 from dual</value>
+        </property>
+        <!-- 设定最大连接数  -->
+        <property name="maxActive"><value>500</value></property>
+        <!-- 设定最大空闲时间（毫秒） -->
+        <property name="maxIdle"><value>10000</value></property>
+        <!-- 设定最大等待时间（毫秒） -->
+        <property name="maxWait"><value>1000</value></property>
+        <!-- 超时自动收回 -->
+        <property name="removeAbandoned"><value>true</value></property>
+        <!--超时时间(以秒数为单位)设置超时时间有一个要注意的地方，
+             超时时间=现在的时间-程序中创建Connection的时间，如果
+             maxActive比较大，比如超过100，那么removeAbandonedTimeout
+             可以设置长一点比如180， 也就是三分钟无响应的连接进行回收，
+             当然应用的不同设置长度也不同。
+        -->
+        <property name="removeAbandonedTimeout"><value>180</value></property>
+        <!-- 在自动回收超时连接的时候打印连接的超时错误 -->
+        <property name="logAbandoned"><value>true</value></property>
+    </bean>
+    
+    <!-- 把数据源注入给Session工厂 -->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+
+        <!-- 配置映射文件 -->
+        <property name="mappingResources">
+            <list>
+                <!-- ========ibase by huyp======== -->
+                <value>com/inspur/incloud/log/DbSyslog.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/domain/model/TBaDomain.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/org/model/TBaOrg.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/org/model/TBaTrash.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/role/model/TBaRole.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/role/model/TBaMenu.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/role/model/TBaRoleMenu.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/TBaUser.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/TBaUsrRole.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/TAuPassword.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/TAuPasswordHistory.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/VBaUsrRole.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/TBaUserLoginStrategy.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/serialnumber/model/TBaSerialNumber.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/sysconfig/model/TBaSysconfigParam.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/sysconfig/model/TbaPasswordStrategy.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/syslog/model/TBaSyslog.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/syslog/model/TBaSyslogConf.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/syslog/model/TBaSyslogInfo.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/loginip/model/TBaIpList.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/message/model/TBaEmail.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/message/model/TBaSms.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/message/model/TBaSmsServer.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/message/model/TBaSmtpServer.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/ldap/model/TBaLdap.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/ldap/model/TBaLdapUser.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/ldap/model/TBaOrgUnit.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/role/model/TBaOperCode.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/area/model/DBAreaModel.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/area/model/DBUserAreaModel.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/department/model/TBaDepartment.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/backup/model/TBaBackupExcludeTable.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/backup/model/TBaBackup.hbm.xml</value>
+                <value>com/inspur/incloud/task/asynjob/core/handler/MainJobInfo.hbm.xml</value>
+                <value>com/inspur/incloud/task/asynjob/core/handler/ChildJobInfo.hbm.xml</value>
+				<value>com/inspur/incloud/task/asynjob/core/quartz/SystemJobInfo.hbm.xml</value>
+				<value>com/inspur/incloud/task/asynjob/core/handler/EventInfo.hbm.xml</value>
+				<value>com/inspur/incloud/task/asynjob/core/model/TaskSetVO.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/servicecatalog/model/TCsServiceCatalog.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/servicecatalog/model/TCsServiceCatalogType.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/servicecatalog/model/TCsServiceCatalogUserOpen.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/sysservice/model/TBaSysModule.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/systask/model/SysTaskDbModel.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/sysupdate/model/SysUpdateDbModel.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/moduleswitch/model/ModuleSwitchModel.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/systask/model/FixedTimeTaskType.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/resourcedemand/ResourceDemand.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/user/model/TProjectUserInfo.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/user/model/EnvironmentModel.hbm.xml</value>
+ 				<value>com/inspur/incloud/ibase/dao/org/model/Expand.hbm.xml</value>
+ 				
+            </list>
+        </property>
+
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.query.substitutions">true</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.dialect">com.inspur.incloud.ibase.util.MySQLLocalDialect</prop>
+            </props>
+        </property>
+
+    </bean>
+
+<!-- 把Oracle数据源注入给Session工厂 -->
+    <bean id="sessionFactoryOracle"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSourceOracle" />
+        </property>
+
+        <!-- 配置映射文件 -->
+        <property name="mappingResources">
+            <list>
+                <value>com/inspur/incloud/ibase/dao/user/model/EverbrightUser.hbm.xml</value>
+                <value>com/inspur/incloud/ibase/dao/user/model/EverbrightDepartment.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.query.substitutions">true</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- 调用光大证券协同平台的oracle数据库不需要使用事务 -->
+
+    <!-- 数据库事务管理器 开始 -->
+    <bean id="txManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="globalRollbackOnParticipationFailure" value="false" />
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager" />
+
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="do*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="reset*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" propagation="SUPPORTS" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <aop:config>
+        <aop:pointcut id="allManagerMethod"
+            expression="execution(* com.inspur.incloud.ibase.service..*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
+
+    </aop:config>
+    <!-- 数据库事务管理器 结束 -->
+
+
+    <!-- 把DAO注入给Session工厂 -->
+    <!-- ========ibase by huyp========dont recomend this syslogDao after diana version -->
+    <bean id="syslogDao" class="com.inspur.incloud.log.SyslogDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="domainDao" class="com.inspur.incloud.ibase.dao.domain.DomainDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="loginIpDao" class="com.inspur.incloud.ibase.dao.loginip.LoginIpDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="orgDao" class="com.inspur.incloud.ibase.dao.org.OrgDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="roleDao" class="com.inspur.incloud.ibase.dao.role.RoleDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="userDao" class="com.inspur.incloud.ibase.dao.user.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="serialNumberDao" class="com.inspur.incloud.ibase.dao.serialnumber.SerialNumberDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="sysConfigDao" class="com.inspur.incloud.ibase.dao.sysconfig.SysConfigDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="syslogInfoDao" class="com.inspur.incloud.ibase.dao.syslog.SyslogDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="syslogConfDao" class="com.inspur.incloud.ibase.dao.syslog.SyslogConfDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="ldapDao" class="com.inspur.incloud.ibase.dao.ldap.LdapDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="orgUnitDao" class="com.inspur.incloud.ibase.dao.ldap.OrgUnitDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="messageDao" class="com.inspur.incloud.ibase.dao.message.MessageDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="userLoginStrategyDao" class=" com.inspur.incloud.ibase.dao.user.UserLoginStrategyDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="areaDao" class="com.inspur.incloud.ibase.dao.area.AreaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="taskDao" class="com.inspur.incloud.ibase.dao.task.TaskDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="childTaskDao" class="com.inspur.incloud.ibase.dao.task.ChildTaskDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+     <bean id="eventDao" class="com.inspur.incloud.ibase.dao.task.EventDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+     <bean id="bomcDao" class="com.inspur.incloud.ibase.dao.bomc.impl.BomcDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="departmentDao" class="com.inspur.incloud.ibase.dao.department.DepartmentDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="serviceCatalogDao" class="com.inspur.incloud.ibase.dao.servicecatalog.ServiceCatalogDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="sysServiceDao" class="com.inspur.incloud.ibase.dao.sysservice.SysServiceDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="sysTaskDao" class="com.inspur.incloud.ibase.dao.systask.SysTaskDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="fixedTimeTaskTypeDao" class="com.inspur.incloud.ibase.dao.task.FixedTimeTaskTypeDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="sysUpdateDao" class="com.inspur.incloud.ibase.dao.sysupdate.SysUpdateDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+        <bean id="backupDao" class="com.inspur.incloud.ibase.dao.backup.BackupDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="backupExcludeTableDao" class="com.inspur.incloud.ibase.dao.backup.BackupExcludeTableDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="moduleSwitchDao" class="com.inspur.incloud.ibase.dao.moduleswitch.ModuleSwitchDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="everbrightEnvironmentDao" class="com.inspur.incloud.ibase.dao.user.EverbrightEnvironmentDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <!-- 加入获取光大证券用户信息的dao -->  
+    <bean id="everbrightUserDao" class="com.inspur.incloud.ibase.dao.user.EverbrightUserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactoryOracle" />
+    </bean>  
+    <bean id="everbrightDepartmentDao" class="com.inspur.incloud.ibase.dao.user.EverbrightDepartmentDaoImpl">
+        <property name="sessionFactory" ref="sessionFactoryOracle" />
+    </bean>  
+   
+   <bean id="resourceDemandDao" class="com.inspur.incloud.ibase.dao.resourcedemand.ResourceDemandDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>   
+    
+    <bean id="projectUserInfoDao" class="com.inspur.incloud.ibase.dao.user.ProjectUserInfoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="expandDao" class="com.inspur.incloud.ibase.dao.org.ExpandDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>   
+</beans>
