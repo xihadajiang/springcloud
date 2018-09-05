@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+		<groupId>com.inspur.incloudmanager</groupId>
+		<artifactId>ibase</artifactId>
+		<version>6.0-1-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.inspur.incoudmanager</groupId>
+  <artifactId>ibase-service</artifactId>
+  <version>6.0-1-SNAPSHOT</version>
+  <name>ibase-service</name>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.rocketmq</groupId>
+      <artifactId>rocketmq-client</artifactId>
+      <version>4.1.0-incubating</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>  
+    <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>de.codecentric</groupId>
+      <artifactId>spring-boot-admin-starter-client</artifactId>
+	  <version>1.5.7</version>
+    </dependency>
+	<dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-eureka-server</artifactId>
+    </dependency>
+    <dependency>
+	  <groupId>com.inspur.incloudmanager</groupId>
+	  <artifactId>incloudmanager-common</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.inspur.incloudmanager</groupId>
+	  <artifactId>ibase-api</artifactId>
+	  <version>6.0-1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.inspur.incloudmanager</groupId>
+	  <artifactId>incloudmanager-shell</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>io.springfox</groupId>
+	  <artifactId>springfox-swagger2</artifactId>
+	  <version>2.6.1</version>
+    </dependency>
+    <dependency>
+	  <groupId>io.springfox</groupId>
+	  <artifactId>springfox-swagger-ui</artifactId>
+	  <version>2.6.1</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+              
+            </plugin>
+            <!-- -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <property name="dist">target/zip</property>
+                                <property name="dist-tmp">target/zip/tmp</property>
+                                <property name="app-name">${project.artifactId}-${project.version}</property>
+                                <mkdir dir="${dist-tmp}" />
+                                <copy file="target/${app-name}.jar" tofile="${dist}/${app-name}.jar" />
+
+                                <unzip src="target/lib/incloudmanager-shell-${incloudmanager-shell.version}.jar" dest="${dist-tmp}" />
+								<move todir="${dist}/bin">
+                                    <fileset dir="${dist-tmp}/META-INF/assembly/bin" includes="**/*" />
+                                </move>
+								<delete dir="${dist-tmp}" />
+								<copy todir="${dist}/config">
+                                    <fileset dir="target/classes">
+                                        <include name="**/*.properties" />
+                                        <include name="**/*.xml" />
+                                        <include name="**/*.yml" />
+                                    </fileset>
+                                </copy>
+								<zip destfile="target/${app-name}.zip">
+                                    <zipfileset dir="${dist}/" />
+                                    
+                                </zip>
+								<delete dir="${dist}" />
+                                
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+        </plugins>
+    </build>
+</project>
