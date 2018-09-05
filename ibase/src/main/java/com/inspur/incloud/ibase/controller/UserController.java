@@ -72,19 +72,7 @@ public class UserController {
     	
     }
 	
-    @GetMapping(value = "/user/info")
-    String queryUserById(@RequestParam String id) {
-    	UserModel user = new UserModel();
-    	
-    	user = iUserService.queryUserById(id);
-    	if (null != user) {
-    		return user.getName();
-    	}
-		return null;
-    	
-    }
-    
-	@ApiOperation(value="添加用户", notes="根据参数创建用户信息")
+    @ApiOperation(value="添加用户", notes="根据参数创建用户信息")
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", dataType = "User4Create", name = "user4Create",value = "用户信息", required = true) })
 	@RequestMapping(value = "/action/add", method = RequestMethod.POST)
 	@ResponseBody

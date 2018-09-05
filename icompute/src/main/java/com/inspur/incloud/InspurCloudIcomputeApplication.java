@@ -1,4 +1,4 @@
-package com.inspur.incloud.icompute;
+package com.inspur.incloud;
 
 import javax.persistence.EntityManagerFactory;
 
