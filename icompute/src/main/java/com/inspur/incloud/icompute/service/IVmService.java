@@ -8,7 +8,7 @@ import com.inspur.incloud.model.PageListBean;
 
 public interface IVmService {
 
-	void addVm(VMModel user, String userId);
+	String addVm(VMModel user, String userId);
 
 	PageListBean<VMModel> listUsers(Map<String, Object> condition,
 			PageBean page);

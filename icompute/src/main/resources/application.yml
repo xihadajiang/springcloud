@@ -1,5 +1,5 @@
 server:
-  port: 8040
+  port: 8050
 
 spring:
   profiles:
@@ -17,4 +17,7 @@ spring:
         ddl-auto: update
         current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
     show-sql: true
+feign:
+  hystrix:
+    enabled: true
    

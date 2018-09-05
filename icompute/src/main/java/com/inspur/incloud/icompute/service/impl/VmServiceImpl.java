@@ -24,11 +24,16 @@ public class VmServiceImpl implements IVmService {
     IBaseApi iBaseApi;
 
 	@Transactional
-	public void addVm(VMModel vm, String userId) {
+	public String addVm(VMModel vm, String userId) {
 		UserApiModel apiModel = null;
 		apiModel = iBaseApi.queryUserById(userId);
-		vm.setUserId(apiModel.getName());
+		String name = apiModel.getName();
+		if ("I am tired, i need a wake".equals(name)) {
+			return name;
+		}
+		vm.setUserId(name);
 		vmDao.addVm(vm);
+		return "success";
 		
 	}
 

@@ -30,8 +30,8 @@ public class VmController {
 		vm.setId(id);
 		vm.setName("lxg");
 		vm.setUserId(null);
-		iVmService.addVm(vm, userId);
-		return "success";
+		String result = iVmService.addVm(vm, userId);
+		return result;
 	}
     
     @GetMapping(value = "/list")

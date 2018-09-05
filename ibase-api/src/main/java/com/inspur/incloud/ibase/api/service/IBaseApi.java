@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.inspur.incloud.ibase.api.hystrix.IBaseHystrix;
 import com.inspur.incloud.ibase.api.model.UserApiModel;
 
-@FeignClient("ibase")
+@FeignClient(name = "ibase", fallback = IBaseHystrix.class)
 @Repository("iBaseApi")
 public interface IBaseApi {
 	    /**
