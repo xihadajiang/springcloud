@@ -1,7 +1,0 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://root:root@10.7.12.222:8761/eureka/
-  instance:
-    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}
-    status-page-url: http://localhost:${server.port}/swagger-ui.html
