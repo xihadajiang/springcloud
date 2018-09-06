@@ -15,13 +15,13 @@
 │      │
 ├──────├─────incloudmanager-common-----------------公共工具类、服务启动脚本等
 │      │
-├──────├─────incloudmanager-task-------------------分布式任务
+├──────├─────incloudmanager-shell----------------- 统一服务启动脚本
 │      │
-├──────└─────incloudmanager-log--------------------公共日志类
+├──────└────
 │
 ├─incloudmanager-eureka----------------------------微服务注册中心
 │
-├─incloudmanager-zuul------------------------------微服务网关
+├─incloudmanager-api-gateway-----------------------微服务网关
 │
 ├─iauth--------------------------------------------微服务功能模块-认证
 │
@@ -36,13 +36,14 @@
     1、完成incloudmanager-parent公共pom
     2、完成服务maven一键打包，服务脚本集成：start|stop|restart|status|dump
     3、完成incloudmanager-eureka注册中心服务启动
+    4、incloudmanager-zuul微服务网关启动，并配置了服务路由转发规则
+    5、iauth、ibase、icompute服务注册启动，ibase实现了数据库操作
+    6、通过Feign方式icompute服务调用ibase，并通过Hystrix开启熔断策略
 
 未完成：
-    1、incloudmanager-common 工具类添加
-    2、incloudmanager-task 分布式任务
-    3、incloudmanager-log 公共日志
-    4、incloudmanager-zuul微服务网关
-    5、iauth、ibase、icompute
+    1、给统一认证过滤器
+    2、错误时统一JSON格式输出
+    3、数据库配置事务
 ```
 
 
