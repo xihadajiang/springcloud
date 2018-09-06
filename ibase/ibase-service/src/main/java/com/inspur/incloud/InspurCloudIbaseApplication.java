@@ -1,4 +1,4 @@
-package com.inspur.incloud.ibase;
+package com.inspur.incloud;
 
 import javax.persistence.EntityManagerFactory;
 

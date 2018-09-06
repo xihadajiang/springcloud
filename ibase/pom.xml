@@ -17,7 +17,7 @@
 
 	
 	<modules>
-		<module>ibase-api</module>
+		<module>ibase-client</module>
 		<module>ibase-service</module>
 		
 	</modules>

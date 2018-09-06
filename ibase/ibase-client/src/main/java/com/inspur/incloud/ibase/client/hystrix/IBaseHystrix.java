@@ -1,10 +1,10 @@
-package com.inspur.incloud.ibase.api.hystrix;
+package com.inspur.incloud.ibase.client.hystrix;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.inspur.incloud.ibase.api.model.UserApiModel;
-import com.inspur.incloud.ibase.api.service.IBaseApi;
+import com.inspur.incloud.ibase.client.model.UserApiModel;
+import com.inspur.incloud.ibase.client.rest.IBaseApi;
 
 @Component
 public class IBaseHystrix implements IBaseApi {

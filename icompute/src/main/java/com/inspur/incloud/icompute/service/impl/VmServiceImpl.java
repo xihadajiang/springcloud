@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.inspur.incloud.ibase.api.model.UserApiModel;
-import com.inspur.incloud.ibase.api.service.IBaseApi;
+import com.inspur.incloud.ibase.client.model.UserApiModel;
+import com.inspur.incloud.ibase.client.rest.IBaseApi;
 import com.inspur.incloud.icompute.dao.VmDao;
 import com.inspur.incloud.icompute.model.VMModel;
 import com.inspur.incloud.icompute.service.IVmService;

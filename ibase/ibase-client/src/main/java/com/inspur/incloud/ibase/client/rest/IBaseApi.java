@@ -1,12 +1,12 @@
-package com.inspur.incloud.ibase.api.service;
+package com.inspur.incloud.ibase.client.rest;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.inspur.incloud.ibase.api.hystrix.IBaseHystrix;
-import com.inspur.incloud.ibase.api.model.UserApiModel;
+import com.inspur.incloud.ibase.client.hystrix.IBaseHystrix;
+import com.inspur.incloud.ibase.client.model.UserApiModel;
 
 @FeignClient(name = "ibase", fallback = IBaseHystrix.class)
 @Repository("iBaseApi")

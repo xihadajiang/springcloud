@@ -1,4 +1,4 @@
-package com.inspur.incloud.ibase.api.model;
+package com.inspur.incloud.ibase.client.model;
 
 import java.io.Serializable;
 
