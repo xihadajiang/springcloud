@@ -1,0 +1,43 @@
+logging:
+  config: classpath:logback-spring.xml
+  level.root: info
+  file: .logs/${spring.application.name}.log
+management:
+  port: 7978
+  context-path: '/apigateway-admin'
+eureka:
+#  client:
+#    service-url:
+#      defaultZone: 'http://root:root@10.7.12.222:8761/eureka/'
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}
+    metadata-map:
+      cluster: prontera
+      management:
+        port: ${management.port}
+        context-path: ${management.context-path}
+      health:
+        path: ${management.context-path}/health
+    status-page-url-path: ${management.context-path}/info
+    health-check-url-path: ${management.context-path}/health
+    prefer-ip-address: false
+spring:
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+##  zipkin:
+##    base-url: 'http://10.7.12.222:9411/'
+ribbon:
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 3
+  OkToRetryOnAllOperations: true
+  ConnectTimeout: 1500
+  ReadTimeout: 2000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1500

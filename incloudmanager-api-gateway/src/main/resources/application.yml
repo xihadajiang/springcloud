@@ -1,0 +1,17 @@
+server:
+  port: 7979
+spring:
+  application:
+    name: apigateway
+eureka:
+  client:
+    service-url:
+      defaultZone: 'http://root:root@10.7.12.222:8761/eureka/'
+#  zipkin:
+#    base-url: 'http://10.7.12.222:9411/'      
+
+zuul:
+  routes:
+    iauth:
+      path: /iauth/**
+      service-id: iauth
