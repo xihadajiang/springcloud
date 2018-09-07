@@ -110,7 +110,6 @@
  		<module>../incloudmanager-eureka</module>
 		<module>../incloudmanager-utils</module>
 		<module>../ibase</module>
-		<module>../ibase-api</module>
 		<module>../icompute</module>
 <!--
 		<module>../iauth</module>
