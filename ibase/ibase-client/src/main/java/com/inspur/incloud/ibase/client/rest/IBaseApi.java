@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.inspur.incloud.ibase.client.hystrix.IBaseHystrix;
 import com.inspur.incloud.ibase.client.model.UserApiModel;
 
-@FeignClient(name = "ibase", fallback = IBaseHystrix.class)
+@FeignClient(name = "ibase-service", fallback = IBaseHystrix.class)
 @Repository("iBaseApi")
 public interface IBaseApi {
 	    /**
