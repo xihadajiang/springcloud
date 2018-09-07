@@ -2,6 +2,7 @@ package com.inspur.incloud.icompute.service.impl;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,9 @@ public class VmServiceImpl implements IVmService {
 		String name = apiModel.getName();
 		if ("I am tired, i need a wake".equals(name)) {
 			return name;
+		}
+		if (StringUtils.isEmpty(name)) {
+			return "can not find user by id";
 		}
 		vm.setUserId(name);
 		vmDao.addVm(vm);
