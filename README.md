@@ -55,12 +55,14 @@
        用户token查询 curl -i  http://10.7.12.222:8040/users/token?tokenId=ssss
     4、网关负载均衡示例： curl -i 10.7.12.222:7979/iauth/users/token?tokenId=ssss
     5、ibase：
-	服务地址：http://10.7.12.222:8030
-	新增用户实例 curl http://10.7.12.222:8030/add?name=icm
-	查询用户实例 curl http://10.7.12.222:8030/list?name=lxg
-    6、icompute
+        服务地址：http://10.7.12.222:8030
+        新增用户示例： curl http://10.7.12.222:8030/add?name=icm
+	查询用户列表示例： curl http://10.7.12.222:8030/list?name=lxg
+    6、icompute：
         服务地址：http://10.7.12.222:8050
-	根据用户id查询用户名称并创建虚拟机实例：curl http://10.7.12.222:8050/vm/add?userId=7b99f553-6437-47e4-80ba-0fb6d967e8df
+        根据用户id查询用户名称并保存虚拟机信息示例：curl http://10.7.12.222:8050/vm/add?userId=7b99f553-6437-47e4-80ba-0fb6d967e8df
+    7、熔断演示方法：
+        停掉ibase服务，然后执行根据用户id查询用户名称并保存虚拟机信息示例
 			
 
 
