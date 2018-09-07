@@ -46,4 +46,14 @@
     3、数据库配置事务
 ```
 
+### 示例说明
+```
+    1、注册中心：http://10.7.12.222:8761   root/root
+    2、网关中心：http://10.7.12.222:7979
+    3、iauth：http://10.7.12.222:8040 http://10.7.12.222:8055
+       token校验api curl -i -H "auth-token:ssss" http://10.7.12.222:8040/token/check
+       用户token查询 curl -i  http://10.7.12.222:8040/users/token?tokenId=ssss
+    4、网关负载均衡示例： curl -i 10.7.12.222:7979/iauth/users/token?tokenId=ssss
 
+
+```
