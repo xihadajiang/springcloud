@@ -1,0 +1,26 @@
+logging:
+  config: classpath:logback-spring.xml
+  level.root: info
+  file: .logs/${spring.application.name}.log
+spring:
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+##  zipkin:
+##    base-url: 'http://10.7.12.222:9411/'
+ribbon:
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 3
+  OkToRetryOnAllOperations: true
+  ConnectTimeout: 1500
+  ReadTimeout: 2000
+  eureka:
+    enabled: false
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1500

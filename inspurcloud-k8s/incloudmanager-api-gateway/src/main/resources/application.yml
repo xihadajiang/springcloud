@@ -1,0 +1,20 @@
+server:
+  port: 7979
+spring:
+  application:
+    name: apigateway  
+
+zuul:
+  routes:
+    iauth:
+      path: /iauth/**
+      url: http://10.254.10.100:8040
+      stripPrefix: true
+    ibase:
+      path: /ibase/**
+      url: http://10.254.10.100:8030
+      stripPrefix: true
+    icompute:
+      path: /icompute/**
+      url: http://10.254.10.100:8050
+      stripPrefix: true
