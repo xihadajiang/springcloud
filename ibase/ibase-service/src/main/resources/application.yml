@@ -2,8 +2,6 @@ server:
   port: 8030
 
 spring:
-  profiles:
-    active: dev
   application:
     name: ibase-service
   datasource:
@@ -17,4 +15,14 @@ spring:
         ddl-auto: update
         current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
     show-sql: true
-   
+
+  
+flyway:
+  enabled: true
+  checkLocation: true
+  locations: classpath:db/migration
+  table: ibase_schema
+  validateOnMigrate: true
+  cleanOnValidationError: true
+  baselineOnMigrate: true
+  baselineVersion: 0
