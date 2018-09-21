@@ -122,13 +122,16 @@ public class UserController {
 		return "success";
 	}
 	
-	@RequestMapping(value = "{userId}/action/update", method = RequestMethod.PATCH)
+	@RequestMapping(value = "{userId}/action/update", method = RequestMethod.PUT)
 	@ResponseBody
-	public String update(@PathVariable String userId,  HttpServletRequest request){
+	public String update(@RequestBody User4Create user4Create, @PathVariable String userId,
+			HttpServletRequest request){
+		logger.error("begin the to update user by id: " + userId);
 		try {
-			//TODO
+			iUserService.updateUser(userId, user4Create);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			return "fail";
 		}
 		return "success";
 	}

@@ -67,5 +67,10 @@ public class UserDaoImpl extends BaseDaoImpl<UserModel> implements UserDao {
 		getHibernateTemplate().delete(user);
 		
 	}
+	
+	public void updateUser(UserModel user) {
+		getHibernateTemplate().update(user);
+		
+	}
 
 }
