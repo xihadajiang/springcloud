@@ -44,30 +44,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-logging</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>  
 	<!-- 基于jpa规范的数据库访问jar包-->
     <dependency>
        <groupId>org.springframework.boot</groupId>
        <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-    <dependency>
-       <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-log4j</artifactId>
-       <version>1.3.8.RELEASE</version>
-     </dependency>
-	<!--
-    <dependency>
-      <groupId>de.codecentric</groupId>
-      <artifactId>spring-boot-admin-starter-client</artifactId>
-	  <version>1.5.7</version>
-    </dependency>
-	-->
 	<dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-eureka-server</artifactId>
@@ -80,10 +62,6 @@
 	  <groupId>com.inspur.incloudmanager</groupId>
 	  <artifactId>ibase-client</artifactId>
 	  <version>6.0-1-SNAPSHOT</version>
-	</dependency>
-	<dependency>
-	  <groupId>com.inspur.incloudmanager</groupId>
-	  <artifactId>incloudmanager-shell</artifactId>
 	</dependency>
 	<!--
 	<dependency>
@@ -107,37 +85,9 @@
   <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/lib</outputDirectory>
-                            <excludeTransitive>false</excludeTransitive>
-                            <stripVersion>false</stripVersion>
-                            <includeScope>runtime</includeScope>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                
-            </plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-              
             </plugin>
             <!-- -->
             <plugin>
@@ -150,33 +100,21 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <property name="dist">target/zip</property>
-                                <property name="dist-tmp">target/zip/tmp</property>
-                                <property name="app-name">${project.artifactId}-${project.version}</property>
-                                <mkdir dir="${dist-tmp}" />
-                                <copy file="target/${app-name}.jar" tofile="${dist}/${app-name}.jar" />
-
-                                <unzip src="target/lib/incloudmanager-shell-${incloudmanager-shell.version}.jar" dest="${dist-tmp}" />
-								<move todir="${dist}/bin">
-                                    <fileset dir="${dist-tmp}/META-INF/assembly/bin" includes="**/*" />
-                                </move>
-								<delete dir="${dist-tmp}" />
+							<target>
+								<property name="dist">target/zip</property>
+								<property name="dist-tmp">target/zip/tmp</property>
+								<property name="app-name">${project.artifactId}-${project.version}</property>
+								<copy file="target/${app-name}.jar"
+									tofile="${dist}/${app-name}.jar" />
 								<copy todir="${dist}/config">
-                                    <fileset dir="target/classes">
-                                        <include name="**/*.properties" />
-                                        <include name="**/*.xml" />
-                                        <include name="**/*.yml" />
-                                    </fileset>
-                                </copy>
-								<zip destfile="target/${app-name}.zip">
-                                    <zipfileset dir="${dist}/" />
-                                    
-                                </zip>
+									<fileset dir="target/classes">
+										<include name="**/*application*.yml" />
+									</fileset>
+								</copy>
+								<tar destfile="target/${app-name}.tar" basedir="${dist}/" />
 								<delete dir="${dist}" />
-                                
-                            </target>
-                        </configuration>
+							</target>
+						</configuration>
                     </execution>
                 </executions>
             </plugin>
