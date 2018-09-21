@@ -1,0 +1,22 @@
+server:
+  port: 7979
+spring:
+  application:
+    name: apigateway  
+logging:
+  level.root: info
+  file: logs/${spring.application.name}.log
+zuul:
+  routes:
+    iauth:
+      path: /iauth/**
+      url: http://127.0.0.1:8040
+      stripPrefix: true
+    ibase:
+      path: /ibase/**
+      url: http://127.0.0.1:8030
+      stripPrefix: true
+    icompute:
+      path: /icompute/**
+      url: http://127.0.0.1:8050
+      stripPrefix: true

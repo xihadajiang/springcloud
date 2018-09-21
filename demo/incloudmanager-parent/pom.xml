@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<groupId>com.inspur.incloudmanager</groupId>
+	<artifactId>incloudmanager-parent</artifactId>
+	<version>6.0-1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>incloudmanager services parent</name>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.13.RELEASE</version>
+	</parent>
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://100.2.104.66:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://100.2.104.66:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+        <docker.image.prefix>incloudos-docker</docker.image.prefix>
+        
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Edgware.SR4</spring-cloud.version>
+		<log4j.leve>debug</log4j.leve>
+		<log4j.ale>debug</log4j.ale>
+        
+		<!-- common projects  -->
+		<incloudmanager-common.version>6.0-1-SNAPSHOT</incloudmanager-common.version>
+		<incloudmanager-shell.version>6.0-1-SNAPSHOT</incloudmanager-shell.version>
+		<incloudmanager-log.version>6.0-1-SNAPSHOT</incloudmanager-log.version>
+		<incloudmanager-task.version>6.0-1-SNAPSHOT</incloudmanager-task.version>
+
+
+	</properties>
+
+	<dependencies>
+		<!-- Test Dependency Begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Test Dependency End -->
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>incloudmanager-shell</artifactId>
+				<version>${incloudmanager-shell.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>incloudmanager-common</artifactId>
+				<version>${incloudmanager-common.version}</version>
+			</dependency>
+		
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Edgware.SR4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+			
+		</dependencies>
+		
+	</dependencyManagement>
+
+	<build>
+		
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.13</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                     <resources>
+                        <resource>
+                           <targetPath>/</targetPath>
+                           <directory>${project.build.directory}</directory>
+                           <include>${project.build.finalName}.tar</include>
+                         </resource>
+                     </resources>
+                    <buildArgs>
+                        <ZIP_FILE>${project.build.finalName}.tar</ZIP_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+
+	</build>
+
+<!-- 	<modules> -->
+<!--         <module>../incloudmanager-api-gateway</module> -->
+<!-- 		<module>../incloudmanager-utils</module> -->
+<!-- 		<module>../ibase</module> -->
+
+<!-- 	</modules> -->
+
+</project>
