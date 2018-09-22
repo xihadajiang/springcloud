@@ -52,7 +52,10 @@
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<!-- JPA 数据库连接池 used Hibernate End -->
-		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.inspur.incloudmanager</groupId>
 			<artifactId>incloudmanager-common</artifactId>
