@@ -103,6 +103,7 @@ public class UserController {
 			iUserService.addUser(user);
 		} catch (CloudBusinessException e) {
 			logger.error("----------------------------");
+			logger.error(e.getMessage());
 			return "fail";
 		}
 		return "success";

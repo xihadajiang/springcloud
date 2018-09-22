@@ -18,4 +18,8 @@ spring:
   messages:
     basename: i18n/messages/incloud_message
     encoding: UTF-8
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
    
