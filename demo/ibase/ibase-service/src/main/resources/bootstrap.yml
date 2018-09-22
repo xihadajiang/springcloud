@@ -1,3 +1,7 @@
+logging:
+  config: classpath:logback-spring.xml
+  level.root: info
+  file: logs/${spring.application.name}.log
 eureka:
   client:
     serviceUrl:

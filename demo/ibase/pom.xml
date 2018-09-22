@@ -10,7 +10,7 @@
 	<artifactId>ibase</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<description>tools project</description>
+	<description>ibase project</description>
 	<properties>
 		<skip_maven_deploy>true</skip_maven_deploy>
 	</properties>
