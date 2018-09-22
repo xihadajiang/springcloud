@@ -102,7 +102,7 @@ public class UserController {
 			user.setEmail(user4Create.getEmail());
 			iUserService.addUser(user);
 		} catch (CloudBusinessException e) {
-			logger.error("----------------------------");
+			logger.error("----------------------------",e);
 			return "fail";
 		}
 		return "success";

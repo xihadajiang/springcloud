@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.inspur.incloud.common.exception.CloudBusinessException;
@@ -17,21 +18,20 @@ import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
 import com.inspur.incloud.ibase.service.user.IUserService;
-
 @Service
-@Transactional()
 public class UserServiceImpl implements IUserService {
 	
 	private Logger logger =  LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private UserDao userDao;
-
+	@Transactional(rollbackFor=Exception.class)
 	public void addUser(UserModel user) throws CloudBusinessException {
 		try {
 			userDao.addUser(user);
 			Long.parseLong(user.getName());
 		} catch (Exception e) {
+			logger.error("----------------------------",e);
 			List<String> args = new ArrayList<String>();
 			args.add("test");
 			throw new CloudBusinessException("00000002", args);

@@ -13,16 +13,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
-//import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-//@Repository("baseDao")
+@Transactional
 public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 	
-	@Resource
-	public void setSessionFactory0(SessionFactory sessionFactory){  
-	   super.setSessionFactory(sessionFactory);  
+//	@Autowired
+	@Resource 
+	public void setSessionFacotry(SessionFactory sessionFacotry) { 
+		super.setSessionFactory(sessionFacotry); 
 	}
-
    @Autowired
    private SessionFactory sessionFactory;
 

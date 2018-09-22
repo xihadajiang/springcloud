@@ -1,105 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
 		<groupId>com.inspur.incloudmanager</groupId>
 		<artifactId>ibase</artifactId>
 		<version>6.0-1-SNAPSHOT</version>
-  </parent>
+	</parent>
 
-  <groupId>com.inspur.incoudmanager</groupId>
-  <artifactId>ibase-service</artifactId>
-  <version>6.0-1-SNAPSHOT</version>
-  <name>ibase-service</name>
-  <packaging>jar</packaging>
+	<groupId>com.inspur.incoudmanager</groupId>
+	<artifactId>ibase-service</artifactId>
+	<version>6.0-1-SNAPSHOT</version>
+	<name>ibase-service</name>
+	<packaging>jar</packaging>
 
-  <dependencies>
-    <!-- 与mysql联系的jar包 -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
-	<!-- 围绕提供JPA编程接口的Hibernate包
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>
+	<dependencies>
+	    <!-- Jetty Spring Boot Web Begin-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Jetty Spring Boot Web End-->
+		<!-- JPA 数据库连接池 used Hibernate Begin -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<!-- JPA 数据库连接池 used Hibernate End -->
+		
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>incloudmanager-common</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>ibase-client</artifactId>
+			<version>6.0-1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-    </dependency>
-	-->
-	<!-- jdbc链接数据库的jar包里面包含事物 -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
-    </dependency>  
-	<!-- 基于jpa规范的数据库访问jar包-->
-    <dependency>
-       <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-	<dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-eureka-server</artifactId>
-    </dependency>
-    <dependency>
-	  <groupId>com.inspur.incloudmanager</groupId>
-	  <artifactId>incloudmanager-common</artifactId>
-	</dependency>
-	<dependency>
-	  <groupId>com.inspur.incloudmanager</groupId>
-	  <artifactId>ibase-client</artifactId>
-	  <version>6.0-1-SNAPSHOT</version>
-	</dependency>
-	<!--
-	<dependency>
-	  <groupId>io.springfox</groupId>
-	  <artifactId>springfox-swagger2</artifactId>
-	  <version>2.6.1</version>
-    </dependency>
-    <dependency>
-	  <groupId>io.springfox</groupId>
-	  <artifactId>springfox-swagger-ui</artifactId>
-	  <version>2.6.1</version>
-    </dependency>
-	-->
-    <!-- mq的jar包 -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-amqp</artifactId>
-    </dependency>
-  </dependencies>
-
-  <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
+	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
 							<target>
 								<property name="dist">target/zip</property>
 								<property name="dist-tmp">target/zip/tmp</property>
@@ -115,10 +98,10 @@
 								<delete dir="${dist}" />
 							</target>
 						</configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-        </plugins>
-    </build>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>

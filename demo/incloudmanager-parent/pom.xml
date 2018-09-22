@@ -115,11 +115,11 @@
 
 	</build>
 
-<!-- 	<modules> -->
-<!--         <module>../incloudmanager-api-gateway</module> -->
-<!-- 		<module>../incloudmanager-utils</module> -->
-<!-- 		<module>../ibase</module> -->
+ 	<modules> 
+         <module>../incloudmanager-api-gateway</module>
+		<module>../incloudmanager-utils</module>
+		<module>../ibase</module> 
 
-<!-- 	</modules> -->
+	</modules> 
 
 </project>
