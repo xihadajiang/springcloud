@@ -103,7 +103,9 @@ public class UserController {
 			iUserService.addUser(user);
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			return "fail";
+			Locale lang = Locale.US;
+			String test = messageSource.getMessage("lxg", e.getParamList().toArray(), lang);
+			return test;
 		}
 		return "success";
 	}
