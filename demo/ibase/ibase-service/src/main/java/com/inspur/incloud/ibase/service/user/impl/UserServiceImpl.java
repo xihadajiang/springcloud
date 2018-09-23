@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.inspur.incloud.common.exception.CloudBusinessException;
@@ -50,7 +49,7 @@ public class UserServiceImpl implements IUserService {
 		PageListBean<UserModel> result = null;
 		logger.error("++++++++++++++++++++++++=");
 		result = userDao.listUsers(condition, page);
-		if (null == result) {
+		if (null == result || result.getTotal() == 0) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
 			throw new CloudBusinessException("00000002", args);

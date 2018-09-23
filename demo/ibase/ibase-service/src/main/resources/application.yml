@@ -10,3 +10,7 @@ spring:
     url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
+iauth-client:
+  url: 127.0.0.1:8020
+ibase-client:
+  url: 127.0.0.1:8030

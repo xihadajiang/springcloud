@@ -16,3 +16,12 @@ CREATE TABLE `t_ba_syslog` (
   `log_date` date DEFAULT NULL,
   PRIMARY KEY (`syslog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_ba_user22222` (
+  `id` varchar(64) NOT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  `email` varchar(64) DEFAULT NULL,
+  `account` varchar(64) DEFAULT NULL,
+  `is_default` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

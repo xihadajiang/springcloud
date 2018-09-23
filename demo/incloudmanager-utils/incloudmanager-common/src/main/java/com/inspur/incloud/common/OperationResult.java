@@ -1,6 +1,6 @@
 package com.inspur.incloud.common;
 
-public class OperationResult implements java.io.Serializable {
+public class OperationResult<T> implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -12,7 +12,7 @@ public class OperationResult implements java.io.Serializable {
 	
 	private String errMessageEn;
 	
-	private Object resData;
+	private T resData;
 
 	public boolean isFlag() {
 		return flag;
@@ -46,11 +46,11 @@ public class OperationResult implements java.io.Serializable {
 		this.errMessageEn = errMessageEn;
 	}
 
-	public Object getResData() {
+	public T getResData() {
 		return resData;
 	}
 
-	public void setResData(Object resData) {
+	public void setResData(T resData) {
 		this.resData = resData;
 	}
 
