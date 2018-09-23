@@ -52,6 +52,13 @@
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<!-- JPA 数据库连接池 used Hibernate End -->
+		<!-- 数据库初始化 Begin -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>5.1.4</version>
+		</dependency>
+		<!-- 数据库初始化 End -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
