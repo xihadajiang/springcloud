@@ -119,6 +119,7 @@
          <module>../incloudmanager-api-gateway</module>
 		<module>../incloudmanager-utils</module>
 		<module>../ibase</module> 
+		<module>../iauth</module> 
 
 	</modules> 
 

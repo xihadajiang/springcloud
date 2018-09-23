@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.inspur.incloudmanager</groupId>
+		<artifactId>iauth</artifactId>
+		<version>6.0-1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.inspur.incoudmanager</groupId>
+	<artifactId>iauth-service</artifactId>
+	<version>6.0-1-SNAPSHOT</version>
+	<name>iauth-service</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+	    <!-- Jetty Spring Boot Web Begin-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Jetty Spring Boot Web End-->
+		<!-- JPA 数据库连接池 used Hibernate Begin -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<!-- JPA 数据库连接池 used Hibernate End -->
+		<!-- 数据库初始化 Begin -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>5.1.4</version>
+		</dependency>
+		<!-- 数据库初始化 End -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>incloudmanager-common</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>iauth-client</artifactId>
+			<version>6.0-1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<property name="dist">target/zip</property>
+								<property name="dist-tmp">target/zip/tmp</property>
+								<property name="app-name">${project.artifactId}-${project.version}</property>
+								<copy file="target/${app-name}.jar"
+									tofile="${dist}/${app-name}.jar" />
+								<copy todir="${dist}/config">
+									<fileset dir="target/classes">
+										<include name="**/*application*.yml" />
+									</fileset>
+								</copy>
+								<tar destfile="target/${app-name}.tar" basedir="${dist}/" />
+								<delete dir="${dist}" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

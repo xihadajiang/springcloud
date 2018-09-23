@@ -1,0 +1,14 @@
+server:
+  port: 8020
+logging:
+  level.root: info
+  file: logs/${spring.application.name}.log
+spring:
+  application:
+    name: iauth-service
+  datasource:
+    url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+iauth-client:
+  url: 127.0.0.1:8020

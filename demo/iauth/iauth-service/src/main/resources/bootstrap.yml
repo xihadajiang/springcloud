@@ -6,7 +6,7 @@ flyway:
   enabled: true
   checkLocation: true
   locations: classpath:db/migration
-  table: ibase_schema
+  table: iauth_schema
   validateOnMigrate: true
   cleanOnValidationError: false
   baselineOnMigrate: true
