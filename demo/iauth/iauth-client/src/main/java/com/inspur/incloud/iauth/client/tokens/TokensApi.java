@@ -15,6 +15,8 @@ import com.inspur.incloud.iauth.client.model.user.UserInforModel;
 public interface TokensApi extends BaseApi {
 
 	@RequestMapping(value = "/auth/tokens", method = RequestMethod.GET)
-	OperationResult<UserInforModel> checkTokenPower(@RequestHeader(value = "X-Auth-Token", required = true) String token,
-			@RequestHeader(value = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive);
+	OperationResult<UserInforModel> checkTokenPower(
+			@RequestHeader(value = "X-Auth-Token", required = true) String token,
+			@RequestHeader(value = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive,
+			HttpServletRequest request);
 }

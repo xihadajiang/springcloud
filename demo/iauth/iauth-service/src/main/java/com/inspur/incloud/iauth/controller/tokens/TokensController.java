@@ -31,40 +31,46 @@ import com.inspur.incloud.iauth.dao.user.model.UserModel;
 import com.inspur.incloud.iauth.service.user.IUserService;
 
 @RestController
-@RequestMapping("/v1/auth")
 public class TokensController implements TokensApi {
-	
-	private Logger logger =  LoggerFactory.getLogger(this.getClass());
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private IUserService iUserService;
-	
-	@RequestMapping(value = "/tokens", method= RequestMethod.GET)
+
 	@ResponseBody
-	public OperationResult<UserInforModel> checkTokenPower(@RequestHeader(value = "X-Auth-Token", required = true) String token,
-			@RequestHeader(value = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive) {
-		OperationResult<UserInforModel> result = new OperationResult<UserInforModel>();		
+	public OperationResult<UserInforModel> checkTokenPower(
+			@RequestHeader(value = "X-Auth-Token", required = true) String token,
+			@RequestHeader(value = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive,
+			HttpServletRequest request) {
+		OperationResult<UserInforModel> result = new OperationResult<UserInforModel>();
 		UserInforModel userInforModel = new UserInforModel();
 		try {
+			logger.error("request is :" + request);
 			UserModel user = iUserService.queryUserById(token);
-	    	if (null != user) {
-	    		userInforModel.setAccount(user.getAccount());
-	    		userInforModel.setName(user.getName());
-	    		userInforModel.setEmail(user.getEmail());
-	    		userInforModel.setId(user.getId());
-	    		userInforModel.setIs_default(user.getIs_default());
-	    		result.setResData(userInforModel);
-	    		result.setFlag(true);
-	    	} else {
-	    		result.setFlag(false);
-	    		result.setErrCode("10200");
-	    	}
-    	} catch (Exception e) {
-    		logger.error(e.getMessage(), e);
-    		result.setFlag(false);
-    		return result;
-    	}
-    	
+			if (null != user) {
+				userInforModel.setAccount(user.getAccount());
+				userInforModel.setName(user.getName());
+				userInforModel.setEmail(user.getEmail());
+				userInforModel.setId(user.getId());
+				userInforModel.setIs_default(user.getIs_default());
+				result.setResData(userInforModel);
+				result.setFlag(true);
+			} else {
+				result.setFlag(false);
+				result.setErrCode("10200");
+			}
+		} catch (CloudBusinessException e) {
+			logger.error(e.getMessage(), e);
+			result.setErrCode(e.getMsgCode());
+			result.setFlag(false);
+			return result;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setFlag(false);
+			return result;
+		}
+
 		return result;
-    }
+	}
 }
