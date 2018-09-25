@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.exception.CloudBusinessException;
+import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
+import com.inspur.incloud.iauth.client.model.user.UserInforModel;
+import com.inspur.incloud.iauth.client.tokens.TokensApi;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
@@ -24,12 +28,16 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private TokensApi tokensApi;
+	
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(UserModel user) throws CloudBusinessException {
 		try {
 			userDao.addUser(user);
 			Long.parseLong(user.getName());
-		} catch (Exception e) {
+		} catch (CloudDBException e) {
 			logger.error("----------------------------",e);
 			List<String> args = new ArrayList<String>();
 			args.add("test");
@@ -39,8 +47,18 @@ public class UserServiceImpl implements IUserService {
 		
 	}
 
-	public UserModel queryUserById(String id) {
-		return userDao.queryUserById(id);
+	public UserModel queryUserById(String id) throws CloudBusinessException  {
+		try {
+			OperationResult<UserInforModel> userAuth = tokensApi.checkTokenPower("sss", false);
+			UserInforModel auth = userAuth.getResData();
+			logger.error(auth.getAccount());
+			return userDao.queryUserById(id);
+		} catch(CloudDBException e) {
+			List<String> args = new ArrayList<String>();
+			args.add("test");
+			throw new CloudBusinessException("00000002", args);
+		}
+		
 	}
 
 
@@ -48,38 +66,59 @@ public class UserServiceImpl implements IUserService {
 			PageBean page) throws CloudBusinessException {
 		PageListBean<UserModel> result = null;
 		logger.error("++++++++++++++++++++++++=");
-		result = userDao.listUsers(condition, page);
-		if (null == result || result.getTotal() == 0) {
+		try {
+			result = userDao.listUsers(condition, page);
+			if (null == result || result.getTotal() == 0) {
+				List<String> args = new ArrayList<String>();
+				args.add("test");
+				throw new CloudBusinessException("00000002", args);
+			}
+		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
 			throw new CloudBusinessException("00000002", args);
 		}
+		
 		return result;
 	}
 
 	public void delete(String userId) throws CloudBusinessException {
-		UserModel user= userDao.queryUserById(userId);
-		if (null == user) {
+		try {
+			UserModel user= userDao.queryUserById(userId);
+			if (null == user) {
+				List<String> args = new ArrayList<String>();
+				args.add("test");
+				throw new CloudBusinessException("00000003", args);
+			}
+			userDao.deletUser(user);
+		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000003", args);
+			throw new CloudBusinessException("00000002", args);
 		}
-		userDao.deletUser(user);
+		
 		
 	}
 	
 	public void updateUser(String userId, User4Create user4Create)
 			throws CloudBusinessException {
-		UserModel user= userDao.queryUserById(userId);
-		if (null == user) {
+		try {
+			UserModel user= userDao.queryUserById(userId);
+			if (null == user) {
+				List<String> args = new ArrayList<String>();
+				args.add("test");
+				throw new CloudBusinessException("00000003", args);
+			}
+			user.setAccount(user4Create.getAccount());
+			user.setEmail(user4Create.getEmail());
+			user.setName(user4Create.getName());
+			userDao.updateUser(user);
+		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000003", args);
+			throw new CloudBusinessException("00000002", args);
 		}
-		user.setAccount(user4Create.getAccount());
-		user.setEmail(user4Create.getEmail());
-		user.setName(user4Create.getName());
-		userDao.updateUser(user);
+		
 		
 	}
 

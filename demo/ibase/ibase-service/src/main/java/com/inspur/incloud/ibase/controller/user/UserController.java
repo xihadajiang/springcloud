@@ -1,6 +1,8 @@
 package com.inspur.incloud.ibase.controller.user;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
@@ -14,16 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
+import com.inspur.incloud.common.UserSession;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.client.user.UserApi;
@@ -31,7 +34,6 @@ import com.inspur.incloud.ibase.dao.user.model.UserModel;
 import com.inspur.incloud.ibase.service.user.IUserService;
 
 @RestController
-@RequestMapping("/v1/user")
 public class UserController implements UserApi {
 	
 	private Logger logger =  LoggerFactory.getLogger(this.getClass());
@@ -42,19 +44,14 @@ public class UserController implements UserApi {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@RequestMapping(value = "/info", method= RequestMethod.GET)
 	@ResponseBody
-	public OperationResult<UserApiModel> queryUserById(@RequestParam String id,
-			HttpServletRequest request) {
+	public OperationResult<UserApiModel> queryUserById(@RequestParam(value = "id", required = true) String id) {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
-		String token = request.getHeader("token");
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
-		// UserSession userSession = (UserSession) request.getAttribute("userSession")
-		UserApiModel apiModel = new UserApiModel();
-		if (StringUtils.isEmpty(token)) {
-			apiModel.setName("ibase token null");
-		}
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		UserSession userSession = (UserSession) request.getAttribute("userSession");
 		try {
+			UserApiModel apiModel = new UserApiModel();
 			UserModel user = iUserService.queryUserById(id);
 	    	if (null != user) {
 	    		apiModel.setAccount(user.getAccount());
@@ -65,28 +62,53 @@ public class UserController implements UserApi {
 	    	}
 	    	result.setResData(apiModel);
 	    	result.setFlag(true);
+	    	return result;
+    	} catch (CloudBusinessException e) {
+    		logger.error(e.getMessage(), e);
+    		result.setFlag(false);
+    		Locale lang = Locale.US;
+    		String test = messageSource.getMessage("lxg", e.getParamList().toArray(), lang);
+    		result.setErrMessageEn(test);
+    		return result;
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
+    		Locale lang = Locale.US;
+    		String test = messageSource.getMessage("lxg",null, lang);
+    		result.setErrMessageEn(test);
     		return result;
     	}
-    	
-		return result;
     }
 	
-    @RequestMapping(value = "/list", method= RequestMethod.GET)
 	@ResponseBody
-    OperationResult listUsers(@RequestParam String name) {
-		OperationResult result = new OperationResult();
+    public OperationResult<PageListBean<UserApiModel>> listUsers(
+    		@RequestParam(value="name", required=false) String name,
+    		@RequestParam(value="pageSize", required=true, defaultValue = "10") Integer pageSize,
+    		@RequestParam(value="currentPage", required=true, defaultValue = "1") String currentPage) {
+    	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		OperationResult<PageListBean<UserApiModel>> result = new OperationResult<PageListBean<UserApiModel>>();
     	PageBean page = new PageBean();
     	page.setCurrentPage(1);
     	page.setPageSize(10);
     	Map<String, Object> condition = new HashMap<String, Object>();
-    	condition.put("name", name);
+    	if(StringUtils.isNotEmpty(name)) {
+    	    condition.put("name", name);
+    	}
     	try {
     		PageListBean<UserModel> pageLsit = iUserService.listUsers(condition, page);
     		result.setFlag(true);
-    		result.setResData(pageLsit);
+    		List<UserModel> userList = pageLsit.getData();
+    		List<UserApiModel> userApiList = new ArrayList<UserApiModel>();
+    		for (UserModel user : userList) {
+    			UserApiModel userApi = new UserApiModel();
+    			userApi.setAccount(user.getAccount());
+    			userApi.setEmail(user.getEmail());
+    			userApi.setId(user.getId());
+    			userApi.setIs_default(user.getIs_default());
+    			userApi.setName(user.getName());
+    			userApiList.add(userApi);
+    		}
+    		result.setResData(new PageListBean<UserApiModel>(pageLsit.getTotal(), pageLsit.getPageSize(), pageLsit.getCurrentPage(), userApiList));
     		return result;
     	} catch (CloudBusinessException e) {
     		logger.error(e.getMessage(), e);
@@ -107,11 +129,13 @@ public class UserController implements UserApi {
     	
     }
 	
-	@RequestMapping(value = "/action/add", method = RequestMethod.POST)
 	@ResponseBody
-	public String add(@RequestBody User4Create user4Create,  HttpServletRequest request){
+	public OperationResult<UserApiModel> add(@RequestBody User4Create user4Create){
+		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		try {
 			UserModel user = new UserModel();
+			UserApiModel userApi = new UserApiModel();
 			String id = UUID.randomUUID().toString();
 			user.setId(id);
 			user.setAccount(user4Create.getAccount());
@@ -119,42 +143,96 @@ public class UserController implements UserApi {
 			user.setName(user4Create.getName());
 			user.setEmail(user4Create.getEmail());
 			iUserService.addUser(user);
+			userApi.setId(id);
+			userApi.setAccount(user4Create.getAccount());
+			userApi.setIs_default(0);
+			userApi.setName(user4Create.getName());
+			userApi.setEmail(user4Create.getEmail());
+			result.setResData(userApi);
+			result.setFlag(true);
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			Locale lang = Locale.US;
-			String test = messageSource.getMessage("lxg", e.getParamList().toArray(), lang);
-			return test;
+			Locale langEn = Locale.US;
+			Locale langZh = Locale.CHINESE;
+			String messageEn = messageSource.getMessage("lxg", e.getParamList().toArray(), langEn);
+			String messageZh = messageSource.getMessage("lxg", e.getParamList().toArray(), langZh);
+			result.setErrMessageEn(messageEn);
+			result.setErrMessageZh(messageZh);
+			result.setFlag(false);
+			return result;
 		} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		return "fail";
+    		result.setErrCode("10000001");
+    		result.setErrMessageZh("未知异常");
+    		result.setErrMessageEn("unknown error");
+    		result.setFlag(false);
+    		return result;
     	}
-		return "success";
+		return result;
 	}
 	
-	@RequestMapping(value = "{userId}/action/delete", method = RequestMethod.DELETE)
 	@ResponseBody
-	public String delete(@PathVariable String userId,  HttpServletRequest request){
+	public OperationResult<UserApiModel> delete(@PathVariable String userId){
+		logger.debug("begin to delete user with userId: " + userId);
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		try {
 			logger.debug("begin the to delete user by id: " + userId);
 			iUserService.delete(userId);
-		} catch (Exception e) {
+			result.setFlag(true);
+			logger.debug("end to delete user with userId: " + userId);
+			return result;
+		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			return "fail";
+			Locale langEn = Locale.US;
+			Locale langZh = Locale.CHINESE;
+			String messageEn = messageSource.getMessage("lxg", e.getParamList().toArray(), langEn);
+			String messageZh = messageSource.getMessage("lxg", e.getParamList().toArray(), langZh);
+			result.setErrMessageEn(messageEn);
+			result.setErrMessageZh(messageZh);
+			result.setErrCode(e.getMsgCode());
+			result.setFlag(false);
+			return result;
+		}  catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setErrCode("10000001");
+    		result.setErrMessageZh("未知异常");
+    		result.setErrMessageEn("unknown error");
+    		result.setFlag(false);
+			return result;
 		}
-		return "success";
 	}
 	
-	@RequestMapping(value = "{userId}/action/update", method = RequestMethod.PUT)
 	@ResponseBody
-	public String update(@RequestBody User4Create user4Create, @PathVariable String userId,
-			HttpServletRequest request){
+	public OperationResult<UserApiModel> update(@RequestBody User4Create user4Create, @PathVariable String userId){
+		logger.debug("begin to update user with userId: " + userId);
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		try {
 			logger.debug("begin the to update user by id: " + userId);
 			iUserService.updateUser(userId, user4Create);
+			result.setFlag(true);
+			logger.debug("end to update user with userId: " + userId);
+			return result;
+		} catch (CloudBusinessException e) {
+			logger.error(e.getMessage(), e);
+			Locale langEn = Locale.US;
+			Locale langZh = Locale.CHINESE;
+			String messageEn = messageSource.getMessage("lxg", e.getParamList().toArray(), langEn);
+			String messageZh = messageSource.getMessage("lxg", e.getParamList().toArray(), langZh);
+			result.setErrMessageEn(messageEn);
+			result.setErrMessageZh(messageZh);
+			result.setErrCode(e.getMsgCode());
+			result.setFlag(false);
+			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return "fail";
+			result.setErrCode("10000001");
+    		result.setErrMessageZh("未知异常");
+    		result.setErrMessageEn("unknown error");
+    		result.setFlag(false);
+			return result;
 		}
-		return "success";
+		
 	}
 }
