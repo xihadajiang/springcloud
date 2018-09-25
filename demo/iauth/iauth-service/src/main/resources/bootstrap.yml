@@ -19,7 +19,7 @@ spring:
       hibernate:
         ddl-auto: none
         current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
-    show-sql: true
+    show-sql: false
   messages:
     basename: i18n/messages/incloud_message
     encoding: UTF-8

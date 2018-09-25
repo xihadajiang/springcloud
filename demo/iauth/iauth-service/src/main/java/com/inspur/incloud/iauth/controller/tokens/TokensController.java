@@ -1,37 +1,27 @@
 package com.inspur.incloud.iauth.controller.tokens;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.exception.CloudBusinessException;
-import com.inspur.incloud.common.model.PageBean;
-import com.inspur.incloud.common.model.PageListBean;
 import com.inspur.incloud.iauth.client.model.user.UserInforModel;
 import com.inspur.incloud.iauth.client.tokens.TokensApi;
 import com.inspur.incloud.iauth.dao.user.model.UserModel;
 import com.inspur.incloud.iauth.service.user.IUserService;
 
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 @RestController
-public class TokensController implements TokensApi {
+public class TokensController implements TokensApi{
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -41,12 +31,14 @@ public class TokensController implements TokensApi {
 	@ResponseBody
 	public OperationResult<UserInforModel> checkTokenPower(
 			@RequestHeader(value = "X-Auth-Token", required = true) String token,
-			@RequestHeader(value = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive,
-			HttpServletRequest request) {
+			@RequestHeader(value = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive) {
 		OperationResult<UserInforModel> result = new OperationResult<UserInforModel>();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		if(!token.equals(request.getHeader("X-Auth-Token"))) {
+			logger.error("*********************************");
+		}
 		UserInforModel userInforModel = new UserInforModel();
 		try {
-			logger.error("request is :" + request);
 			UserModel user = iUserService.queryUserById(token);
 			if (null != user) {
 				userInforModel.setAccount(user.getAccount());
@@ -72,5 +64,11 @@ public class TokensController implements TokensApi {
 		}
 
 		return result;
+	}
+
+	public OperationResult<UserInforModel> checkTokenPower(String token,
+			Boolean keepAlive, Object... objects) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

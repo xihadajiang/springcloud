@@ -73,6 +73,10 @@
 			<artifactId>iauth-client</artifactId>
 			<version>6.0-1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+          <groupId>io.github.openfeign</groupId>
+          <artifactId>feign-httpclient</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
