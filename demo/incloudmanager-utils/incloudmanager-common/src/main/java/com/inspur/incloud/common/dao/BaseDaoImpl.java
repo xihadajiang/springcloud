@@ -6,14 +6,20 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.inspur.incloud.common.model.PageBean;
+import com.inspur.incloud.common.model.PageListBean;
+import com.inspur.incloud.common.util.DbPageUtil;
 
 @Transactional
 public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
@@ -128,6 +134,18 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
       }
       return q.executeUpdate();
    }
+
+public PageListBean<T> getPageList(final String sql, final String countSql,
+		final List<Object> params, final PageBean page) {
+	PageListBean<T> pageList = null;
+	pageList = (PageListBean<T>) getHibernateTemplate().execute(new HibernateCallback(){
+		public Object doInHibernate(Session session) throws HibernateException {
+            PageListBean list = DbPageUtil.getPageList(session, countSql, sql, page, params.toArray());
+			return list;
+		}
+	});
+	return pageList;
+}
 
 
 }

@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.hibernate.Session;
 
+import com.inspur.incloud.common.model.PageListBean;
+import com.inspur.incloud.common.model.PageBean;
+
 public interface BaseDao<T> {
 
     public Session getCurrentSession();
@@ -33,5 +36,7 @@ public interface BaseDao<T> {
     public int executeHQL(String hql, Map<String, Object> params);
 
     public int executeSQL(String sql, Map<String, Object> params);
+    
+    public PageListBean<T> getPageList(String sql, String countSql, List<Object> params, PageBean page);
 
 }
