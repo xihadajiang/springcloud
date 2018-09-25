@@ -1,7 +1,5 @@
 package com.inspur.incloud.ibase.client.user;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,16 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.model.PageListBean;
-import com.inspur.incloud.common.util.feign.FeignConfig;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 
 @Repository("userApi")
-@FeignClient(name = "ibase-service", url = "${ibase-client.url}" ,configuration = FeignConfig.class)
-@RequestMapping(value = "/v1")
+@FeignClient(name = "ibase-service", url = "${ibase-client.url}" )
+@RequestMapping(value = "/v1/user")
 public interface UserApi {
 
-	@RequestMapping(value = "/user/info", method= RequestMethod.GET)
+	@RequestMapping(value = "/info", method= RequestMethod.GET)
 	OperationResult<UserApiModel> queryUserById(@RequestParam(value = "id", required = true) String id);
 	
 	@RequestMapping(value = "/list", method= RequestMethod.GET)

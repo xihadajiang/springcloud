@@ -15,8 +15,6 @@ import feign.Feign;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.boot.autoconfigure.web.WebMvcRegistrationsAdapter;
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @Configuration

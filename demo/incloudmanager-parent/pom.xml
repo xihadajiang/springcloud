@@ -41,7 +41,7 @@
 		<incloudmanager-shell.version>6.0-1-SNAPSHOT</incloudmanager-shell.version>
 		<incloudmanager-log.version>6.0-1-SNAPSHOT</incloudmanager-log.version>
 		<incloudmanager-task.version>6.0-1-SNAPSHOT</incloudmanager-task.version>
-
+		<iauth-client.version>6.0-1-SNAPSHOT</iauth-client.version>
 
 	</properties>
 
@@ -83,6 +83,12 @@
                 <scope>import</scope>
             </dependency>
 			
+			
+			<dependency>
+			    <groupId>com.inspur.incloudmanager</groupId>
+			    <artifactId>iauth-client</artifactId>
+			    <version>${iauth-client.version}</version>
+		    </dependency>
 		</dependencies>
 		
 	</dependencyManagement>

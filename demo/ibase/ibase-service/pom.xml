@@ -16,7 +16,7 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-	    <!-- Jetty Spring Boot Web Begin-->
+		<!-- Jetty Spring Boot Web Begin -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -36,7 +36,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Jetty Spring Boot Web End-->
+		<!-- Jetty Spring Boot Web End -->
 		<!-- JPA 数据库连接池 used Hibernate Begin -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,37 +59,51 @@
 			<version>5.1.4</version>
 		</dependency>
 		<!-- 数据库初始化 End -->
-		<!-- feign接口调用依赖的jra包 Begin -->
+
+		<!-- 服务健康状态检查 Begin -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<!-- 服务健康状态检查 End -->
+		<!-- FeignClients 模块间调用 Begin -->
 		<dependency>
-          <groupId>org.springframework.cloud</groupId>
-          <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>io.github.openfeign</groupId>
-          <artifactId>feign-httpclient</artifactId>
-        </dependency>
-        <!-- feign接口调用依赖的jra包 end -->
-        <!-- ICM相互依赖的jra包 begin -->
-        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-httpclient</artifactId>
+		</dependency>
+		<!-- FeignClients 模块间调用 End -->
+		<!-- ICM 公共工具类 Begin -->
+		<dependency>
 			<groupId>com.inspur.incloudmanager</groupId>
 			<artifactId>incloudmanager-common</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.inspur.incloudmanager</groupId>
-			<artifactId>ibase-client</artifactId>
-			<version>6.0-1-SNAPSHOT</version>
-		</dependency>
+		<!-- ICM 公共工具类 End -->
+		<!-- IAuth 接口认证客户端 Begin -->
 		<dependency>
 			<groupId>com.inspur.incloudmanager</groupId>
 			<artifactId>iauth-client</artifactId>
-			<version>6.0-1-SNAPSHOT</version>
 		</dependency>
-		<!-- ICM相互依赖的jra包 end -->
+		<!-- IAuth 接口认证客户端 End -->
+		<!-- 本模块Client Begin -->
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>ibase-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- 本模块Client End -->
+
+		<!-- 分割线++++++++以上是必须添加的依赖+++++++++分割线 -->
+		
+		
+		<!-- 分割线++++++++以下按需添加+++++++++分割线 -->
+		<!-- 本模块依赖其它模块Client Begin -->
+		
+		<!-- 本模块依赖其它模块Client End -->
+
 	</dependencies>
 
 	<build>

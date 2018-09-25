@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.inspur.incloud.common.util.feign.FeignConfig;
 import com.inspur.incloud.ibase.client.model.operatelog.LogInfo;
 
 @Repository("operateLogApi")
-@FeignClient(name = "ibase-service", url = "${ibase-client.url}" ,configuration = FeignConfig.class)
-@RequestMapping(value = "/v1")
+@FeignClient(name = "ibase-service", url = "${ibase-client.url}" )
+@RequestMapping(value = "/v1/operatelog")
 public interface OperateLogApi{
 	
-	@RequestMapping(value = "/operatelog/action/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/action/add", method = RequestMethod.POST)
 	String addOperateLog(@RequestBody LogInfo logInfo,  HttpServletRequest request);
 }
