@@ -59,11 +59,22 @@
 			<version>5.1.4</version>
 		</dependency>
 		<!-- 数据库初始化 End -->
+		<!-- feign接口调用依赖的jra包 Begin -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>io.github.openfeign</groupId>
+          <artifactId>feign-httpclient</artifactId>
+        </dependency>
+        <!-- feign接口调用依赖的jra包 end -->
+        <!-- ICM相互依赖的jra包 begin -->
+        <dependency>
 			<groupId>com.inspur.incloudmanager</groupId>
 			<artifactId>incloudmanager-common</artifactId>
 		</dependency>
@@ -78,14 +89,7 @@
 			<artifactId>iauth-client</artifactId>
 			<version>6.0-1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-          <groupId>org.springframework.cloud</groupId>
-          <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>io.github.openfeign</groupId>
-          <artifactId>feign-httpclient</artifactId>
-        </dependency>
+		<!-- ICM相互依赖的jra包 end -->
 	</dependencies>
 
 	<build>
