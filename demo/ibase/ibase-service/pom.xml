@@ -82,6 +82,12 @@
 			<artifactId>incloudmanager-common</artifactId>
 		</dependency>
 		<!-- ICM 公共工具类 End -->
+		<!-- 过滤器 Begin -->
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>incloudmanager-filter</artifactId>
+		</dependency>
+		<!-- 过滤器 End -->
 		<!-- IAuth 接口认证客户端 Begin -->
 		<dependency>
 			<groupId>com.inspur.incloudmanager</groupId>

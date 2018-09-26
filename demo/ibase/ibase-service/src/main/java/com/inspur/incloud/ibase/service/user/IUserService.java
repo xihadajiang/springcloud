@@ -2,6 +2,7 @@ package com.inspur.incloud.ibase.service.user;
 
 import java.util.Map;
 
+import com.inspur.incloud.common.UserSession;
 import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
@@ -15,7 +16,7 @@ public interface IUserService {
 	PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			PageBean page) throws CloudBusinessException;
 
-	UserModel queryUserById(String id) throws CloudBusinessException ;
+	UserModel queryUserById(String id, UserSession session) throws CloudBusinessException ;
 
 	void delete(String userId) throws CloudBusinessException;
 	

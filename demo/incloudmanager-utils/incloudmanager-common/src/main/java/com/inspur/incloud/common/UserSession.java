@@ -202,4 +202,13 @@ public class UserSession implements Serializable {
     public void setIsIsmAll(boolean isIsmAll) {
         this.isIsmAll = isIsmAll;
     }
+
+	@Override
+	public String toString() {
+		return "UserSession [userId=" + userId + ", userName=" + userName
+				+ ", domainId=" + domainId + ", orgId=" + orgId + ", roleId="
+				+ roleId + ", ip=" + ip + ", roleType=" + roleType
+				+ ", orgType=" + orgType + ", operateSubOrgResRight="
+				+ operateSubOrgResRight + ", isIsmAll=" + isIsmAll + "]";
+	}
 }

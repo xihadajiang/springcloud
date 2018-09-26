@@ -38,6 +38,7 @@
         
 		<!-- common projects  -->
 		<incloudmanager-common.version>6.0-1-SNAPSHOT</incloudmanager-common.version>
+		<incloudmanager-filter.version>6.0-1-SNAPSHOT</incloudmanager-filter.version>
 		<incloudmanager-shell.version>6.0-1-SNAPSHOT</incloudmanager-shell.version>
 		<incloudmanager-log.version>6.0-1-SNAPSHOT</incloudmanager-log.version>
 		<incloudmanager-task.version>6.0-1-SNAPSHOT</incloudmanager-task.version>
@@ -73,6 +74,11 @@
 				<groupId>com.inspur.incloudmanager</groupId>
 				<artifactId>incloudmanager-common</artifactId>
 				<version>${incloudmanager-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>incloudmanager-filter</artifactId>
+				<version>${incloudmanager-filter.version}</version>
 			</dependency>
 		
             <dependency>

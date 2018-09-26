@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.inspur.incloud.common.OperationResult;
+import com.inspur.incloud.common.UserSession;
 import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
-import com.inspur.incloud.iauth.client.model.user.UserInforModel;
-import com.inspur.incloud.iauth.client.tokens.TokensApi;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
@@ -29,8 +28,6 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private UserDao userDao;
 	
-	@Autowired
-	private TokensApi tokensApi;
 	
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(UserModel user) throws CloudBusinessException {
@@ -47,11 +44,9 @@ public class UserServiceImpl implements IUserService {
 		
 	}
 
-	public UserModel queryUserById(String id) throws CloudBusinessException  {
+	public UserModel queryUserById(String id, UserSession session) throws CloudBusinessException  {
 		try {
-			OperationResult<UserInforModel> userAuth = tokensApi.checkTokenPower("sss", false);
-			UserInforModel auth = userAuth.getResData();
-			logger.error(auth.getAccount());
+			logger.error("++++++++++++" + session.getUserName());
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
