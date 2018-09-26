@@ -42,8 +42,7 @@ public class AuthFilter implements Filter {
         	opeResult.setErrCode("00000001");
         	opeResult.setErrMessageZh("你写的token不对");
         	opeResult.setErrMessageEn("you write an error token");*/
-        	response.setContentType("application/json");
-        	response.getWriter().print(opeResult.toString());
+        	chain.doFilter(httpRequest, httpResponse);
         	return;
         }
         UserInforModel user = opeResult.getResData();
