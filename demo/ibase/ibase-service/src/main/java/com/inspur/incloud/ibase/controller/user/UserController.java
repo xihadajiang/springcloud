@@ -164,8 +164,8 @@ public class UserController implements UserApi {
 		} catch (Exception e) {
     		logger.error(e.getMessage(), e);
     		result.setErrCode("10000001");
-    		result.setErrMessageZh("未知异常");
-    		result.setErrMessageEn("unknown error");
+    		result.setErrMessageZh("新增用户异常");
+    		result.setErrMessageEn("add user exception");
     		result.setFlag(false);
     		return result;
     	}
@@ -197,8 +197,8 @@ public class UserController implements UserApi {
 		}  catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrCode("10000001");
-    		result.setErrMessageZh("未知异常");
-    		result.setErrMessageEn("unknown error");
+    		result.setErrMessageZh("删除用户异常");
+    		result.setErrMessageEn("delete user exception");
     		result.setFlag(false);
 			return result;
 		}
@@ -229,8 +229,8 @@ public class UserController implements UserApi {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrCode("10000001");
-    		result.setErrMessageZh("未知异常");
-    		result.setErrMessageEn("unknown error");
+    		result.setErrMessageZh("更新用户异常");
+    		result.setErrMessageEn("update user exception");
     		result.setFlag(false);
 			return result;
 		}

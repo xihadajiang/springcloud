@@ -17,8 +17,10 @@ import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
+import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
+import com.inspur.incloud.ibase.rabbitmq.provider.IMessageProvider;
 import com.inspur.incloud.ibase.service.user.IUserService;
 @Service
 public class UserServiceImpl implements IUserService {
@@ -28,6 +30,8 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+    private IMessageProvider messageProvider;
 	
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(UserModel user) throws CloudBusinessException {
@@ -35,7 +39,7 @@ public class UserServiceImpl implements IUserService {
 			userDao.addUser(user);
 			Long.parseLong(user.getName());
 		} catch (CloudDBException e) {
-			logger.error("----------------------------",e);
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
 			args.add("test");
 			throw new CloudBusinessException("00000002", args);
@@ -47,6 +51,11 @@ public class UserServiceImpl implements IUserService {
 	public UserModel queryUserById(String id, UserSession session) throws CloudBusinessException  {
 		try {
 			logger.error("++++++++++++" + session.getUserName());
+			UserApiModel company = new UserApiModel();
+			company.setAccount("11111");
+			company.setEmail("22222222222");
+			company.setId("333333333333");
+			messageProvider.send(company );
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
@@ -60,7 +69,6 @@ public class UserServiceImpl implements IUserService {
     public PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			PageBean page) throws CloudBusinessException {
 		PageListBean<UserModel> result = null;
-		logger.error("++++++++++++++++++++++++=");
 		try {
 			result = userDao.listUsers(condition, page);
 			if (null == result || result.getTotal() == 0) {

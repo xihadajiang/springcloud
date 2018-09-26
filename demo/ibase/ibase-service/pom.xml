@@ -101,6 +101,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<!-- 本模块Client End -->
+		<!-- 消息队列 Begin -->
+		<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+        </dependency>
+        <!-- 消息队列 End -->
 
 		<!-- 分割线++++++++以上是必须添加的依赖+++++++++分割线 -->
 		

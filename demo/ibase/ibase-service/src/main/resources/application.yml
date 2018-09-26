@@ -10,6 +10,28 @@ spring:
     url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
+  cloud:
+    stream:
+      binders:
+        defaultRabbit: # 表示定义的名称，用于于binding整合
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 10.7.12.222
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /
+      bindings:
+        output:
+          destination: exchangeName
+          content-type: application/json
+          binder: defaultRabbit
+        input:
+          destination: exchangeName
+          content-type: application/json
+          binder: defaultRabbit
 iauth-client:
   url: 127.0.0.1:8020
 ibase-client:
