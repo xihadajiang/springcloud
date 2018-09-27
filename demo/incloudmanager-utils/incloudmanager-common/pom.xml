@@ -64,5 +64,12 @@
 			<artifactId>spring-cloud-starter-feign</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- swagger api 文档-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 </project>

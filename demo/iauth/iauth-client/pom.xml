@@ -28,5 +28,20 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
+		
+		<!-- swager api doc Begin -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <!-- swager api doc End -->
 	</dependencies>
+	
+	    <build>
+        <plugins>
+	
+            
+            </plugins>
+    </build>
+            
 </project>
