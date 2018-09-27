@@ -66,9 +66,4 @@ public class TokensController implements TokensApi{
 		return result;
 	}
 
-	public OperationResult<UserInforModel> checkTokenPower(String token,
-			Boolean keepAlive, Object... objects) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
