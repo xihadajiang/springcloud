@@ -6,6 +6,8 @@ spring:
 logging:
   level.root: info
   file: logs/${spring.application.name}.log
+iauth-client:
+  url: 127.0.0.1:8020
 zuul:
   routes:
     iauth:
