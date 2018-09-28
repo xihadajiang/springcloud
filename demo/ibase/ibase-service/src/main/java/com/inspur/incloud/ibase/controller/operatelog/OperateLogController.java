@@ -9,6 +9,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.inspur.incloud.common.UserSession;
 import com.inspur.incloud.common.exception.CloudBusinessException;
@@ -28,9 +30,10 @@ public class OperateLogController implements OperateLogApi {
 	private MessageSource messageSource;
 	
 	@ResponseBody
-	public String addOperateLog(@RequestBody LogInfo logInfo,  HttpServletRequest request){
+	public String addOperateLog(@RequestBody LogInfo logInfo){
 		try {
 			logger.error("+++++++++++++++++++++++++");
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 			UserSession userSession = (UserSession) request.getAttribute("userSessioon");
 			if(null == userSession) {
 				userSession = new UserSession();

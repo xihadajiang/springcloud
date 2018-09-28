@@ -31,6 +31,8 @@ public class TokensController implements TokensApi{
 	public OperationResult<UserInforModel> checkTokenPower(String token,Boolean keepAlive) {
 		OperationResult<UserInforModel> result = new OperationResult<UserInforModel>();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		logger.info("X-Auth-Token:" + token);
+		logger.info("X-Auth-Keep-Alive:" + keepAlive);
 		if(!token.equals(request.getHeader("X-Auth-Token"))) {
 			logger.error("*********************************");
 		}

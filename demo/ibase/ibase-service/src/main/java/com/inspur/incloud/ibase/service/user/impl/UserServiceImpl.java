@@ -16,6 +16,7 @@ import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
+import com.inspur.incloud.iauth.client.tokens.TokensApi;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.dao.user.UserDao;
@@ -29,8 +30,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserDao userDao;
-	
 	@Autowired
+	private TokensApi tokensApi;
+//	@Autowired
     private IMessageProvider messageProvider;
 	
 	@Transactional(rollbackFor=Exception.class)
@@ -50,12 +52,14 @@ public class UserServiceImpl implements IUserService {
 
 	public UserModel queryUserById(String id, UserSession session) throws CloudBusinessException  {
 		try {
-			logger.error("++++++++++++" + session.getUserName());
+			if(session != null) {
+				logger.error("++++++++++++" + session.getUserName());
+			}
 			UserApiModel company = new UserApiModel();
 			company.setAccount("11111");
 			company.setEmail("22222222222");
 			company.setId("333333333333");
-			messageProvider.send(company );
+//			messageProvider.send(company );
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();

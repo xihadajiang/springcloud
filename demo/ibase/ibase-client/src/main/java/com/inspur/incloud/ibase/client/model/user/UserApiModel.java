@@ -2,7 +2,27 @@ package com.inspur.incloud.ibase.client.model.user;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value="用户信息")
 public class UserApiModel implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	@ApiModelProperty(value="用户id")
+	private String id;
+	
+	@ApiModelProperty(value="用户名")
+	private String name;
+	
+	@ApiModelProperty(value="Email")
+	private String email;
+	
+	@ApiModelProperty(value="账号")
+	private String account;
+	
+	@ApiModelProperty(value="账号类型")
+	private int is_default;
 	
 	public String getId() {
 		return id;
@@ -44,17 +64,6 @@ public class UserApiModel implements Serializable{
 		this.is_default = is_default;
 	}
 
-	private static final long serialVersionUID = 1L;
-
-	private String id;
-	
-	private String name;
-	
-	private String email;
-	
-	private String account;
-	
-	private int is_default;
 	
 	
 

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import io.swagger.annotations.Api;
-
 /**
  * Support for spring annotation in interface see
  * https://stackoverflow.com/questions/8002514/spring-mvc-annotated-controller-interface-with-pathvariable

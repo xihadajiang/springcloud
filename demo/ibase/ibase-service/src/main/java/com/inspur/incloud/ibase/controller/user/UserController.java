@@ -45,7 +45,7 @@ public class UserController implements UserApi {
 	private MessageSource messageSource;
 	
 	@ResponseBody
-	public OperationResult<UserApiModel> queryUserById(@RequestParam(value = "id", required = true) String id) {
+	public OperationResult<UserApiModel> queryUserById(String id) {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
@@ -83,14 +83,14 @@ public class UserController implements UserApi {
 	
 	@ResponseBody
     public OperationResult<PageListBean<UserApiModel>> listUsers(
-    		@RequestParam(value="name", required=false) String name,
-    		@RequestParam(value="pageSize", required=true, defaultValue = "10") Integer pageSize,
-    		@RequestParam(value="currentPage", required=true, defaultValue = "1") String currentPage) {
+    		@RequestParam(name="name", required=false) String name,
+    		@RequestParam(name="pageSize", required=true, defaultValue = "10") Integer pageSize,
+    		@RequestParam(name="currentPage", required=true, defaultValue = "1") Integer currentPage) {
     	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		OperationResult<PageListBean<UserApiModel>> result = new OperationResult<PageListBean<UserApiModel>>();
     	PageBean page = new PageBean();
-    	page.setCurrentPage(1);
-    	page.setPageSize(10);
+    	page.setCurrentPage(currentPage);
+    	page.setPageSize(pageSize);
     	Map<String, Object> condition = new HashMap<String, Object>();
     	if(StringUtils.isNotEmpty(name)) {
     	    condition.put("name", name);
