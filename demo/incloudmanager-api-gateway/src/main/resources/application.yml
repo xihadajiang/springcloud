@@ -10,7 +10,7 @@ zuul:
   routes:
     iauth:
       path: /iauth/**
-      url: http://127.0.0.1:8040
+      url: http://127.0.0.1:8020
       stripPrefix: true
     ibase:
       path: /ibase/**
