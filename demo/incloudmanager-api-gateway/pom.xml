@@ -34,6 +34,20 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>iauth-client</artifactId>
+		</dependency>
+		<!-- FeignClients 模块间调用 Begin -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-httpclient</artifactId>
+		</dependency>
+		<!-- FeignClients 模块间调用 End -->
 	</dependencies>
 
 	<build>
