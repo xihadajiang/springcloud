@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,12 +29,17 @@ public class TokensController implements TokensApi{
 	private IUserService iUserService;
 
 	@ResponseBody
-	public OperationResult<UserInforModel> checkTokenPower(String token,Boolean keepAlive) {
+	public OperationResult<UserInforModel> checkTokenPower(
+			@RequestHeader(name = "X-Auth-Token", required = true) String token,
+			@RequestHeader(name = "X-Auth-Keep-Alive", required = false, defaultValue = "true") Boolean keepAlive) {
 		OperationResult<UserInforModel> result = new OperationResult<UserInforModel>();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		logger.info("X-Auth-Token:" + token);
 		logger.info("X-Auth-Keep-Alive:" + keepAlive);
 		if(!token.equals(request.getHeader("X-Auth-Token"))) {
+			logger.error("*********************************");
+			logger.info("X-Auth-Token:" + token);
+			logger.info("X-Auth-Token request:" + request.getHeader("X-Auth-Token"));
 			logger.error("*********************************");
 		}
 		UserInforModel userInforModel = new UserInforModel();
@@ -49,7 +55,7 @@ public class TokensController implements TokensApi{
 				result.setFlag(true);
 			} else {
 				result.setFlag(false);
-				result.setErrCode("10200");
+				result.setErrCode("20010");
 			}
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);

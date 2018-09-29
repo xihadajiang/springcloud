@@ -22,3 +22,7 @@ zuul:
       path: /icompute/**
       url: http://127.0.0.1:8050
       stripPrefix: true
+    itask:
+      path: /itask/**
+      url: http://127.0.0.1:8060
+      stripPrefix: true
