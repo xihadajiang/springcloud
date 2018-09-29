@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.UserSession;
 import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.exception.CloudDBException;
@@ -21,7 +20,7 @@ import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
-import com.inspur.incloud.ibase.rabbitmq.provider.IMessageProvider;
+import com.inspur.incloud.ibase.rabbitmq.user.IUserMessageProvider;
 import com.inspur.incloud.ibase.service.user.IUserService;
 @Service
 public class UserServiceImpl implements IUserService {
@@ -32,8 +31,8 @@ public class UserServiceImpl implements IUserService {
 	private UserDao userDao;
 	@Autowired
 	private TokensApi tokensApi;
-//	@Autowired
-    private IMessageProvider messageProvider;
+	@Autowired
+    private IUserMessageProvider messageProvider;
 	
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(UserModel user) throws CloudBusinessException {
@@ -59,7 +58,7 @@ public class UserServiceImpl implements IUserService {
 			company.setAccount("11111");
 			company.setEmail("22222222222");
 			company.setId("333333333333");
-//			messageProvider.send(company );
+			messageProvider.send(company );
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
