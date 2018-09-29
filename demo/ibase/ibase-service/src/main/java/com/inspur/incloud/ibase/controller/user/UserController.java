@@ -50,7 +50,7 @@ public class UserController implements UserApi {
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
-		logger.error("uerSession info is :" + userSession.toString());
+		logger.error("uerSession info is :" + request.getHeader("X-Auth-Token"));
 		try {
 			UserApiModel apiModel = new UserApiModel();
 			UserModel user = iUserService.queryUserById(id, userSession);

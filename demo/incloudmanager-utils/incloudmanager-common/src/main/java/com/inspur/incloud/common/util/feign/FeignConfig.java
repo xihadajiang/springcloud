@@ -4,6 +4,8 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.web.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +16,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import feign.Feign;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+
 import org.springframework.boot.autoconfigure.web.WebMvcRegistrationsAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @Configuration
 @ConditionalOnClass({ Feign.class })
 public class FeignConfig implements RequestInterceptor {
+	
     @Bean
     public WebMvcRegistrations feignWebRegistrations() {
 
@@ -47,10 +51,13 @@ public class FeignConfig implements RequestInterceptor {
 			while (headerNames.hasMoreElements()) {
 				String name = headerNames.nextElement();
 				String values = request.getHeader(name);
+				if (null != requestTemplate.headers() &&  requestTemplate.headers().containsKey(name)){
+					continue;
+				}
 				requestTemplate.header(name, values);
 			}
 		}
-		Enumeration<String> bodyNames = request.getParameterNames();
+		/*Enumeration<String> bodyNames = request.getParameterNames();
 		StringBuffer body = new StringBuffer();
 		if (bodyNames != null) {
 			while (bodyNames.hasMoreElements()) {
@@ -62,6 +69,6 @@ public class FeignConfig implements RequestInterceptor {
 		if (body.length() != 0) {
 			body.deleteCharAt(body.length() - 1);
 			requestTemplate.body(body.toString());
-		}
+		}*/
 	}
 }
