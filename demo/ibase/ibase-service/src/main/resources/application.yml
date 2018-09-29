@@ -7,7 +7,7 @@ spring:
   application:
     name: ibase-service
   datasource:
-    url: jdbc:mysql://10.7.12.222:3306/test?characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
   cloud:
@@ -32,25 +32,15 @@ spring:
                 password: guest
                 virtual-host: /
       bindings:
-        output:
-          destination: ibaseUserExchange
-          content-type: application/json
-          binder: defaultRabbit
-        input:
-          destination: ibaseUserExchange
-          content-type: application/json
-          binder: defaultRabbit
-
         outputUser:
-          destination: ibaseUserExchange
+          destination: ibaseUserExchange # 消息发送目的exchange名称
           content-type: application/json
           binder: defaultRabbit
-          group: ibaseUserGroup
         inputUser:
-          destination: ibaseUserExchange
+          destination: ibaseUserExchange # 消息获取目的exchange名称
           content-type: application/json
           binder: defaultRabbit
-          group: ibaseUserGroup
+          group: ibaseUserQueue # 持久化消息队列，名称为ibaseUserExchange。ibaseUserQueue
 iauth-client:
   url: 127.0.0.1:8020
 ibase-client:
