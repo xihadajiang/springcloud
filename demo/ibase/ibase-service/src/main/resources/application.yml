@@ -7,11 +7,19 @@ spring:
   application:
     name: ibase-service
   datasource:
-    url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://10.7.12.222:3306/test?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
   cloud:
     stream:
+      rabbit:
+        bindings:
+          outputUser:
+            producer:
+              routing-key-expression: '''ibase-user''' # 生产者消息投递的 routing key
+          inputUser:
+            consumer:
+              bindingRoutingKey: ibase-user # 生成消息队列的routing key
       binders:
         defaultRabbit: # 表示定义的名称，用于于binding整合
           type: rabbit
@@ -25,13 +33,24 @@ spring:
                 virtual-host: /
       bindings:
         output:
-          destination: exchangeName
+          destination: ibaseUserExchange
           content-type: application/json
           binder: defaultRabbit
         input:
-          destination: exchangeName
+          destination: ibaseUserExchange
           content-type: application/json
           binder: defaultRabbit
+
+        outputUser:
+          destination: ibaseUserExchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: ibaseUserGroup
+        inputUser:
+          destination: ibaseUserExchange
+          content-type: application/json
+          binder: defaultRabbit
+          group: ibaseUserGroup
 iauth-client:
   url: 127.0.0.1:8020
 ibase-client:
