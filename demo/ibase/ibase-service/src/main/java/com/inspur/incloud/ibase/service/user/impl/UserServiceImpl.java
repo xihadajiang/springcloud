@@ -32,7 +32,7 @@ public class UserServiceImpl implements IUserService {
 	private UserDao userDao;
 	@Autowired
 	private TokensApi tokensApi;
-//	@Autowired
+	@Autowired
     private IMessageProvider messageProvider;
 	
 	@Transactional(rollbackFor=Exception.class)
@@ -59,7 +59,7 @@ public class UserServiceImpl implements IUserService {
 			company.setAccount("11111");
 			company.setEmail("22222222222");
 			company.setId("333333333333");
-//			messageProvider.send(company );
+			messageProvider.send(company );
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();

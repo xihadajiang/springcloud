@@ -2,23 +2,25 @@ package com.inspur.incloud.ibase.rabbitmq.provider.impl;
 
 import javax.annotation.Resource;
 
-//import org.springframework.cloud.stream.annotation.EnableBinding;
-//import org.springframework.cloud.stream.messaging.Source;
-//import org.springframework.integration.support.MessageBuilder;
-//import org.springframework.messaging.MessageChannel;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.MessageChannel;
 
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.rabbitmq.provider.IMessageProvider;
 
-//@EnableBinding(Source.class)
-public class MessageProviderImpl {
+@EnableBinding(Source.class)
+public class MessageProviderImpl implements IMessageProvider{
 	
-//	@Resource
-//	private MessageChannel output;
+	@Resource
+	private MessageChannel output;
 
+	@Override
 	public void send(UserApiModel userInfo) {
 		
-//		output.send(MessageBuilder.withPayload(userInfo).build());
+		output.send(MessageBuilder.withPayload(userInfo).build());
 		
 	} 
 
