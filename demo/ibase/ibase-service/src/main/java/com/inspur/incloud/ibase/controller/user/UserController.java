@@ -45,7 +45,8 @@ public class UserController implements UserApi {
 	private MessageSource messageSource;
 	
 	@ResponseBody
-	public OperationResult<UserApiModel> queryUserById(String id) {
+	public OperationResult<UserApiModel> queryUserById(
+			@RequestParam(name = "id", required = true) String id) {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
@@ -84,8 +85,8 @@ public class UserController implements UserApi {
 	@ResponseBody
     public OperationResult<PageListBean<UserApiModel>> listUsers(
     		@RequestParam(name="name", required=false) String name,
-    		@RequestParam(name="pageSize", required=true, defaultValue = "10") Integer pageSize,
-    		@RequestParam(name="currentPage", required=true, defaultValue = "1") Integer currentPage) {
+    		@RequestParam(name="pageSize", required=false, defaultValue = "10") Integer pageSize,
+    		@RequestParam(name="currentPage", required=false, defaultValue = "1") Integer currentPage) {
     	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		OperationResult<PageListBean<UserApiModel>> result = new OperationResult<PageListBean<UserApiModel>>();
     	PageBean page = new PageBean();
@@ -173,7 +174,7 @@ public class UserController implements UserApi {
 	}
 	
 	@ResponseBody
-	public OperationResult<UserApiModel> delete(@PathVariable String userId){
+	public OperationResult<UserApiModel> delete(@PathVariable(name = "userId") String userId){
 		logger.debug("begin to delete user with userId: " + userId);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
@@ -205,7 +206,7 @@ public class UserController implements UserApi {
 	}
 	
 	@ResponseBody
-	public OperationResult<UserApiModel> update(@RequestBody User4Create user4Create, @PathVariable String userId){
+	public OperationResult<UserApiModel> update(@RequestBody User4Create user4Create, @PathVariable(name = "userId") String userId){
 		logger.debug("begin to update user with userId: " + userId);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();

@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 /**
  * The Class WebConfig.
  */
-@Configuration
-@ConditionalOnClass({ RestController.class })
+//@Configuration
+//@ConditionalOnClass({ RestController.class })
 public class WebConfig {
     @Bean
     public WebMvcRegistrations feignWebRegistrations() {
