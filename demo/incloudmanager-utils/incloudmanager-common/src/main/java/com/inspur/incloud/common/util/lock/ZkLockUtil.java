@@ -12,13 +12,13 @@ import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
 import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;
 
-import com.inspur.incloud.common.util.AsynSpringUtil;
+import com.inspur.incloud.common.util.SpringContextUtil;
 
 /**
  * The Class LockUtil.
  */
 public class ZkLockUtil {
-	private CuratorFramework client = (CuratorFramework)AsynSpringUtil.getBean("curatorZookeeperClient");
+	private CuratorFramework client = (CuratorFramework)SpringContextUtil.getBean("curatorZookeeperClient");
 	protected static final String LOCK_BASE_PATH = "/com/inspur/inCloudManager/locks/lock";
     /**
      * Instantiates a new lock util.

@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * The Class AsynSpringUtil.
  */
-public class AsynSpringUtil implements ApplicationContextAware {
+public class SpringContextUtil implements ApplicationContextAware {
 
     /** The application context. */
     private static ApplicationContext applicationContext = null;
