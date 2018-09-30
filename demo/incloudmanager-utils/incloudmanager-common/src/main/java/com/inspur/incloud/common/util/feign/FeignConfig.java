@@ -1,6 +1,9 @@
 package com.inspur.incloud.common.util.feign;
 
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,52 +26,60 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 @ConditionalOnClass({ Feign.class })
 public class FeignConfig implements RequestInterceptor {
-	
-    @Bean
-    public WebMvcRegistrations feignWebRegistrations() {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Bean
+	public WebMvcRegistrations feignWebRegistrations() {
 
-        return new WebMvcRegistrationsAdapter() {
-            @Override
-            public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
-                return new FeignRequestMappingHandlerMapping();
-            }
-        };
-    }
+		return new WebMvcRegistrationsAdapter() {
+			@Override
+			public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+				return new FeignRequestMappingHandlerMapping();
+			}
+		};
+	}
 
-    private static class FeignRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
-        @Override
-        protected boolean isHandler(Class<?> beanType) {
-            return super.isHandler(beanType) && !beanType.isInterface();
-        }
-    }
-    
+	private static class FeignRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
+		@Override
+		protected boolean isHandler(Class<?> beanType) {
+			return super.isHandler(beanType) && !beanType.isInterface();
+		}
+	}
+
+	private boolean containsIgnoreCaseKey(Set<String> set, String key) {
+		for(String keySet :set) {
+			if(keySet.equalsIgnoreCase(key)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public void apply(RequestTemplate requestTemplate) {
-		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes();
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 		Enumeration<String> headerNames = request.getHeaderNames();
+		Map<String, Collection<String>> rtHeaderMap = requestTemplate.headers();
+		Set<String> rtHeaderKeySet = rtHeaderMap.keySet();
 		if (headerNames != null) {
 			while (headerNames.hasMoreElements()) {
 				String name = headerNames.nextElement();
 				String values = request.getHeader(name);
-				if (null != requestTemplate.headers() &&  requestTemplate.headers().containsKey(name)){
-					continue;
+				if (null != rtHeaderMap) {
+					if (containsIgnoreCaseKey(rtHeaderKeySet, name)) {
+						continue;
+					}
 				}
 				requestTemplate.header(name, values);
 			}
 		}
-		/*Enumeration<String> bodyNames = request.getParameterNames();
-		StringBuffer body = new StringBuffer();
-		if (bodyNames != null) {
-			while (bodyNames.hasMoreElements()) {
-				String name = bodyNames.nextElement();
-				String values = request.getParameter(name);
-				body.append(name).append("=").append(values).append("&");
-			}
-		}
-		if (body.length() != 0) {
-			body.deleteCharAt(body.length() - 1);
-			requestTemplate.body(body.toString());
-		}*/
+		logger.debug("FeignClient Headers:"+rtHeaderMap.toString());
+		/*
+		 * Enumeration<String> bodyNames = request.getParameterNames(); StringBuffer
+		 * body = new StringBuffer(); if (bodyNames != null) { while
+		 * (bodyNames.hasMoreElements()) { String name = bodyNames.nextElement(); String
+		 * values = request.getParameter(name);
+		 * body.append(name).append("=").append(values).append("&"); } } if
+		 * (body.length() != 0) { body.deleteCharAt(body.length() - 1);
+		 * requestTemplate.body(body.toString()); }
+		 */
 	}
 }
