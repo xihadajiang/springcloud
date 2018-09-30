@@ -2,7 +2,7 @@ package com.inspur.incloud.ibase.client.operatelog;
 
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Repository("operateLogApi")
+@Service("operateLogApi")
 @FeignClient(name = "ibase-service", url = "${ibase-client.url}" )
 @RequestMapping(value = "/v1/operatelog")
 @Api(tags = "操作日志接口")

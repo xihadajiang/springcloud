@@ -1,7 +1,7 @@
 package com.inspur.incloud.iauth.client.tokens;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @FeignClient(name = "iauth-service", url = "${iauth-client.url}")
-@Repository("tokensApi")
+@Service("tokensApi")
 @RequestMapping(value = "/v1")
 @Api(tags = "认证接口")
 public interface TokensApi {
