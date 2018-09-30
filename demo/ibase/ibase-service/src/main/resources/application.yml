@@ -12,17 +12,8 @@ spring:
     password: 123456
   cloud:
     stream:
-      rabbit:
-        bindings:
-          outputUser:
-            producer:
-              routing-key-expression: '''ibase-user''' # 生产者消息投递的 routing key
-          inputUser:
-            consumer:
-              bindingRoutingKey: ibase-user # 生成消息队列的routing key
       binders:
         defaultRabbit: # 表示定义的名称，用于于binding整合
-          type: rabbit
           environment:
             spring:
               rabbitmq:
@@ -30,17 +21,6 @@ spring:
                 port: 5672
                 username: guest
                 password: guest
-                virtual-host: /
-      bindings:
-        outputUser:
-          destination: ibaseUserExchange # 消息发送目的exchange名称
-          content-type: application/json
-          binder: defaultRabbit
-        inputUser:
-          destination: ibaseUserExchange # 消息获取目的exchange名称
-          content-type: application/json
-          binder: defaultRabbit
-          group: ibaseUserQueue # 持久化消息队列，名称为ibaseUserExchange。ibaseUserQueue
 iauth-client:
   url: 127.0.0.1:8020
 ibase-client:

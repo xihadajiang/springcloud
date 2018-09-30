@@ -36,6 +36,7 @@ public class TokensController implements TokensApi{
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		logger.info("X-Auth-Token:" + token);
 		logger.info("X-Auth-Keep-Alive:" + keepAlive);
+		
 		if(!token.equals(request.getHeader("X-Auth-Token"))) {
 			logger.error("*********************************");
 			logger.info("X-Auth-Token:" + token);

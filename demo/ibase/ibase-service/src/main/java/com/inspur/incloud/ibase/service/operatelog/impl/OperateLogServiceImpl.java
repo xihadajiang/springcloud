@@ -14,7 +14,7 @@ import com.inspur.incloud.ibase.dao.operatelog.OperateLogDao;
 import com.inspur.incloud.ibase.dao.operatelog.model.OperateLogModel;
 import com.inspur.incloud.ibase.service.operatelog.IOperateLogService;
 
-@Service
+@Service("operateLogService")
 @Transactional()
 public class OperateLogServiceImpl implements IOperateLogService {
 	

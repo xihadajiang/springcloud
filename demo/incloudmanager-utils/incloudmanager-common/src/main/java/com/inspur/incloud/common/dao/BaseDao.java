@@ -20,6 +20,8 @@ public interface BaseDao<T> {
     public void saveOrUpdate(T o);
 
     public void update(T o);
+    
+    public T get(Class<T> model, String id);
 
     public List<T> getByHQL(boolean withCache, String hql, Map<String, Object> params);
 

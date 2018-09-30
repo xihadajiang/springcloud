@@ -18,7 +18,9 @@
 		<relativePath>../incloudmanager-parent/pom.xml</relativePath>
 	</parent>
 
-
+    <properties>
+        <skip_maven_docker>false</skip_maven_docker>
+    </properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

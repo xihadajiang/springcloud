@@ -1,14 +1,12 @@
 package com.inspur.incloud.ibase.client.user;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.model.PageListBean;
@@ -23,7 +21,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Repository("userApi")
+@Service("userApi")
 @FeignClient(name = "ibase-service", url = "${ibase-client.url}" )
 @RequestMapping(value = "/v1/user")
 @Api(tags = "用户接口")

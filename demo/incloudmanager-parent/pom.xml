@@ -27,6 +27,7 @@
 	</distributionManagement>
 
 	<properties>
+        <skip_maven_docker>true</skip_maven_docker>
         <docker.image.prefix>incloudos-docker</docker.image.prefix>
         
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -126,8 +127,9 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.13</version>
                 <configuration>
+                    <skipDockerBuild>${skip_maven_docker}</skipDockerBuild>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                      <resources>
                         <resource>
                            <targetPath>/</targetPath>

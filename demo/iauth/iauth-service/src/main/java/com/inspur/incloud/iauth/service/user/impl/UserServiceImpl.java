@@ -11,7 +11,7 @@ import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.iauth.dao.user.UserDao;
 import com.inspur.incloud.iauth.dao.user.model.UserModel;
 import com.inspur.incloud.iauth.service.user.IUserService;
-@Service
+@Service("userService")
 public class UserServiceImpl implements IUserService {
 	
 	private Logger logger =  LoggerFactory.getLogger(this.getClass());

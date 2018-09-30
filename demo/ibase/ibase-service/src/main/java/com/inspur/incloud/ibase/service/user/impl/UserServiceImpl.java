@@ -15,22 +15,19 @@ import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
-import com.inspur.incloud.iauth.client.tokens.TokensApi;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
 import com.inspur.incloud.ibase.rabbitmq.user.IUserMessageProvider;
 import com.inspur.incloud.ibase.service.user.IUserService;
-@Service
+@Service("userService")
 public class UserServiceImpl implements IUserService {
 	
 	private Logger logger =  LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private TokensApi tokensApi;
 	@Autowired
     private IUserMessageProvider messageProvider;
 	
