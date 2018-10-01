@@ -1,7 +1,8 @@
 logging:
   config: classpath:logback-spring.xml
   level.root: info
-  file: logs/${spring.application.name}.log
+  path: logs
+  file: ${spring.application.name}.log
 flyway:
   enabled: true
   checkLocation: true
