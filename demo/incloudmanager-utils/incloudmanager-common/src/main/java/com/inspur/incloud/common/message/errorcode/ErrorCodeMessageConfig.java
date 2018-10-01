@@ -21,12 +21,12 @@ public class ErrorCodeMessageConfig {
 		return encoding;
 	}
 
-	@Value("${spring.errorcode.messages.basename}")
+	@Value("${spring.errorcode.messages.basename:'i18n/messages/errorcode/ibase_errorcode_message'}")
 	public void setBasename(String basename) {
 		ErrorCodeMessageConfig.basename = basename;
 	}
 
-	@Value("${spring.errorcode.messages.encoding}")
+	@Value("${spring.errorcode.messages.encoding:'UTF-8'}")
 	public void setEncoding(String encoding) {
 		ErrorCodeMessageConfig.encoding = encoding;
 	}

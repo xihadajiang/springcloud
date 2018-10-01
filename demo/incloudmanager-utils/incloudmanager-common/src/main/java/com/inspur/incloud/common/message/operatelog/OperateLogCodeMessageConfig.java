@@ -21,12 +21,12 @@ public class OperateLogCodeMessageConfig {
 		return encoding;
 	}
 
-	@Value("${spring.errorcode.messages.basename}")
+	@Value("${spring.errorcode.messages.basename:'i18n/messages/operatelogcode/ibase_operate_message'}")
 	public void setBasename(String basename) {
 		OperateLogCodeMessageConfig.basename = basename;
 	}
 
-	@Value("${spring.errorcode.messages.encoding}")
+	@Value("${spring.errorcode.messages.encoding:'UTF-8'}")
 	public void setEncoding(String encoding) {
 		OperateLogCodeMessageConfig.encoding = encoding;
 	}
