@@ -30,10 +30,10 @@
 
 ### 示例说明
 ```
-    1、网关中心：http://127.0.0.1:7979
-    2、网关中心--API文档：http://10.7.12.222:7979/swagger-ui.html
-    3、iauth：http://127.0.0.1:8020
-       token校验api curl -i -H "X-Auth-Token: qqq" http://127.0.0.1:8020/v1/auth/tokens
-       网关调用     curl -i -H "X-Auth-Token: qqq" http://127.0.0.1:7979/iauth/v1/auth/tokens
-    4、ibase：http://127.0.0.1:8030
-       网关地址：http://127.0.0.1:7979/ibase
+    1、网关中心：http://10.7.12.126:7979
+    2、网关中心--API文档：http://10.7.12.126:7979/swagger-ui.html
+    3、iauth：http://10.7.12.126:8020
+       token校验api curl -i -H "X-Auth-Token: qqq" http://10.7.12.126:8020/v1/auth/tokens
+       网关调用     curl -i -H "X-Auth-Token: qqq" http://10.7.12.126:7979/iauth/v1/auth/tokens
+    4、ibase：http://10.7.12.126:8030
+       网关地址：http://10.7.12.126:7979/ibase
