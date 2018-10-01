@@ -71,7 +71,7 @@ public class UserController implements UserApi {
     	} catch (CloudBusinessException e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), null, lang);
+    		String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), e.getParamList(), lang);
     		result.setErrMessage(message);
     		result.setErrCode(e.getMsgCode());
     		return result;

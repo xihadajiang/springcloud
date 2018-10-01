@@ -39,8 +39,8 @@ public class UserServiceImpl implements IUserService {
 		} catch (CloudDBException e) {
 			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
-			args.add("test");
-			throw new CloudBusinessException("IBASE_ADD_USER_EXCEPTION", args);
+			args.add(user.getName());
+			throw new CloudBusinessException("IBASE_ADD_USER_PARAM_ERROR", args);
 		}
 		
 		
@@ -56,8 +56,8 @@ public class UserServiceImpl implements IUserService {
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
-			args.add("test");
-			throw new CloudBusinessException("IBASE_QUERY_USER_BY_ID_EXCEPTION", args);
+			args.add(id);
+			throw new CloudBusinessException("IBASE_QUERY_USER_BY_ID_DB_ERROR", args);
 		}
 		
 	}
@@ -68,15 +68,10 @@ public class UserServiceImpl implements IUserService {
 		PageListBean<UserModel> result = null;
 		try {
 			result = userDao.listUsers(condition, page);
-			if (null == result || result.getTotal() == 0) {
-				List<String> args = new ArrayList<String>();
-				args.add("test");
-				throw new CloudBusinessException("IBASE_QUERY_USER_LIST_EXCEPTION", args);
-			}
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_EXCEPTION", args);
+			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_DB_ERROR", args);
 		}
 		
 		return result;
@@ -87,8 +82,8 @@ public class UserServiceImpl implements IUserService {
 			UserModel user= userDao.queryUserById(userId);
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
-				args.add("test");
-				throw new CloudBusinessException("IBASE_DELETE_USER_EXCEPTION", args);
+				args.add(userId);
+				throw new CloudBusinessException("IBASE_USER_NOT_FOUND_ERROR", args);
 			}
 			userDao.deletUser(user);
 		} catch(CloudDBException e) {
@@ -106,8 +101,8 @@ public class UserServiceImpl implements IUserService {
 			UserModel user= userDao.queryUserById(userId);
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
-				args.add("test");
-				throw new CloudBusinessException("IBASE_UPDATE_USER_EXCEPTION", args);
+				args.add(userId);
+				throw new CloudBusinessException("IBASE_USER_NOT_FOUND_ERROR", args);
 			}
 			user.setAccount(user4Create.getAccount());
 			user.setEmail(user4Create.getEmail());

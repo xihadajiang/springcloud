@@ -53,6 +53,7 @@ public class DefaultRestErrorResolver {
     
     private OperationResult buildError(HttpServletRequest request, Exception excep) {
         OperationResult result = new OperationResult();
+        String lang = request.getHeader("lang");
         try {
             if (TypeMismatchException.class.isAssignableFrom(excep.getClass())) {
                 result.setErrCode(String.valueOf(ERROR_SPRING_TYPE_MISMATCH));
@@ -64,10 +65,13 @@ public class DefaultRestErrorResolver {
                     root = exception.getRootCause();
                 }
                 LOG.debug(root.getMessage());
-                String message = root.getMessage().split("\n")[0];
-                result.setResData(null);
-                result.setErrMessageEn("interface type miss matched");
-                result.setErrMessageZh("接口类型不匹配");
+                if ("en_US".equals(lang)) {
+                	result.setErrMessage("interface type miss matched");
+                } else {
+                	result.setErrMessage("接口类型不匹配");
+                }
+                
+                
             } else if (org.springframework.web.HttpRequestMethodNotSupportedException.class.isAssignableFrom(
                     excep.getClass())) {
                 result.setErrCode(String.valueOf(ERROR_SPRING_TYPE_MISMATCH));
@@ -79,10 +83,11 @@ public class DefaultRestErrorResolver {
                     root = exception.getRootCause();
                 }
                 LOG.debug(root.getMessage());
-                String message = root.getMessage().split("\n")[0];
-                result.setResData(null);
-                result.setErrMessageEn("interface type miss matched");
-                result.setErrMessageZh("接口类型不匹配");
+                if ("en_US".equals(lang)) {
+                	result.setErrMessage("interface type miss matched");
+                } else {
+                	result.setErrMessage("接口类型不匹配");
+                }
             } else if (org.springframework.web.bind.MissingServletRequestParameterException.class.isAssignableFrom(
                     excep.getClass())) {
                 result.setErrCode(String.valueOf(ERROR_SPRING_TYPE_MISMATCH));
@@ -94,9 +99,11 @@ public class DefaultRestErrorResolver {
                     root = exception.getRootCause();
                 }
                 LOG.debug(root.getMessage());
-                result.setResData(null);
-                result.setErrMessageEn("interface type miss matched");
-                result.setErrMessageZh("接口类型不匹配");
+                if ("en_US".equals(lang)) {
+                	result.setErrMessage("interface type miss matched");
+                } else {
+                	result.setErrMessage("接口类型不匹配");
+                }
             } else if (org.springframework.http.converter.HttpMessageNotReadableException.class.isAssignableFrom(
                     excep.getClass())) {
                 result.setErrCode(String.valueOf(ERROR_SPRING_TYPE_MISMATCH));
@@ -108,18 +115,21 @@ public class DefaultRestErrorResolver {
                     root = exception.getRootCause();
                 }
                 LOG.debug(root.getMessage());
-                result.setResData(null);
-                result.setErrMessageEn("interface type miss matched");
-                result.setErrMessageZh("接口类型不匹配");
+                if ("en_US".equals(lang)) {
+                	result.setErrMessage("interface type miss matched");
+                } else {
+                	result.setErrMessage("接口类型不匹配");
+                }
             } else {
                 Exception exception = (Exception) excep;
                 LOG.debug("处理用户请求中出现异常：" + exception.getMessage());
                 LOG.error("请求出现的异常：" + excep.getClass(), excep);
                 result.setErrCode(String.valueOf(ERROR_SPRING_UNKNOW));
-                result.setResData(null);
-                result.setResData(null);
-                result.setErrMessageEn("unknown error");
-                result.setErrMessageZh("未知异常");
+                if ("en_US".equals(lang)) {
+                	result.setErrMessage("unknown error");
+                } else {
+                	result.setErrMessage("未知异常");
+                }
             }
         } catch (Exception e) {
             LOG.error("公共异常所在的模块：" + request.getContextPath(), e);
