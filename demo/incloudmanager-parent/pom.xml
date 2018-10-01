@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.inspur.incloudmanager</groupId>
 	<artifactId>incloudmanager-parent</artifactId>
 	<version>6.0-1-SNAPSHOT</version>
@@ -27,17 +27,17 @@
 	</distributionManagement>
 
 	<properties>
-        <skip_maven_docker>true</skip_maven_docker>
-        <docker.image.prefix>incloudos-docker</docker.image.prefix>
-        
+		<skip_maven_docker>true</skip_maven_docker>
+		<docker.image.prefix>incloudos-docker</docker.image.prefix>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Edgware.SR4</spring-cloud.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Edgware.SR4</spring-cloud.version>
 		<log4j.leve>debug</log4j.leve>
 		<log4j.ale>debug</log4j.ale>
-        
-		<!-- common projects  -->
+
+		<!-- common projects -->
 		<incloudmanager-common.version>6.0-1-SNAPSHOT</incloudmanager-common.version>
 		<incloudmanager-filter.version>6.0-1-SNAPSHOT</incloudmanager-filter.version>
 		<incloudmanager-shell.version>6.0-1-SNAPSHOT</incloudmanager-shell.version>
@@ -81,14 +81,14 @@
 				<artifactId>incloudmanager-filter</artifactId>
 				<version>${incloudmanager-filter.version}</version>
 			</dependency>
-		
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Edgware.SR4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Edgware.SR4</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- swager api doc Begin -->
 			<dependency>
 				<groupId>io.springfox</groupId>
@@ -109,49 +109,65 @@
 			</dependency>
 			<!-- 数据库初始化 End -->
 			<dependency>
-			    <groupId>com.inspur.incloudmanager</groupId>
-			    <artifactId>iauth-client</artifactId>
-			    <version>${iauth-client.version}</version>
-		    </dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>iauth-client</artifactId>
+				<version>${iauth-client.version}</version>
+			</dependency>
+			<!-- zookeeper Begin -->
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>2.12.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-recipes</artifactId>
+				<version>2.12.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-client</artifactId>
+				<version>2.12.0</version>
+			</dependency>
+			<!-- zookeeper End -->
 		</dependencies>
-		
 	</dependencyManagement>
 
 	<build>
-		
-        <finalName>${project.artifactId}-${project.version}</finalName>
-        <plugins>
-            
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.13</version>
-                <configuration>
-                    <skipDockerBuild>${skip_maven_docker}</skipDockerBuild>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                     <resources>
-                        <resource>
-                           <targetPath>/</targetPath>
-                           <directory>${project.build.directory}</directory>
-                           <include>${project.build.finalName}.tar</include>
-                         </resource>
-                     </resources>
-                    <buildArgs>
-                        <ZIP_FILE>${project.build.finalName}.tar</ZIP_FILE>
-                    </buildArgs>
-                </configuration>
-            </plugin>
-        </plugins>
+
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<plugins>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<skipDockerBuild>${skip_maven_docker}</skipDockerBuild>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.tar</include>
+						</resource>
+					</resources>
+					<buildArgs>
+						<ZIP_FILE>${project.build.finalName}.tar</ZIP_FILE>
+					</buildArgs>
+				</configuration>
+			</plugin>
+		</plugins>
 
 	</build>
 
- 	<modules> 
-         <module>../incloudmanager-api-gateway</module>
+	<modules>
+		<module>../incloudmanager-api-gateway</module>
 		<module>../incloudmanager-utils</module>
-		<module>../ibase</module> 
-		<module>../iauth</module> 
+		<module>../ibase</module>
+		<module>../iauth</module>
 
-	</modules> 
+	</modules>
 
 </project>
