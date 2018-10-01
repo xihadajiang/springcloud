@@ -54,6 +54,7 @@ public class UserController implements UserApi {
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
+		String lang = request.getHeader("lang");
 		try {
 			UserApiModel apiModel = new UserApiModel();
 			UserModel user = iUserService.queryUserById(userId, userSession);
@@ -66,25 +67,19 @@ public class UserController implements UserApi {
 	    	}
 	    	result.setResData(apiModel);
 	    	result.setFlag(true);
-	    	String successEn  = ErrorCodeMessageUtil.getMessage("SUCCESS", null, "en_US");
-    		result.setErrMessageEn(successEn);
-    		String successZh  = ErrorCodeMessageUtil.getMessage("SUCCESS", null, "zh_CN");
-    		result.setErrMessageZh(successZh);
     		return result;
     	} catch (CloudBusinessException e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+    		String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), null, lang);
+    		result.setErrMessage(message);
+    		result.setErrCode(e.getMsgCode());
     		return result;
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+    		String message  = ErrorCodeMessageUtil.getMessage("QUERY_USER_BY_ID_EXCEPTION", null, lang);
+    		result.setErrCode("QUERY_USER_BY_ID_EXCEPTION");
+    		result.setErrMessage(message);
     		return result;
     	}
     }
@@ -95,6 +90,7 @@ public class UserController implements UserApi {
     		@RequestParam(name="pageSize", required=false, defaultValue = "10") Integer pageSize,
     		@RequestParam(name="currentPage", required=false, defaultValue = "1") Integer currentPage) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		String lang = request.getHeader("lang");
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
@@ -126,18 +122,16 @@ public class UserController implements UserApi {
     	} catch (CloudBusinessException e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+    		String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), e.getParamList(), lang);
+    		result.setErrMessage(message);
+    		result.setErrCode(e.getMsgCode());
     		return result;
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+    		String message  = ErrorCodeMessageUtil.getMessage("QUERY_USER_LIST_EXCEPTION", null, lang);
+    		result.setErrCode("QUERY_USER_LIST_EXCEPTION");
+    		result.setErrMessage(message);
     		return result;
     	}
     	
@@ -149,6 +143,7 @@ public class UserController implements UserApi {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
+		String lang = request.getHeader("lang");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
@@ -171,18 +166,16 @@ public class UserController implements UserApi {
 			result.setFlag(true);
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+			String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), e.getParamList(), lang);
+    		result.setErrMessage(message);
+    		result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
 			return result;
 		} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+    		String message  = ErrorCodeMessageUtil.getMessage("ADD_USER_EXCEPTION", null, lang);
+    		result.setErrCode("ADD_USER_EXCEPTION");
+    		result.setErrMessage(message);
     		result.setFlag(false);
     		return result;
     	}
@@ -194,6 +187,7 @@ public class UserController implements UserApi {
 		logger.debug("begin to delete user with userId: " + userId);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
+		String lang = request.getHeader("lang");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
@@ -206,20 +200,16 @@ public class UserController implements UserApi {
 			return result;
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
-			result.setErrCode(e.getMsgCode());
+			String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), e.getParamList(), lang);
+    		result.setErrMessage(message);
+    		result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
 			return result;
 		}  catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result.setErrCode("10000001");
-			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+			String message  = ErrorCodeMessageUtil.getMessage("DELETE_USER_EXCEPTION", null, lang);
+    		result.setErrCode("DELETE_USER_EXCEPTION");
+    		result.setErrMessage(message);
     		result.setFlag(false);
 			return result;
 		}
@@ -230,6 +220,7 @@ public class UserController implements UserApi {
 		logger.debug("begin to update user with userId: " + userId);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
+		String lang = request.getHeader("lang");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
@@ -242,19 +233,16 @@ public class UserController implements UserApi {
 			return result;
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
-			result.setErrCode(e.getMsgCode());
+			String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), e.getParamList(), lang);
+    		result.setErrMessage(message);
+    		result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
 			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
-    		result.setErrMessageEn(errorEn);
-    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
-    		result.setErrMessageZh(errorZh);
+			String message  = ErrorCodeMessageUtil.getMessage("UPDATE_USER_EXCEPTION", null, lang);
+    		result.setErrCode("UPDATE_USER_EXCEPTION");
+    		result.setErrMessage(message);
     		result.setFlag(false);
 			return result;
 		}

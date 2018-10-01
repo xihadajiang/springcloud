@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Service("operateLogApi")
 @FeignClient(name = "ibase-service", url = "${ibase-client.url}" )
-@RequestMapping(value = "/v1/operatelog")
+@RequestMapping(value = "/v1")
 @Api(tags = "操作日志接口")
 public interface OperateLogApi{
 	
@@ -25,6 +25,6 @@ public interface OperateLogApi{
 	@ApiResponses({
 		@ApiResponse(code = 10001, message = "这里写错误信息."),
 	})
-	@RequestMapping(value = "/action/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/logs", method = RequestMethod.POST)
 	String addOperateLog(@ApiParam @RequestBody LogInfo logInfo);
 }

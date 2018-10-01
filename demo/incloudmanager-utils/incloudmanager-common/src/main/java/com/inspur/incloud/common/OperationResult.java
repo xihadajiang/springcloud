@@ -8,9 +8,7 @@ public class OperationResult<T> implements java.io.Serializable {
 	
 	private String errCode;
 	
-	private String errMessageZh;
-	
-	private String errMessageEn;
+	private String errMessage;
 	
 	private T resData;
 
@@ -30,28 +28,20 @@ public class OperationResult<T> implements java.io.Serializable {
 		this.errCode = errCode;
 	}
 
-	public String getErrMessageZh() {
-		return errMessageZh;
-	}
-
-	public void setErrMessageZh(String errMessageZh) {
-		this.errMessageZh = errMessageZh;
-	}
-
-	public String getErrMessageEn() {
-		return errMessageEn;
-	}
-
-	public void setErrMessageEn(String errMessageEn) {
-		this.errMessageEn = errMessageEn;
-	}
-
 	public T getResData() {
 		return resData;
 	}
 
 	public void setResData(T resData) {
 		this.resData = resData;
+	}
+
+	public String getErrMessage() {
+		return errMessage;
+	}
+
+	public void setErrMessage(String errMessage) {
+		this.errMessage = errMessage;
 	}
 
 }

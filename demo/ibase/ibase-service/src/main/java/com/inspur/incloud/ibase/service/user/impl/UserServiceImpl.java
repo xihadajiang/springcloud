@@ -40,7 +40,7 @@ public class UserServiceImpl implements IUserService {
 			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000002", args);
+			throw new CloudBusinessException("IBASE_ADD_USER_EXCEPTION", args);
 		}
 		
 		
@@ -57,7 +57,7 @@ public class UserServiceImpl implements IUserService {
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000002", args);
+			throw new CloudBusinessException("IBASE_QUERY_USER_BY_ID_EXCEPTION", args);
 		}
 		
 	}
@@ -71,12 +71,12 @@ public class UserServiceImpl implements IUserService {
 			if (null == result || result.getTotal() == 0) {
 				List<String> args = new ArrayList<String>();
 				args.add("test");
-				throw new CloudBusinessException("00000002", args);
+				throw new CloudBusinessException("IBASE_QUERY_USER_LIST_EXCEPTION", args);
 			}
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000002", args);
+			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_EXCEPTION", args);
 		}
 		
 		return result;
@@ -88,13 +88,13 @@ public class UserServiceImpl implements IUserService {
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
 				args.add("test");
-				throw new CloudBusinessException("00000003", args);
+				throw new CloudBusinessException("IBASE_DELETE_USER_EXCEPTION", args);
 			}
 			userDao.deletUser(user);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000002", args);
+			throw new CloudBusinessException("IBASE_DELETE_USER_EXCEPTION", args);
 		}
 		
 		
@@ -107,7 +107,7 @@ public class UserServiceImpl implements IUserService {
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
 				args.add("test");
-				throw new CloudBusinessException("00000003", args);
+				throw new CloudBusinessException("IBASE_UPDATE_USER_EXCEPTION", args);
 			}
 			user.setAccount(user4Create.getAccount());
 			user.setEmail(user4Create.getEmail());
@@ -116,7 +116,7 @@ public class UserServiceImpl implements IUserService {
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");
-			throw new CloudBusinessException("00000002", args);
+			throw new CloudBusinessException("IBASE_UPDATE_USER_EXCEPTION", args);
 		}
 		
 		

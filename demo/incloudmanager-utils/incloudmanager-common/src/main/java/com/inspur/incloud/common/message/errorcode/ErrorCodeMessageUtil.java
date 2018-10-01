@@ -24,10 +24,8 @@ public class ErrorCodeMessageUtil {
 		Locale locale = null;
 		if ("en_US".equals(lang)) {
 			locale = Locale.US;
-		} else if ("zh_CN".equals(lang)) {
-			locale = Locale.SIMPLIFIED_CHINESE;
 		} else {
-			locale = Locale.getDefault();
+			locale = Locale.SIMPLIFIED_CHINESE;
 		}
 		String result = null;
 		try {
