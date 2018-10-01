@@ -3,7 +3,6 @@ package com.inspur.incloud.ibase.controller.user;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -47,19 +46,17 @@ public class UserController implements UserApi {
 	
 	@ResponseBody
 	public OperationResult<UserApiModel> queryUserById(
-			@RequestParam(name = "id", required = true) String id) {
+			@PathVariable(name = "userId", required = true) String userId) {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
-		String lxg  = ErrorCodeMessageUtil.getMessage("lxg", null, "zh_CN");
-		logger.error("#########################" + lxg);
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
 		try {
 			UserApiModel apiModel = new UserApiModel();
-			UserModel user = iUserService.queryUserById(id, userSession);
+			UserModel user = iUserService.queryUserById(userId, userSession);
 	    	if (null != user) {
 	    		apiModel.setAccount(user.getAccount());
 	    		apiModel.setName(user.getName());
@@ -69,20 +66,25 @@ public class UserController implements UserApi {
 	    	}
 	    	result.setResData(apiModel);
 	    	result.setFlag(true);
-	    	return result;
+	    	String successEn  = ErrorCodeMessageUtil.getMessage("SUCCESS", null, "en_US");
+    		result.setErrMessageEn(successEn);
+    		String successZh  = ErrorCodeMessageUtil.getMessage("SUCCESS", null, "zh_CN");
+    		result.setErrMessageZh(successZh);
+    		return result;
     	} catch (CloudBusinessException e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		Locale lang = Locale.US;
-    		String test = messageSource.getMessage("lxg", e.getParamList().toArray(), lang);
-    		result.setErrMessageEn(test);
+    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		return result;
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		result.setFlag(false);
-    		Locale lang = Locale.US;
-    		String test = messageSource.getMessage("lxg",null, lang);
-    		result.setErrMessageEn(test);
+    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		return result;
     	}
     }
@@ -124,16 +126,18 @@ public class UserController implements UserApi {
     	} catch (CloudBusinessException e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		Locale lang = Locale.US;
-    		String test = messageSource.getMessage("lxg", e.getParamList().toArray(), lang);
-    		result.setErrMessageEn(test);
+    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		return result;
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		Locale lang = Locale.US;
-    		String test = messageSource.getMessage("lxg",null, lang);
-    		result.setErrMessageEn(test);
+    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		return result;
     	}
     	
@@ -167,19 +171,18 @@ public class UserController implements UserApi {
 			result.setFlag(true);
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			Locale langEn = Locale.US;
-			Locale langZh = Locale.CHINESE;
-			String messageEn = messageSource.getMessage("lxg", e.getParamList().toArray(), langEn);
-			String messageZh = messageSource.getMessage("lxg", e.getParamList().toArray(), langZh);
-			result.setErrMessageEn(messageEn);
-			result.setErrMessageZh(messageZh);
+			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
 			result.setFlag(false);
 			return result;
 		} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		result.setErrCode("10000001");
-    		result.setErrMessageZh("新增用户异常");
-    		result.setErrMessageEn("add user exception");
+    		String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		result.setFlag(false);
     		return result;
     	}
@@ -203,20 +206,20 @@ public class UserController implements UserApi {
 			return result;
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			Locale langEn = Locale.US;
-			Locale langZh = Locale.CHINESE;
-			String messageEn = messageSource.getMessage("lxg", e.getParamList().toArray(), langEn);
-			String messageZh = messageSource.getMessage("lxg", e.getParamList().toArray(), langZh);
-			result.setErrMessageEn(messageEn);
-			result.setErrMessageZh(messageZh);
+			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
 			result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
 			return result;
 		}  catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			result.setErrCode("10000001");
-    		result.setErrMessageZh("删除用户异常");
-    		result.setErrMessageEn("delete user exception");
+			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		result.setFlag(false);
 			return result;
 		}
@@ -239,20 +242,19 @@ public class UserController implements UserApi {
 			return result;
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
-			Locale langEn = Locale.US;
-			Locale langZh = Locale.CHINESE;
-			String messageEn = messageSource.getMessage("lxg", e.getParamList().toArray(), langEn);
-			String messageZh = messageSource.getMessage("lxg", e.getParamList().toArray(), langZh);
-			result.setErrMessageEn(messageEn);
-			result.setErrMessageZh(messageZh);
+			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
 			result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
 			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result.setErrCode("10000001");
-    		result.setErrMessageZh("更新用户异常");
-    		result.setErrMessageEn("update user exception");
+			String errorEn  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "en_US");
+    		result.setErrMessageEn(errorEn);
+    		String errorZh  = ErrorCodeMessageUtil.getMessage("EXCEPTION", null, "zh_CN");
+    		result.setErrMessageZh(errorZh);
     		result.setFlag(false);
 			return result;
 		}

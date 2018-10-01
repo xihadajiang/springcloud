@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Service("userApi")
 @FeignClient(name = "ibase-service", url = "${ibase-client.url}" )
-@RequestMapping(value = "/v1/user")
+@RequestMapping(value = "/v1")
 @Api(tags = "用户接口")
 public interface UserApi {
 	
@@ -32,10 +32,10 @@ public interface UserApi {
 			@ApiResponse(code = 10001, message = "用户不存在."),
 			@ApiResponse(code = 10002, message = "这里写错误信息.")})
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "id", paramType = "query", required = true, dataType = "String", value = "用户的ID")})
-	@RequestMapping(value = "/info", method= RequestMethod.GET)
+			@ApiImplicitParam(name = "userId", paramType = "query", required = true, dataType = "String", value = "用户的ID")})
+	@RequestMapping(value = "/users/{userId}", method= RequestMethod.GET)
 	OperationResult<UserApiModel> queryUserById(
-			@RequestParam(name = "id", required = true) String id);
+			@PathVariable(name = "id", required = true) String userId);
 	
 	
 	@ApiOperation(value = "查询用户列表", notes = "通过条件查询用户列表")
@@ -48,7 +48,7 @@ public interface UserApi {
 		@ApiImplicitParam(name = "pageSize", paramType = "query", required = false, defaultValue = "10", dataType = "Integer", value = "用户的ID"),
 		@ApiImplicitParam(name = "currentPage", paramType = "query", required = false, defaultValue = "1", dataType = "Integer", value = "用户的ID")
 	})
-	@RequestMapping(value = "/list", method= RequestMethod.GET)
+	@RequestMapping(value = "/users", method= RequestMethod.GET)
     OperationResult<PageListBean<UserApiModel>> listUsers(
     		@RequestParam(name="name", required=false) String name,
     		@RequestParam(name="pageSize", required=false, defaultValue = "10") Integer pageSize,
@@ -59,7 +59,7 @@ public interface UserApi {
 		@ApiResponse(code = 10001, message = "用户不存在."),
 		@ApiResponse(code = 10002, message = "这里写错误信息.")
 	})
-	@RequestMapping(value = "/action/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	OperationResult<UserApiModel> add(@ApiParam @RequestBody User4Create user4Create);
 	
 	@ApiOperation(value = "删除用户", notes = "删除用户信息")
@@ -70,7 +70,7 @@ public interface UserApi {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "userId", paramType = "path", required = true, dataType = "String", value = "用户ID")
 	})
-	@RequestMapping(value = "{userId}/action/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
 	OperationResult<UserApiModel> delete(@PathVariable(name = "userId") String userId);
 	
 	@ApiOperation(value = "更新用户", notes = "更新用户信息")
@@ -81,6 +81,6 @@ public interface UserApi {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "userId", paramType = "path", required = true, dataType = "String", value = "用户ID")
 	})
-	@RequestMapping(value = "{userId}/action/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
 	OperationResult<UserApiModel> update(@ApiParam @RequestBody User4Create user4Create,@PathVariable(name = "userId") String userId);
 }

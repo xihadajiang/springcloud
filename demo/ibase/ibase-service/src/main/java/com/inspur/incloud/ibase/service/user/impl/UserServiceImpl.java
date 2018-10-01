@@ -48,14 +48,11 @@ public class UserServiceImpl implements IUserService {
 
 	public UserModel queryUserById(String id, UserSession session) throws CloudBusinessException  {
 		try {
-			if(session != null) {
-				logger.error("++++++++++++" + session.getUserName());
-			}
 			UserApiModel company = new UserApiModel();
-			company.setAccount("11111");
-			company.setEmail("22222222222");
-			company.setId("333333333333");
-			messageProvider.send(company );
+			company.setAccount("userAccount");
+			company.setEmail("userEmail");
+			company.setId("userId");
+			messageProvider.send(company);
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
 			List<String> args = new ArrayList<String>();
