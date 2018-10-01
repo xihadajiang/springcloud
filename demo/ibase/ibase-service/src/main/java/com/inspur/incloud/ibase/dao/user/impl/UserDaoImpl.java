@@ -16,7 +16,7 @@ import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
 
 @Repository("userDao")
-public class UserDaoImpl extends BaseDaoImpl<UserModel> implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl<UserModel, String> implements UserDao {
 
 	public Serializable addUser(UserModel user) throws CloudDBException {
 		save(user);

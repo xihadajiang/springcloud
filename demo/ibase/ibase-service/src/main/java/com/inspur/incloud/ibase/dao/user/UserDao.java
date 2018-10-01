@@ -3,13 +3,13 @@ package com.inspur.incloud.ibase.dao.user;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.inspur.incloud.common.exception.CloudBusinessException;
+import com.inspur.incloud.common.dao.BaseDao;
 import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
 
-public interface UserDao {
+public interface UserDao extends BaseDao<UserModel, String> {
 	
 	Serializable addUser(UserModel user) throws CloudDBException ;
 
