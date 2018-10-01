@@ -44,4 +44,10 @@ public class OperationResult<T> implements java.io.Serializable {
 		this.errMessage = errMessage;
 	}
 
+	@Override
+	public String toString() {
+		return "OperationResult [flag=" + flag + ", errCode=" + errCode
+				+ ", errMessage=" + errMessage + ", resData=" + resData + "]";
+	}
+
 }

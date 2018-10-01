@@ -32,6 +32,7 @@ public class IncloudZuulFilter extends ZuulFilter {
 	public Object run() throws ZuulException {
 		RequestContext context = RequestContext.getCurrentContext();
 		HttpServletRequest request = context.getRequest();
+		String lang = request.getHeader("lang");
         String host = request.getRemoteHost();
         String url = request.getRequestURI();
         if(StringUtils.isNotEmpty(url) && url.contains("/v2/api-docs")) {
@@ -49,7 +50,7 @@ public class IncloudZuulFilter extends ZuulFilter {
         Logger.info("print the host ip: " + host);
         //验证token是否合法
         boolean isSuccess = true;
-        Integer code = 10000001;
+        Integer code = 200;
         String token = request.getHeader("X-Auth-Token");
         Logger.info("****************" + token);
         if(StringUtils.isEmpty(token)) {
@@ -64,7 +65,15 @@ public class IncloudZuulFilter extends ZuulFilter {
         	 context.setSendZuulResponse(false);
         	 context.getResponse().setContentType("text/html;charset=UTF-8");
         	 context.setResponseStatusCode(code);
-        	 context.setResponseBody(String.format("{\"result\":\"%s!\"}", "token is errorr"));
+        	 OperationResult opeResult = new OperationResult();
+        	 opeResult.setFlag(false);
+        	 opeResult.setErrCode("TOKEN_ILLEGAL");
+        	 if ("en_US".equals(lang)) {
+        		 opeResult.setErrMessage("token illegal");
+        	 } else {
+        		 opeResult.setErrMessage("token不合法");
+        	 }
+			context.setResponseBody(opeResult.toString());
         } else {
         	
         }
