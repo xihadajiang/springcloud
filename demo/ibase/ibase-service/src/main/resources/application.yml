@@ -2,7 +2,8 @@ server:
   port: 8030
 logging:
   level.root: info
-  file: logs/${spring.application.name}.log
+  path: logs
+  file: ${spring.application.name}.log
 spring:
   application:
     name: ibase-service
