@@ -10,6 +10,14 @@ spring:
     url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
+  errorcode:
+    messages:
+      basename: i18n/messages/errorcode/ibase_errorcode_message
+      encoding: UTF-8
+  operatelog:
+    messages:
+      basename: i18n/messages/operatelogcode/ibase_operate_message
+      encoding: UTF-8
   cloud:
     stream:
       binders:

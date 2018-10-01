@@ -24,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.exception.CloudBusinessException;
+import com.inspur.incloud.common.message.errorcode.ErrorCodeMessageUtil;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
 import com.inspur.incloud.common.UserSession;
@@ -32,7 +33,6 @@ import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.client.user.UserApi;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
 import com.inspur.incloud.ibase.service.user.IUserService;
-import com.inspur.incloud.ibase.service.user.impl.ErrorCodeMessage;
 
 @RestController
 public class UserController implements UserApi {
@@ -45,9 +45,6 @@ public class UserController implements UserApi {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@Autowired
-	private ErrorCodeMessage errorCodeMessage;
-	
 	@ResponseBody
 	public OperationResult<UserApiModel> queryUserById(
 			@RequestParam(name = "id", required = true) String id) {
@@ -55,8 +52,7 @@ public class UserController implements UserApi {
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
-		Locale locale = Locale.US;
-		String lxg  = errorCodeMessage.getMessage("lxg", null, locale);
+		String lxg  = ErrorCodeMessageUtil.getMessage("lxg", null, "zh_CN");
 		logger.error("#########################" + lxg);
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
