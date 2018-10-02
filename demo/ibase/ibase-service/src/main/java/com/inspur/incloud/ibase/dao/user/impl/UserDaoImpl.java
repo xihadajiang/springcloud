@@ -56,7 +56,7 @@ public class UserDaoImpl extends BaseDaoImpl<UserModel, String> implements UserD
 	}
 
 	public void deletUser(UserModel user) throws CloudDBException {
-		getHibernateTemplate().delete(user);
+		getHibernateTemplate().delete(getHibernateTemplate().merge(user));
 		
 	}
 	

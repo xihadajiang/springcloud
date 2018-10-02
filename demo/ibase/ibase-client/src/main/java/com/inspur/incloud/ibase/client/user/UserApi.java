@@ -29,8 +29,8 @@ public interface UserApi {
 	
 	@ApiOperation(value = "查询用户信息", notes = "通过用户ID查询用户信息")
 	@ApiResponses({
-			@ApiResponse(code = 10001, message = "用户不存在."),
-			@ApiResponse(code = 10002, message = "这里写错误信息.")})
+			@ApiResponse(code = 500, message = "IBASE_QUERY_USER_BY_ID_DB_ERROR:数据库错误."),
+			@ApiResponse(code = 500, message = "IBASE_QUERY_USER_BY_ID_EXCEPTION：用户查询错误.")})
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "userId", paramType = "query", required = true, dataType = "String", value = "用户的ID")})
 	@RequestMapping(value = "/users/{userId}", method= RequestMethod.GET)
@@ -40,8 +40,8 @@ public interface UserApi {
 	
 	@ApiOperation(value = "查询用户列表", notes = "通过条件查询用户列表")
 	@ApiResponses({
-		@ApiResponse(code = 10001, message = "用户不存在."),
-		@ApiResponse(code = 10002, message = "这里写错误信息.")
+		@ApiResponse(code = 500, message = "IBASE_QUERY_USER_LIST_DB_ERROR:查询用户列表数据库错误."),
+		@ApiResponse(code = 500, message = "IBASE_QUERY_USER_LIST_EXCEPTION:查询用户列表错误.")
 	})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "name", paramType = "query", required = false, dataType = "String", value = "用户的ID"),
@@ -56,16 +56,16 @@ public interface UserApi {
 	
 	@ApiOperation(value = "新建用户", notes = "新建用户信息")
 	@ApiResponses({
-		@ApiResponse(code = 10001, message = "用户不存在."),
-		@ApiResponse(code = 10002, message = "这里写错误信息.")
+		@ApiResponse(code = 500, message = "IBASE_ADD_USER_PARAM_ERROR:新建用户参数错误."),
+		@ApiResponse(code = 500, message = "IBASE_ADD_USER_EXCEPTION:新建用户错误.")
 	})
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	OperationResult<UserApiModel> add(@ApiParam @RequestBody User4Create user4Create);
 	
 	@ApiOperation(value = "删除用户", notes = "删除用户信息")
 	@ApiResponses({
-		@ApiResponse(code = 10001, message = "用户不存在."),
-		@ApiResponse(code = 10002, message = "这里写错误信息.")
+		@ApiResponse(code = 500, message = "IBASE_USER_NOT_FOUND_ERROR:用户不存在."),
+		@ApiResponse(code = 500, message = "IBASE_DELETE_USER_EXCEPTION:删除用户错误.")
 	})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "userId", paramType = "path", required = true, dataType = "String", value = "用户ID")
@@ -75,8 +75,8 @@ public interface UserApi {
 	
 	@ApiOperation(value = "更新用户", notes = "更新用户信息")
 	@ApiResponses({
-		@ApiResponse(code = 10001, message = "用户不存在."),
-		@ApiResponse(code = 10002, message = "这里写错误信息.")
+		@ApiResponse(code = 500, message = "IBASE_USER_NOT_FOUND_ERROR:用户不存在."),
+		@ApiResponse(code = 500, message = "IBASE_UPDATE_USER_EXCEPTION:更新用户错误.")
 	})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "userId", paramType = "path", required = true, dataType = "String", value = "用户ID")

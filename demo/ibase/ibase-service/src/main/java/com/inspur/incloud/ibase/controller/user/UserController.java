@@ -77,8 +77,8 @@ public class UserController implements UserApi {
     		return result;
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		String message  = ErrorCodeMessageUtil.getMessage("QUERY_USER_BY_ID_EXCEPTION", null, lang);
-    		result.setErrCode("QUERY_USER_BY_ID_EXCEPTION");
+    		String message  = ErrorCodeMessageUtil.getMessage("IBASE_QUERY_USER_BY_ID_EXCEPTION", null, lang);
+    		result.setErrCode("IBASE_QUERY_USER_BY_ID_EXCEPTION");
     		result.setErrMessage(message);
     		return result;
     	}
@@ -129,8 +129,8 @@ public class UserController implements UserApi {
     	} catch (Exception e) {
     		logger.error(e.getMessage(), e);
     		result.setFlag(false);
-    		String message  = ErrorCodeMessageUtil.getMessage("QUERY_USER_LIST_EXCEPTION", null, lang);
-    		result.setErrCode("QUERY_USER_LIST_EXCEPTION");
+    		String message  = ErrorCodeMessageUtil.getMessage("IBASE_QUERY_USER_LIST_EXCEPTION", null, lang);
+    		result.setErrCode("IBASE_QUERY_USER_LIST_EXCEPTION");
     		result.setErrMessage(message);
     		return result;
     	}
@@ -173,8 +173,8 @@ public class UserController implements UserApi {
 			return result;
 		} catch (Exception e) {
     		logger.error(e.getMessage(), e);
-    		String message  = ErrorCodeMessageUtil.getMessage("ADD_USER_EXCEPTION", null, lang);
-    		result.setErrCode("ADD_USER_EXCEPTION");
+    		String message  = ErrorCodeMessageUtil.getMessage("IBASE_ADD_USER_EXCEPTION", null, lang);
+    		result.setErrCode("IBASE_ADD_USER_EXCEPTION");
     		result.setErrMessage(message);
     		result.setFlag(false);
     		return result;
@@ -207,8 +207,8 @@ public class UserController implements UserApi {
 			return result;
 		}  catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			String message  = ErrorCodeMessageUtil.getMessage("DELETE_USER_EXCEPTION", null, lang);
-    		result.setErrCode("DELETE_USER_EXCEPTION");
+			String message  = ErrorCodeMessageUtil.getMessage("IBASE_DELETE_USER_EXCEPTION", null, lang);
+    		result.setErrCode("IBASE_DELETE_USER_EXCEPTION");
     		result.setErrMessage(message);
     		result.setFlag(false);
 			return result;
@@ -240,8 +240,8 @@ public class UserController implements UserApi {
 			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			String message  = ErrorCodeMessageUtil.getMessage("UPDATE_USER_EXCEPTION", null, lang);
-    		result.setErrCode("UPDATE_USER_EXCEPTION");
+			String message  = ErrorCodeMessageUtil.getMessage("IBASE_UPDATE_USER_EXCEPTION", null, lang);
+    		result.setErrCode("IBASE_UPDATE_USER_EXCEPTION");
     		result.setErrMessage(message);
     		result.setFlag(false);
 			return result;

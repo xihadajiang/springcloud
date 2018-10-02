@@ -17,6 +17,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
@@ -28,6 +29,7 @@ import com.inspur.incloud.common.util.DbPageUtil;
  * @param <T>
  * @param <PK>
  */
+@Transactional(rollbackFor=Exception.class)
 public class BaseDaoImpl<T, PK extends Serializable> extends HibernateDaoSupport implements BaseDao<T, PK> {
 
     /** The Constant LOG. */
@@ -112,7 +114,7 @@ public class BaseDaoImpl<T, PK extends Serializable> extends HibernateDaoSupport
     public void delete(T object) throws CloudDBException {
         LOG.debug("deleting instance");
         try {
-            this.getHibernateTemplate().delete(object);
+            this.getHibernateTemplate().delete(this.getHibernateTemplate().merge(object));
             LOG.debug("delete successful");
         } catch (Exception re) {
             LOG.error("delete failed", re);

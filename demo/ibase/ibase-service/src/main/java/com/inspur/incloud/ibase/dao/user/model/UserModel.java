@@ -58,16 +58,16 @@ public class UserModel implements Serializable{
     @Column(name = "id",updatable = false, nullable = false)
 	private String id;
 	
-    @Column(name = "name",updatable = false, nullable = false)
+    @Column(name = "name",updatable = true, nullable = false)
 	private String name;
 	
-    @Column(name = "email",updatable = false, nullable = false)
+    @Column(name = "email",updatable = true, nullable = false)
 	private String email;
 	
-    @Column(name = "account",updatable = false, nullable = false)
+    @Column(name = "account",updatable = true, nullable = false)
 	private String account;
 	
-    @Column(name = "is_default",updatable = false, nullable = false)
+    @Column(name = "is_default",updatable = true, nullable = false)
 	private int is_default;
 	
 	
