@@ -106,8 +106,6 @@ public class UserServiceImpl implements IUserService {
 		try {
 			lock = ZkLockUtil.getInstance().getInterProcessMutex(LockType.user, userId);
 			lock.acquire();
-			logger.error("****************" + userId);
-			Thread.sleep(20000);
 			UserModel user= userDao.queryUserById(userId);
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
