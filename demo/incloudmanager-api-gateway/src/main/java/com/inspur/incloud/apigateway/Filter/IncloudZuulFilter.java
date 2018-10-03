@@ -34,6 +34,7 @@ public class IncloudZuulFilter extends ZuulFilter {
 		HttpServletRequest request = context.getRequest();
 		String lang = request.getHeader("lang");
         String host = request.getRemoteHost();
+        Logger.info("print the host ip: " + host);
         String url = request.getRequestURI();
         if(StringUtils.isNotEmpty(url) && url.contains("/v2/api-docs")) {
         	return null;
@@ -52,31 +53,37 @@ public class IncloudZuulFilter extends ZuulFilter {
         if (!isNeedFilter) {
         	return null;
         }
-        Logger.info("print the host ip: " + host);
         //验证token是否合法
         boolean isSuccess = true;
         Integer code = 200;
         String token = request.getHeader("X-Auth-Token");
-        Logger.info("****************" + token);
+        String keepAlive = request.getHeader("X-Auth-Keep-Alive");
+        Logger.debug("X-Auth-Token: " + token);
+        Logger.debug("X-Auth-Keep-Alive: " + keepAlive);
         if(StringUtils.isEmpty(token)) {
         	isSuccess = false;
+        } else {
+        	boolean isKeepAlive = true;
+        	if("false".equalsIgnoreCase(keepAlive)) {
+        		isKeepAlive = false;
+        	}
+        	OperationResult<UserInforModel> result = tokensApi.checkTokenPower(token, isKeepAlive);
+        	if (null == result){
+        		isSuccess = false;
+        	}
+        	isSuccess = result.isFlag();
         }
-        OperationResult<UserInforModel> result = tokensApi.checkTokenPower(token, false);
-        if (null == result){
-        	isSuccess = false;
-        }
-        isSuccess = result.isFlag();
         if(!isSuccess) {
         	 context.setSendZuulResponse(false);
-        	 context.getResponse().setContentType("text/html;charset=UTF-8");
+        	 context.getResponse().setContentType("application/json;charset=UTF-8");
         	 context.setResponseStatusCode(code);
         	 OperationResult opeResult = new OperationResult();
         	 opeResult.setFlag(false);
         	 opeResult.setErrCode("TOKEN_ILLEGAL");
         	 if ("en_US".equals(lang)) {
-        		 opeResult.setErrMessage("token illegal");
+        		 opeResult.setErrMessage("illegal token " + token);
         	 } else {
-        		 opeResult.setErrMessage("token不合法");
+        		 opeResult.setErrMessage("无效的token "+ token);
         	 }
 			context.setResponseBody(opeResult.toString());
         } else {
