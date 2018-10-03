@@ -29,6 +29,12 @@ spring:
   resources:
     add-mappings: false
   cloud:
+    zookeeper:
+      connectString: 10.7.12.222:2181
+      enabled: true
+      config:
+        root: /root
+        enabled: true
     stream:
       binders:
         defaultRabbit: # 表示定义的名称，用于于binding整合

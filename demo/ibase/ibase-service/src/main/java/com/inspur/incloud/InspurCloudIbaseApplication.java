@@ -9,9 +9,12 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.inspur.incloud.common.util.SpringContextUtil;
 
 /**
  * The ibase application.
@@ -31,7 +34,8 @@ public class InspurCloudIbaseApplication {
 	 * @param args the input arguments
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(InspurCloudIbaseApplication.class, args);
+		ApplicationContext context = SpringApplication.run(InspurCloudIbaseApplication.class, args);
+		SpringContextUtil.setApplicationContext(context);
 	}
 	
 	@Autowired

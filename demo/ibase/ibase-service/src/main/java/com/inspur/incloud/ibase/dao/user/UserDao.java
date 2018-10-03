@@ -11,15 +11,9 @@ import com.inspur.incloud.ibase.dao.user.model.UserModel;
 
 public interface UserDao extends BaseDao<UserModel, String> {
 	
-	Serializable addUser(UserModel user) throws CloudDBException ;
-
 	PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			final PageBean page) throws CloudDBException ;
 
 	UserModel queryUserById(String id) throws CloudDBException ;
-
-	void deletUser(UserModel user) throws CloudDBException ;
-
-	void updateUser(UserModel user) throws CloudDBException ;
 
 }

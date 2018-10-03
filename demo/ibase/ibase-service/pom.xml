@@ -113,7 +113,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+		</dependency>
+		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
+        </dependency>
 		<!-- 分割线++++++++以上是必须添加的依赖+++++++++分割线 -->
 		
 		

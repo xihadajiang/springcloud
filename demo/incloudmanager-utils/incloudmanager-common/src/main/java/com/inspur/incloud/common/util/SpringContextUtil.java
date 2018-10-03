@@ -13,18 +13,18 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * The Class AsynSpringUtil.
  */
-public class SpringContextUtil implements ApplicationContextAware {
+public class SpringContextUtil {
 
     /** The application context. */
-    private static ApplicationContext applicationContext = null;
+    private static ApplicationContext applicationContext;
 
     /**
      * get spring bean with beanName.
      * @param applicationContext the new application context
      * @throws BeansException the beans exception
      */
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public static void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    	SpringContextUtil.applicationContext = applicationContext;
 
     }
 
@@ -35,6 +35,10 @@ public class SpringContextUtil implements ApplicationContextAware {
      */
     public static Object getBean(String beanName) {
         return applicationContext.getBean(beanName);
+    }
+    
+    public static <T> Object getBean(Class<T> requiredType) {
+        return applicationContext.getBean(requiredType);
     }
 
     /**

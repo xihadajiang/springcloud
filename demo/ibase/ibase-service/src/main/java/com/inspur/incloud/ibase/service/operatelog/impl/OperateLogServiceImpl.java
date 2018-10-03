@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.inspur.incloud.common.UserSession;
 import com.inspur.incloud.common.exception.CloudBusinessException;
+import com.inspur.incloud.common.message.operatelog.OperateLogCodeMessageUtil;
 import com.inspur.incloud.ibase.client.model.operatelog.LogInfo;
 import com.inspur.incloud.ibase.dao.operatelog.OperateLogDao;
 import com.inspur.incloud.ibase.dao.operatelog.model.OperateLogModel;
@@ -29,7 +32,7 @@ public class OperateLogServiceImpl implements IOperateLogService {
 			model.setOrgId(user.getOrgId());
 			model.setSysLogId(UUID.randomUUID().toString());
 			model.setUserId(user.getUserId());
-			operateLogDao.addOperateLog(model);
+			operateLogDao.save(model);
 		} catch (Exception e) {
 			List<String> args = new ArrayList<String>();
 			args.add("test");

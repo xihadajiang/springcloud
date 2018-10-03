@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.curator.framework.recipes.locks.InterProcessLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,15 @@ import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.exception.CloudDBException;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
+import com.inspur.incloud.common.util.lock.ZkLockUtil;
+import com.inspur.incloud.ibase.client.model.operatelog.LogInfo;
 import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.dao.user.UserDao;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
 import com.inspur.incloud.ibase.rabbitmq.user.IUserMessageProvider;
 import com.inspur.incloud.ibase.service.user.IUserService;
+import com.inspur.incloud.ibase.util.LockUtil.LockType;
 @Service("userService")
 public class UserServiceImpl implements IUserService {
 	
@@ -31,11 +35,9 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
     private IUserMessageProvider messageProvider;
 	
-	@Transactional(rollbackFor=Exception.class)
 	public void addUser(UserModel user) throws CloudBusinessException {
 		try {
-			userDao.addUser(user);
-			Long.parseLong(user.getName());
+			userDao.save(user);
 		} catch (CloudDBException e) {
 			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
@@ -54,7 +56,7 @@ public class UserServiceImpl implements IUserService {
 		
 	}
 
-	public UserModel queryUserById(String id, UserSession session) throws CloudBusinessException  {
+	public UserModel queryUserById(String id) throws CloudBusinessException  {
 		try {
 			UserApiModel company = new UserApiModel();
 			company.setAccount("userAccount");
@@ -100,14 +102,19 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void delete(String userId) throws CloudBusinessException {
+		InterProcessLock lock = null;
 		try {
+			lock = ZkLockUtil.getInstance().getInterProcessMutex(LockType.user, userId);
+			lock.acquire();
+			logger.error("****************" + userId);
+			Thread.sleep(20000);
 			UserModel user= userDao.queryUserById(userId);
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
 				args.add(userId);
 				throw new CloudBusinessException("IBASE_USER_NOT_FOUND_ERROR", args);
 			}
-			userDao.deletUser(user);
+			userDao.delete(user);
 		} catch(CloudDBException e) {
 			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
@@ -121,6 +128,14 @@ public class UserServiceImpl implements IUserService {
 			List<String> args = new ArrayList<String>();
 			args.add(userId);
 			throw new CloudBusinessException("IBASE_DELETE_USER_EXCEPTION", args);
+		} finally {
+			if (null != lock) {
+				try {
+					lock.release();
+				} catch (Exception e) {
+					logger.error(e.getMessage(),e);
+				}
+			}
 		}
 		
 		
@@ -129,7 +144,10 @@ public class UserServiceImpl implements IUserService {
 	@Transactional(rollbackFor=Exception.class)
 	public void updateUser(String userId, User4Create user4Create)
 			throws CloudBusinessException {
+		InterProcessLock lock = null;
 		try {
+			lock = ZkLockUtil.getInstance().getInterProcessMutex(LockType.user, userId);
+			lock.acquire();
 			UserModel user= userDao.queryUserById(userId);
 			if (null == user) {
 				List<String> args = new ArrayList<String>();
@@ -153,6 +171,14 @@ public class UserServiceImpl implements IUserService {
 			List<String> args = new ArrayList<String>();
 			args.add(userId);
 			throw new CloudBusinessException("IBASE_UPDATE_USER_EXCEPTION", args);
+		} finally {
+			if (null != lock) {
+				try {
+					lock.release();
+				} catch (Exception e) {
+					logger.error(e.getMessage(),e);
+				}
+			}
 		}
 	}
 

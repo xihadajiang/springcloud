@@ -17,7 +17,7 @@ spring:
       encoding: UTF-8
   operatelog:
     messages:
-      basename: i18n/messages/operatelogcode/ibase_operate_message
+      basename: i18n/messages/operatelogcode/ibase_operatelog_message
       encoding: UTF-8
   cloud:
     stream:
@@ -30,6 +30,18 @@ spring:
                 port: 5672
                 username: guest
                 password: guest
+    zookeeper:
+      connectString: 10.7.12.222:2181
+        
+regCenter:
+  serverList: 10.7.12.222:2181
+  namespace: icompute-schedulerjob
+  curator:
+    retryCount: 10
+    elapsedTimeMs: 5000
+    sessionTimeoutMs: 60000
+    connectionTimeoutMs: 90000
+  
 iauth-client:
   url: 127.0.0.1:8020
 ibase-client:

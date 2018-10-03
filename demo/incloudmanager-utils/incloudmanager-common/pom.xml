@@ -60,6 +60,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
+          <scope>provided</scope>
+        </dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
 			<scope>provided</scope>

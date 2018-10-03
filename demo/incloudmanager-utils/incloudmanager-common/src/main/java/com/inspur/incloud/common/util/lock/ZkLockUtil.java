@@ -11,14 +11,18 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
 import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import com.inspur.incloud.common.swagger.SwaggerProperties;
 import com.inspur.incloud.common.util.SpringContextUtil;
 
 /**
  * The Class LockUtil.
  */
+@EnableConfigurationProperties(ZkLockUtil.class)
 public class ZkLockUtil {
-	private CuratorFramework client = (CuratorFramework)SpringContextUtil.getBean("curatorZookeeperClient");
+	
+	private CuratorFramework client = (CuratorFramework)SpringContextUtil.getBean("curatorFramework");
 	protected static final String LOCK_BASE_PATH = "/com/inspur/inCloudManager/locks/lock";
     /**
      * Instantiates a new lock util.

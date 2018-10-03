@@ -16,7 +16,7 @@ public interface IUserService {
 	PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			PageBean page) throws CloudBusinessException;
 
-	UserModel queryUserById(String id, UserSession session) throws CloudBusinessException ;
+	UserModel queryUserById(String id) throws CloudBusinessException ;
 
 	void delete(String userId) throws CloudBusinessException;
 	

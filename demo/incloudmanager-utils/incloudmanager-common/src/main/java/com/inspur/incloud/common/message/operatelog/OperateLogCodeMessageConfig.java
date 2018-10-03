@@ -21,7 +21,7 @@ public class OperateLogCodeMessageConfig {
 		return encoding;
 	}
 
-	@Value("${spring.errorcode.messages.basename:'i18n/messages/operatelogcode/ibase_operate_message'}")
+	@Value("${spring.errorcode.messages.basename:'i18n/messages/operatelogcode/ibase_operatelog_message'}")
 	public void setBasename(String basename) {
 		OperateLogCodeMessageConfig.basename = basename;
 	}
