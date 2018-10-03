@@ -39,13 +39,18 @@ public class IncloudZuulFilter extends ZuulFilter {
         	return null;
         }
         Collection<ZuulRoute> routers = properties.getRoutes().values();
+        boolean isNeedFilter = false;
         for (ZuulRoute router : routers) {
         	String path = router.getPath();
         	if (StringUtils.isNotEmpty(path) && StringUtils.isNotEmpty(url)) {
-        		if (!url.startsWith(path.substring(0, path.lastIndexOf("**")))) {
-        			return null;
+        		if (url.startsWith(path.substring(0, path.lastIndexOf("**")))) {
+        			isNeedFilter = true;
+        			break;
         		}
         	}
+        }
+        if (!isNeedFilter) {
+        	return null;
         }
         Logger.info("print the host ip: " + host);
         //验证token是否合法
