@@ -34,8 +34,7 @@ public interface UserApi {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "userId", paramType = "path", required = true, dataType = "String", value = "用户的ID")})
 	@RequestMapping(value = "/users/{userId}", method= RequestMethod.GET)
-	OperationResult<UserApiModel> queryUserById(
-			@PathVariable(name = "userId", required = true) String userId);
+	OperationResult<UserApiModel> queryUserById(@PathVariable(name = "userId") String userId);
 	
 	
 	@ApiOperation(value = "查询用户列表", notes = "通过条件查询用户列表")

@@ -45,8 +45,7 @@ public class UserController implements UserApi {
 	private MessageSource messageSource;
 	
 	@ResponseBody
-	public OperationResult<UserApiModel> queryUserById(
-			@PathVariable(name = "userId", required = true) String userId) {
+	public OperationResult<UserApiModel> queryUserById(@PathVariable(name = "userId") String userId) {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
