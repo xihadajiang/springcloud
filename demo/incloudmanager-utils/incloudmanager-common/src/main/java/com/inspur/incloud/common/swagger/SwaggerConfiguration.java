@@ -46,8 +46,17 @@ public class SwaggerConfiguration {
                 .description("header中X-Auth-Token")
                 .modelRef(new ModelRef("string"))//指定参数值的类型
                 .required(false).build(); //非必需，这里是全局配置，然而在登陆的时候是不用验证的
-        List<Parameter> aParameters = new ArrayList<Parameter>();
-        aParameters.add(aParameterBuilder.build());
+        ParameterBuilder bParameterBuilder = new ParameterBuilder();
+        bParameterBuilder
+        .parameterType("header") //参数类型支持header, cookie, body, query etc
+        .name("X-Accept-Language") //参数名
+        .defaultValue("zh_CN") //默认值
+        .description("api中默认语言参数(zh_CN,en_US)")
+        .modelRef(new ModelRef("string"))//指定参数值的类型
+        .required(false).build(); //非必需，这里是全局配置，然而在登陆的时候是不用验证的
+        List<Parameter> parameters = new ArrayList<Parameter>();
+        parameters.add(aParameterBuilder.build());
+        parameters.add(bParameterBuilder.build());
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.inspur.incloud"))
@@ -60,7 +69,7 @@ public class SwaggerConfiguration {
                 .globalResponseMessage(RequestMethod.DELETE, responseMessages)
                 .pathMapping("/")
                 .protocols(Sets.newHashSet("http", "https"))
-                .globalOperationParameters(aParameters)
+                .globalOperationParameters(parameters)
                 .produces(Sets.newHashSet("application/json"))
                 .apiInfo(apiInfo()).enable(swaggerProperties.isEnable());
 
