@@ -41,6 +41,9 @@ public class UserServiceImpl implements IUserService {
 			List<String> args = new ArrayList<String>();
 			args.add(user.getName());
 			throw new CloudBusinessException("IBASE_ADD_USER_PARAM_ERROR", args);
+//		} catch(CloudBusinessException e) {
+//			logger.error(e.getMessage(),e);
+//			throw e;
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
@@ -60,10 +63,15 @@ public class UserServiceImpl implements IUserService {
 			messageProvider.send(company);
 			return userDao.queryUserById(id);
 		} catch(CloudDBException e) {
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
 			args.add(id);
 			throw new CloudBusinessException("IBASE_QUERY_USER_BY_ID_DB_ERROR", args);
+//		} catch(CloudBusinessException e) {
+//			logger.error(e.getMessage(),e);
+//			throw e;
 		} catch(Exception e) {
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
 			args.add(id);
 			throw new CloudBusinessException("IBASE_QUERY_USER_BY_ID_DB_ERROR", args);
@@ -78,13 +86,14 @@ public class UserServiceImpl implements IUserService {
 		try {
 			result = userDao.listUsers(condition, page);
 		} catch(CloudDBException e) {
-			List<String> args = new ArrayList<String>();
-			args.add("test");
-			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_DB_ERROR", args);
+			logger.error(e.getMessage(),e);
+			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_DB_ERROR", null);
+//		} catch(CloudBusinessException e) {
+//			logger.error(e.getMessage(),e);
+//			throw e;
 		} catch(Exception e) {
-			List<String> args = new ArrayList<String>();
-			args.add("test");
-			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_DB_ERROR", args);
+			logger.error(e.getMessage(),e);
+			throw new CloudBusinessException("IBASE_QUERY_USER_LIST_DB_ERROR", null);
 		}
 		
 		return result;
@@ -100,12 +109,17 @@ public class UserServiceImpl implements IUserService {
 			}
 			userDao.deletUser(user);
 		} catch(CloudDBException e) {
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
-			args.add("test");
+			args.add(userId);
 			throw new CloudBusinessException("IBASE_DELETE_USER_EXCEPTION", args);
+		} catch(CloudBusinessException e) {
+			logger.error(e.getMessage(),e);
+			throw e;
 		} catch(Exception e) {
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
-			args.add("test");
+			args.add(userId);
 			throw new CloudBusinessException("IBASE_DELETE_USER_EXCEPTION", args);
 		}
 		
@@ -127,16 +141,19 @@ public class UserServiceImpl implements IUserService {
 			user.setName(user4Create.getName());
 			userDao.update(user);
 		} catch(CloudDBException e) {
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
-			args.add("test");
+			args.add(userId);
 			throw new CloudBusinessException("IBASE_UPDATE_USER_EXCEPTION", args);
+		} catch(CloudBusinessException e) {
+			logger.error(e.getMessage(),e);
+			throw e;
 		} catch(Exception e) {
+			logger.error(e.getMessage(),e);
 			List<String> args = new ArrayList<String>();
-			args.add("test");
+			args.add(userId);
 			throw new CloudBusinessException("IBASE_UPDATE_USER_EXCEPTION", args);
 		}
-		
-		
 	}
 
 }
