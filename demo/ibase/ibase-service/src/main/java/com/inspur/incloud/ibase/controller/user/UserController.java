@@ -49,11 +49,11 @@ public class UserController implements UserApi {
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		// userSession 通过api 网关 转发过来的请求肯定不为null，模块间调用，有可能为null
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		String lang = request.getHeader("X-Accept-Language");
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
-		String lang = request.getHeader("lang");
 		try {
 			UserApiModel apiModel = new UserApiModel();
 			UserModel user = iUserService.queryUserById(userId, userSession);
@@ -89,7 +89,7 @@ public class UserController implements UserApi {
     		@RequestParam(name="pageSize", required=false, defaultValue = "10") Integer pageSize,
     		@RequestParam(name="currentPage", required=false, defaultValue = "1") Integer currentPage) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
-		String lang = request.getHeader("lang");
+		String lang = request.getHeader("X-Accept-Language");
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
@@ -141,8 +141,8 @@ public class UserController implements UserApi {
 	public OperationResult<UserApiModel> add(@RequestBody User4Create user4Create){
 		OperationResult<UserApiModel> result = new OperationResult<UserApiModel>();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		String lang = request.getHeader("X-Accept-Language");
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
-		String lang = request.getHeader("lang");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
@@ -185,8 +185,8 @@ public class UserController implements UserApi {
 	public OperationResult<UserApiModel> delete(@PathVariable(name = "userId") String userId){
 		logger.debug("begin to delete user with userId: " + userId);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		String lang = request.getHeader("X-Accept-Language");
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
-		String lang = request.getHeader("lang");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
@@ -218,8 +218,8 @@ public class UserController implements UserApi {
 	public OperationResult<UserApiModel> update(@RequestBody User4Create user4Create, @PathVariable(name = "userId") String userId){
 		logger.debug("begin to update user with userId: " + userId);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+		String lang = request.getHeader("X-Accept-Language");
 		UserSession userSession = (UserSession) request.getAttribute("userSession");
-		String lang = request.getHeader("lang");
 		if(userSession != null) {
 			logger.info("uerSession info is :" + userSession.toString());
 		}
