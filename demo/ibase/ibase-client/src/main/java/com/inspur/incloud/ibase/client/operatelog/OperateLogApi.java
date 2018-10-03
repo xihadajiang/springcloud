@@ -23,7 +23,7 @@ public interface OperateLogApi{
 	
 	@ApiOperation(value = "添加操作日志", notes = "记录用户操作日志信息")
 	@ApiResponses({
-		@ApiResponse(code = 10001, message = "这里写错误信息."),
+		@ApiResponse(code = 1, message = "这里写错误信息."),
 	})
 	@RequestMapping(value = "/logs", method = RequestMethod.POST)
 	String addOperateLog(@ApiParam @RequestBody LogInfo logInfo);
