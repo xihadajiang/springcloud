@@ -12,7 +12,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +23,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.inspur.incloud.common.OperationResult;
 import com.inspur.incloud.common.exception.CloudBusinessException;
 import com.inspur.incloud.common.message.errorcode.ErrorCodeMessageUtil;
-import com.inspur.incloud.common.message.operatelog.OperateLogCodeMessageUtil;
 import com.inspur.incloud.common.model.PageBean;
 import com.inspur.incloud.common.model.PageListBean;
 import com.inspur.incloud.common.UserSession;
@@ -33,8 +31,8 @@ import com.inspur.incloud.ibase.client.model.user.User4Create;
 import com.inspur.incloud.ibase.client.model.user.UserApiModel;
 import com.inspur.incloud.ibase.client.user.UserApi;
 import com.inspur.incloud.ibase.dao.user.model.UserModel;
-import com.inspur.incloud.ibase.service.operatelog.IOperateLogService;
 import com.inspur.incloud.ibase.service.user.IUserService;
+import com.inspur.incloud.log.SyslogService;
 
 @RestController
 public class UserController implements UserApi {
@@ -45,11 +43,7 @@ public class UserController implements UserApi {
 	private IUserService iUserService;
 	
 	@Autowired
-	private MessageSource messageSource;
-	
-	
-	@Autowired
-    private IOperateLogService operateLogService;
+	private SyslogService logService;
 	
 	@ResponseBody
 	public OperationResult<UserApiModel> queryUserById(@PathVariable(name = "userId") String userId) {
@@ -169,30 +163,15 @@ public class UserController implements UserApi {
 			userApi.setName(user4Create.getName());
 			userApi.setEmail(user4Create.getEmail());
 			result.setResData(userApi);
-			//以下为增加操作日志，ibase模块直接调用service层代码，其他模块需要feign方式调用ibase的接口
-	    	LogInfo logInfo = new LogInfo();
-	    	logInfo.setOperResult(true);
-	    	logInfo.setDescription("IBASE.ADD.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.DELETE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			operateLogService.addOperateLog(userSession, logInfo);
 			result.setFlag(true);
+			logService.addOperlog(userSession,true,"USER","USER.ADD",new Object[] {user4Create.getAccount()},"");
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
 			String message  = ErrorCodeMessageUtil.getMessage(e.getMsgCode(), e.getParamList(), lang);
     		result.setErrMessage(message);
     		result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
-			LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.ADD.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.DELETE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			try {
-				operateLogService.addOperateLog(userSession, logInfo);
-			} catch (CloudBusinessException e1) {
-				logger.error(e.getMessage(), e);
-			}
+			logService.addOperlog(userSession,false,"USER","USER.ADD",new Object[] {user4Create.getAccount()},"");
 			return result;
 		} catch (Exception e) {
     		logger.error(e.getMessage(), e);
@@ -200,16 +179,7 @@ public class UserController implements UserApi {
     		result.setErrCode("IBASE_ADD_USER_EXCEPTION");
     		result.setErrMessage(message);
     		result.setFlag(false);
-    		LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.ADD.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.DELETE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			try {
-				operateLogService.addOperateLog(userSession, logInfo);
-			} catch (CloudBusinessException e1) {
-				logger.error(e.getMessage(), e);
-			}
+    		logService.addOperlog(userSession,false,"USER","USER.ADD",new Object[] {user4Create.getAccount()},"");
     		return result;
     	}
 		return result;
@@ -230,12 +200,7 @@ public class UserController implements UserApi {
 			iUserService.delete(userId);
 			result.setFlag(true);
 			logger.debug("end to delete user with userId: " + userId);
-			LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(true);
-	    	logInfo.setDescription("IBASE.DELETE.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.DELETE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			operateLogService.addOperateLog(userSession, logInfo);
+	    	logService.addOperlog(userSession,true,"USER","USER.DELETE",new Object[] {userId},"");
 			return result;
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
@@ -243,16 +208,7 @@ public class UserController implements UserApi {
     		result.setErrMessage(message);
     		result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
-			LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.DELETE.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.DELETE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			try {
-				operateLogService.addOperateLog(userSession, logInfo);
-			} catch (CloudBusinessException e1) {
-				logger.error(e.getMessage(), e);
-			}
+			logService.addOperlog(userSession,false,"USER","USER.DELETE",new Object[] {userId},"");
 			return result;
 		}  catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -260,16 +216,7 @@ public class UserController implements UserApi {
     		result.setErrCode("IBASE_DELETE_USER_EXCEPTION");
     		result.setErrMessage(message);
     		result.setFlag(false);
-    		LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.DELETE.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.DELETE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			try {
-				operateLogService.addOperateLog(userSession, logInfo);
-			} catch (CloudBusinessException e1) {
-				logger.error(e.getMessage(), e);
-			}
+    		logService.addOperlog(userSession,false,"USER","USER.DELETE",new Object[] {userId},"");
 			return result;
 		}
 	}
@@ -289,12 +236,7 @@ public class UserController implements UserApi {
 			iUserService.updateUser(userId, user4Create);
 			result.setFlag(true);
 			logger.debug("end to update user with userId: " + userId);
-			LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.UPDATE.USER");
-			String message  = OperateLogCodeMessageUtil.getMessage("IBASE.UPDATE.USER", null, lang);
-			userSession.setOrgId(message);
-	    	operateLogService.addOperateLog(userSession, logInfo);
+	    	logService.addOperlog(userSession,true,"USER","USER.UPDATE",new Object[] {userId},"");
 			return result;
 		} catch (CloudBusinessException e) {
 			logger.error(e.getMessage(), e);
@@ -302,16 +244,7 @@ public class UserController implements UserApi {
     		result.setErrMessage(message);
     		result.setErrCode(e.getMsgCode());
 			result.setFlag(false);
-			LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.UPDATE.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.UPDATE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			try {
-				operateLogService.addOperateLog(userSession, logInfo);
-			} catch (CloudBusinessException e1) {
-				logger.error(e.getMessage(), e);
-			}
+			logService.addOperlog(userSession,false,"USER","USER.UPDATE",new Object[] {userId},"");
 			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -319,16 +252,7 @@ public class UserController implements UserApi {
     		result.setErrCode("IBASE_UPDATE_USER_EXCEPTION");
     		result.setErrMessage(message);
     		result.setFlag(false);
-    		LogInfo logInfo = new LogInfo();
-    		logInfo.setOperResult(false);
-	    	logInfo.setDescription("IBASE.UPDATE.USER");
-	    	String messageLog  = OperateLogCodeMessageUtil.getMessage("IBASE.UPDATE.USER", null, lang);
-			userSession.setOrgId(messageLog);
-			try {
-				operateLogService.addOperateLog(userSession, logInfo);
-			} catch (CloudBusinessException e1) {
-				logger.error(e.getMessage(), e);
-			}
+    		logService.addOperlog(userSession,false,"USER","USER.UPDATE",new Object[] {userId},"");
 			return result;
 		}
 		

@@ -19,6 +19,7 @@
 	<modules>
 		<module>incloudmanager-common</module>
         <module>incloudmanager-filter</module>
+        <module>incloudmanager-log</module>
   </modules>
 
 </project>

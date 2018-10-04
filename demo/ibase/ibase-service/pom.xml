@@ -18,6 +18,11 @@
         <skip_maven_docker>false</skip_maven_docker>
     </properties>
 	<dependencies>
+		<dependency>
+          <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 		<!-- Jetty Spring Boot Web Begin -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,12 +59,7 @@
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<!-- JPA 数据库连接池 used Hibernate End -->
-		<!-- 数据库初始化 Begin -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-		<!-- 数据库初始化 End -->
+		
 
 		<!-- 服务健康状态检查 Begin -->
 		<dependency>
@@ -67,22 +67,19 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<!-- 服务健康状态检查 End -->
-		<!-- FeignClients 模块间调用 Begin -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-httpclient</artifactId>
-		</dependency>
-		<!-- FeignClients 模块间调用 End -->
+		
 		<!-- ICM 公共工具类 Begin -->
 		<dependency>
 			<groupId>com.inspur.incloudmanager</groupId>
 			<artifactId>incloudmanager-common</artifactId>
 		</dependency>
 		<!-- ICM 公共工具类 End -->
+		<!-- 记录操作日志 Begion -->
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>incloudmanager-log</artifactId>
+		</dependency>
+		<!-- 记录操作日志  End -->
 		<!-- 过滤器 Begin -->
 		<dependency>
 			<groupId>com.inspur.incloudmanager</groupId>
@@ -102,17 +99,35 @@
 			<version>${project.version}</version>
 		</dependency>
 		<!-- 本模块Client End -->
-		<!-- 消息队列 Begin -->
+		
+		<!-- 分割线++++++++以上是必须添加的依赖+++++++++分割线 -->
+		
+		
+		<!-- 分割线++++++++以下按需添加+++++++++分割线 -->
+
+		<!-- 数据库初始化 Begin -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<!-- 数据库初始化 End -->
+		<!-- FeignClients 模块间调用 Begin -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-httpclient</artifactId>
+		</dependency>
+		<!-- FeignClients 模块间调用 End -->
+		<!-- 消息队列 rabbitMq Begin -->
 		<dependency>
           <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
-        <!-- 消息队列 End -->
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!-- 消息队列 rabbitMq End -->
+        <!-- zookeeper 连接池 Begin -->
         <dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
@@ -121,14 +136,16 @@
           <groupId>org.springframework.cloud</groupId>
           <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
         </dependency>
-		<!-- 分割线++++++++以上是必须添加的依赖+++++++++分割线 -->
-		
-		
-		<!-- 分割线++++++++以下按需添加+++++++++分割线 -->
-		<!-- 本模块依赖其它模块Client Begin -->
+        <!-- zookeeper 连接池 End -->
+        
+        
+        <!-- 本模块依赖其它模块Client Begin -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.inspur.incloudmanager</groupId> -->
+<!-- 			<artifactId>icompute-client</artifactId> -->
+<!-- 		</dependency> -->
 		
 		<!-- 本模块依赖其它模块Client End -->
-
 	</dependencies>
 
 	<build>

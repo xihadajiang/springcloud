@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.inspur.incloudmanager</groupId>
+		<artifactId>incloudmanager-utils</artifactId>
+		<version>6.0-1-SNAPSHOT</version>
+	</parent>
+	<artifactId>incloudmanager-log</artifactId>
+	<version>${incloudmanager-log.version}</version>
+	<name>${project.artifactId}</name>
+	<packaging>jar</packaging>
+	<url>http://maven.apache.org</url>
+
+
+
+	<build>
+
+	</build>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>incloudmanager-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.inspur.incloudmanager</groupId>
+			<artifactId>ibase-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-orm</artifactId> -->
+<!-- 		</dependency> -->
+		
+	</dependencies>
+</project>

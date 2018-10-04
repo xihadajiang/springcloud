@@ -40,10 +40,10 @@
 		<!-- common projects -->
 		<incloudmanager-common.version>6.0-1-SNAPSHOT</incloudmanager-common.version>
 		<incloudmanager-filter.version>6.0-1-SNAPSHOT</incloudmanager-filter.version>
-		<incloudmanager-shell.version>6.0-1-SNAPSHOT</incloudmanager-shell.version>
 		<incloudmanager-log.version>6.0-1-SNAPSHOT</incloudmanager-log.version>
 		<incloudmanager-task.version>6.0-1-SNAPSHOT</incloudmanager-task.version>
 		<iauth-client.version>6.0-1-SNAPSHOT</iauth-client.version>
+		<ibase-client.version>6.0-1-SNAPSHOT</ibase-client.version>
 
 	</properties>
 
@@ -68,8 +68,8 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.inspur.incloudmanager</groupId>
-				<artifactId>incloudmanager-shell</artifactId>
-				<version>${incloudmanager-shell.version}</version>
+				<artifactId>incloudmanager-log</artifactId>
+				<version>${incloudmanager-log.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.inspur.incloudmanager</groupId>
@@ -81,7 +81,16 @@
 				<artifactId>incloudmanager-filter</artifactId>
 				<version>${incloudmanager-filter.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>ibase-client</artifactId>
+				<version>${ibase-client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.inspur.incloudmanager</groupId>
+				<artifactId>iauth-client</artifactId>
+				<version>${iauth-client.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -108,11 +117,7 @@
 				<version>5.1.4</version>
 			</dependency>
 			<!-- 数据库初始化 End -->
-			<dependency>
-				<groupId>com.inspur.incloudmanager</groupId>
-				<artifactId>iauth-client</artifactId>
-				<version>${iauth-client.version}</version>
-			</dependency>
+			
 			<!-- zookeeper Begin -->
 			<dependency>
 				<groupId>org.apache.curator</groupId>

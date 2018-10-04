@@ -1,4 +1,4 @@
-package com.inspur.incloud.common.message.operatelog;
+package com.inspur.incloud.log.util;
 
 
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class OperateLogCodeMessageConfig {
 		return encoding;
 	}
 
-	@Value("${spring.errorcode.messages.basename:'i18n/messages/operatelogcode/ibase_operatelog_message'}")
+	@Value("${spring.errorcode.messages.basename:'i18n/messages/operatelogcode/incloud_message'}")
 	public void setBasename(String basename) {
 		OperateLogCodeMessageConfig.basename = basename;
 	}

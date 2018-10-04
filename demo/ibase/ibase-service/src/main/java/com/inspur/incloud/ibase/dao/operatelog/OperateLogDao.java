@@ -5,5 +5,4 @@ import com.inspur.incloud.ibase.dao.operatelog.model.OperateLogModel;
 
 public interface OperateLogDao extends BaseDao<OperateLogModel, String> {
 	
-
 }

@@ -21,20 +21,27 @@ spring:
         ddl-auto: none
         current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
     show-sql: true
-  messages:
-    basename: i18n/messages/incloud_message
-    encoding: UTF-8
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
+  errorcode:
+    messages:
+      basename: i18n/messages/errorcode/incloud_message
+      encoding: UTF-8
+  operatelog:
+    messages:
+      basename: i18n/messages/operatelogcode/incloud_message
+      encoding: UTF-8
   cloud:
     zookeeper:
       connectString: 10.7.12.222:2181
       enabled: true
-      config:
-        root: /root
-        enabled: true
+#      config:
+#        root: /root
+#        enabled: true
+# rabbit mq config begin 
+# 如果不用rabbit mq 可删掉此段配置
     stream:
       binders:
         defaultRabbit: # 表示定义的名称，用于于binding整合
@@ -65,3 +72,6 @@ spring:
           content-type: application/json
           binder: defaultRabbit
           group: ibaseUserQueue # 持久化消息队列，名称为ibaseUserExchange。ibaseUserQueue
+# 如果不用rabbit mq 可删掉此段配置  
+# rabbit mq config end
+

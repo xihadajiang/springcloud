@@ -21,7 +21,7 @@ public class ErrorCodeMessageConfig {
 		return encoding;
 	}
 
-	@Value("${spring.errorcode.messages.basename:'i18n/messages/errorcode/ibase_errorcode_message'}")
+	@Value("${spring.errorcode.messages.basename:'i18n/messages/errorcode/incloud_message'}")
 	public void setBasename(String basename) {
 		ErrorCodeMessageConfig.basename = basename;
 	}

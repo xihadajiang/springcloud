@@ -11,14 +11,6 @@ spring:
     url: jdbc:mysql://10.7.12.222:3306/springcloud?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
-  errorcode:
-    messages:
-      basename: i18n/messages/errorcode/ibase_errorcode_message
-      encoding: UTF-8
-  operatelog:
-    messages:
-      basename: i18n/messages/operatelogcode/ibase_operatelog_message
-      encoding: UTF-8
   cloud:
     stream:
       binders:
@@ -32,6 +24,7 @@ spring:
                 password: guest
     zookeeper:
       connectString: 10.7.12.222:2181
+      enabled: true
         
 regCenter:
   serverList: 10.7.12.222:2181
@@ -43,6 +36,6 @@ regCenter:
     connectionTimeoutMs: 90000
   
 iauth-client:
-  url: 127.0.0.1:8020
+  url: 10.7.12.126:8020
 ibase-client:
   url: 127.0.0.1:8030
