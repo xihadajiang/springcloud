@@ -63,6 +63,9 @@ public class FeignConfig implements RequestInterceptor {
 			while (headerNames.hasMoreElements()) {
 				String name = headerNames.nextElement();
 				String values = request.getHeader(name);
+				if("Transfer-Encoding".equalsIgnoreCase(name)) {
+					continue;
+				}
 				if (null != rtHeaderMap) {
 					if (containsIgnoreCaseKey(rtHeaderKeySet, name)) {
 						continue;

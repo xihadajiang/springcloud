@@ -1,6 +1,5 @@
 package com.inspur.incloud.ibase.dao.user.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +16,6 @@ import com.inspur.incloud.ibase.dao.user.model.UserModel;
 
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl<UserModel, String> implements UserDao {
-
-	public Serializable addUser(UserModel user) throws CloudDBException {
-		save(user);
-		return 0;
-	}
 
 	@SuppressWarnings("unchecked")
 	public PageListBean<UserModel> listUsers(Map<String, Object> condition,
@@ -53,16 +47,6 @@ public class UserDaoImpl extends BaseDaoImpl<UserModel, String> implements UserD
 			user = list.get(0);
 		}
 		return user;
-	}
-
-	public void deletUser(UserModel user) throws CloudDBException {
-		getHibernateTemplate().delete(user);
-		
-	}
-	
-	public void updateUser(UserModel user) throws CloudDBException {
-		getHibernateTemplate().update(user);
-		
 	}
 
 }
