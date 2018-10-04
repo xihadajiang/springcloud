@@ -134,7 +134,7 @@
 		</dependency>
 		<dependency>
           <groupId>org.springframework.cloud</groupId>
-          <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
+          <artifactId>spring-cloud-zookeeper-config</artifactId>
         </dependency>
         <!-- zookeeper 连接池 End -->
         

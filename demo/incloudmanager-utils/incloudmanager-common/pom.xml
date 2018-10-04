@@ -61,7 +61,7 @@
 		</dependency>
 		<dependency>
           <groupId>org.springframework.cloud</groupId>
-          <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
+          <artifactId>spring-cloud-zookeeper-config</artifactId>
           <scope>provided</scope>
         </dependency>
 		<dependency>

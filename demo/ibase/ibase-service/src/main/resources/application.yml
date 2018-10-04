@@ -12,6 +12,9 @@ spring:
     username: root
     password: 123456
   cloud:
+    zookeeper:
+      connectString: 10.7.12.222:2181
+      enabled: true
     stream:
       binders:
         defaultRabbit: # 表示定义的名称，用于于binding整合
@@ -22,9 +25,7 @@ spring:
                 port: 5672
                 username: guest
                 password: guest
-    zookeeper:
-      connectString: 10.7.12.222:2181
-      enabled: true
+
         
 regCenter:
   serverList: 10.7.12.222:2181

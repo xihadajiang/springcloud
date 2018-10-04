@@ -13,7 +13,6 @@ import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import com.inspur.incloud.common.swagger.SwaggerProperties;
 import com.inspur.incloud.common.util.SpringContextUtil;
 
 /**

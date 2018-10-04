@@ -35,11 +35,9 @@ spring:
       encoding: UTF-8
   cloud:
     zookeeper:
-      connectString: 10.7.12.222:2181
-      enabled: true
-#      config:
-#        root: /root
-#        enabled: true
+      enabled: false
+      config:
+        enabled: false
 # rabbit mq config begin 
 # 如果不用rabbit mq 可删掉此段配置
     stream:
