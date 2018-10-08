@@ -53,13 +53,10 @@ public class UserDaoImpl extends BaseDaoImpl<UserModel, String> implements UserD
 				user = list.get(0);
 			}
 			return user;
-		}UserModel user = null;
-		List<UserModel> list = null;
-		list = (List<UserModel>) getHibernateTemplate().find("from UserModel where id = ? ", id);
-		if (null != list && list.size() > 0) {
-			user = list.get(0);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CloudDBException(e.getMessage(), e);
 		}
-		return user;
 		
 	}
 
