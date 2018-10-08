@@ -21,32 +21,46 @@ public class UserDaoImpl extends BaseDaoImpl<UserModel, String> implements UserD
 	public PageListBean<UserModel> listUsers(Map<String, Object> condition,
 			final PageBean page) throws CloudDBException {
 
-		PageListBean<UserModel> pageList = null;
-		final List<Object> args= new ArrayList<Object>();
-		final StringBuffer hql = new StringBuffer();
-		final StringBuffer countHql = new StringBuffer();
-		countHql.append("select count(*) from UserModel where 1 = 1");
-		hql.append("from UserModel where 1 = 1");
-		if (condition.containsKey("name")) {
-			String name = (String)condition.get("name");
-			if(StringUtils.isNotEmpty(name)){
-				hql.append(" and name = ?");
-				countHql.append(" and name = ?");
-				args.add(name);
+		try {
+			PageListBean<UserModel> pageList = null;
+			final List<Object> args= new ArrayList<Object>();
+			final StringBuffer hql = new StringBuffer();
+			final StringBuffer countHql = new StringBuffer();
+			countHql.append("select count(*) from UserModel where 1 = 1");
+			hql.append("from UserModel where 1 = 1");
+			if (condition.containsKey("name")) {
+				String name = (String)condition.get("name");
+				if(StringUtils.isNotEmpty(name)){
+					hql.append(" and name = ?");
+					countHql.append(" and name = ?");
+					args.add(name);
+				}
 			}
+			pageList = getPageList(hql.toString(), countHql.toString(), args, page);
+	        return pageList;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CloudDBException(e.getMessage(), e);
 		}
-		pageList = getPageList(hql.toString(), countHql.toString(), args, page);
-        return pageList;
 	}
 
 	public UserModel queryUserById(String id) throws CloudDBException {
-		UserModel user = null;
+		try {
+			UserModel user = null;
+			List<UserModel> list = null;
+			list = (List<UserModel>) getHibernateTemplate().find("from UserModel where id = ? ", id);
+			if (null != list && list.size() > 0) {
+				user = list.get(0);
+			}
+			return user;
+		}UserModel user = null;
 		List<UserModel> list = null;
 		list = (List<UserModel>) getHibernateTemplate().find("from UserModel where id = ? ", id);
 		if (null != list && list.size() > 0) {
 			user = list.get(0);
 		}
 		return user;
+		
 	}
 
 }
